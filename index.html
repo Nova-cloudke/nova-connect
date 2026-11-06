@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Nova Connect</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #152238;
+}
+
+header {
+  background: #101827;
+  color: white;
+  padding: 22px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #35d49a;
+}
+
+.status {
+  background: #23364a;
+  color: #35d49a;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  padding: 22px 16px 40px;
+}
+
+.hero {
+  background: #14263c;
+  color: white;
+  padding: 28px 22px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+}
+
+.hero h1 {
+  font-size: 27px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #c4d2e2;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.section-title {
+  font-size: 19px;
+  margin-bottom: 14px;
+}
+
+.packages {
+  display: grid;
+  gap: 12px;
+}
+
+.package {
+  background: white;
+  border: 2px solid #e4eaf1;
+  border-radius: 14px;
+  padding: 17px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.package.selected {
+  border-color: #13ae78;
+  background: #effcf6;
+}
+
+.package h3 {
+  margin-bottom: 6px;
+}
+
+.package p {
+  color: #718096;
+  font-size: 12px;
+}
+
+.price {
+  color: #079967;
+  font-weight: bold;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.primary {
+  width: 100%;
+  background: #13ae78;
+  color: white;
+  margin-top: 18px;
+}
+
+.secondary {
+  background: #e9f1f8;
+  color: #152238;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.panel {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 3px 15px #1020300a;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin-top: 13px;
+  border: 1px solid #dce4ed;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.balance {
+  background: #effcf6;
+  padding: 20px;
+  border-radius: 13px;
+  margin: 15px 0;
+}
+
+.balance strong {
+  display: block;
+  font-size: 29px;
+  color: #079967;
+  margin: 8px 0;
+}
+
+.info {
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #8592a3;
+  font-size: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Nova <span>Connect</span></div>
+  <div class="status" id="headerStatus">Explore freely</div>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+<section id="home">
+
+  <div class="hero">
+    <h1>Internet made simple.</h1>
+    <p>Choose your package. Connect when you're ready. Enjoy more control over your internet.</p>
+  </div>
+
+  <h2 class="section-title">Choose your package</h2>
+
+  <div class="packages">
+
+    <div class="package" onclick="selectPackage('1 Hour', this)">
+      <div>
+        <h3>1 Hour</h3>
+        <p>Short internet access</p>
+      </div>
+      <div class="price">Select →</div>
+    </div>
+
+    <div class="package" onclick="selectPackage('3 Hours', this)">
+      <div>
+        <h3>3 Hours</h3>
+        <p>Flexible internet access</p>
+      </div>
+      <div class="price">Select →</div>
+    </div>
+
+    <div class="package" onclick="selectPackage('24 Hours', this)">
+      <div>
+        <h3>24 Hours</h3>
+        <p>Daily internet access</p>
+      </div>
+      <div class="price">Select →</div>
+    </div>
+
+    <div class="package" onclick="selectPackage('7 Days', this)">
+      <div>
+        <h3>7 Days</h3>
+        <p>Weekly internet access</p>
+      </div>
+      <div class="price">Select →</div>
+    </div>
+
+  </div>
+
+  <button class="primary" onclick="showPhone()">
+    Continue
+  </button>
+
+  <p class="info">
+    Explore packages without creating an account.
+    Your phone number is only needed when you're ready to connect.
+  </p>
+
+</section>
+
+<!-- PHONE ENTRY -->
+<section id="phoneSection" class="hidden">
+
+  <div class="panel">
+    <h2>Ready to connect?</h2>
+    <p class="info">Enter your phone number to continue.</p>
+
+    <input
+      id="phone"
+      type="tel"
+      placeholder="+254 7XX XXX XXX"
+      autocomplete="tel"
+    >
+
+    <button class="primary" onclick="continueWithPhone()">
+      Continue
+    </button>
+
+    <button class="secondary" onclick="goHome()">
+      Back to packages
+    </button>
+  </div>
+
+</section>
+
+<!-- VERIFICATION PLACEHOLDER -->
+<section id="verificationSection" class="hidden">
+
+  <div class="panel">
+    <h2>Verify your number</h2>
+    <p class="info">
+      Phone verification will be connected to the Nova Connect backend.
+    </p>
+
+    <input
+      id="otp"
+      type="text"
+      placeholder="Enter verification code"
+      inputmode="numeric"
+    >
+
+    <button class="primary" onclick="verifyPhone()">
+      Verify number
+    </button>
+
+    <button class="secondary" onclick="goHome()">
+      Cancel
+    </button>
+  </div>
+
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+
+  <div class="hero">
+    <h1>Welcome to Nova!</h1>
+    <p>Your internet account overview.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Connection status</h3>
+    <div class="balance">
+      <strong id="connectionStatus">Not connected</strong>
+      <p id="activePackage">No active package</p>
+    </div>
+
+    <h3>Data usage</h3>
+    <div class="balance">
+      <strong id="dataRemaining">--</strong>
+      <p>Remaining data</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Nova Data Reserve</h3>
+    <p class="info">
+      Your eligible unused data will be automatically preserved
+      when your package expires.
+    </p>
+
+    <div class="balance">
+      <strong id="reserveBalance">0 MB</strong>
+      <p id="reserveStatus">No reserve available</p>
+    </div>
+
+    <button class="primary" onclick="claimReserve()">
+      Claim reserve
+    </button>
+  </div>
+
+  <button class="secondary" onclick="goHome()">
+    Explore packages
+  </button>
+
+</section>
+
+</main>
+
+<footer>
+  Nova Connect © 2026<br>
+  Simple. Flexible. Connected.
+</footer>
+
+<script>
+
+let selectedPackage = "";
+let phoneNumber = "";
+
+function hideSections() {
+  document.querySelectorAll("main section").forEach(section => {
+    section.classList.add("hidden");
+  });
+}
+
+function goHome() {
+  hideSections();
+  document.getElementById("home").classList.remove("hidden");
+}
+
+function selectPackage(name, element) {
+  selectedPackage = name;
+
+  document.querySelectorAll(".package").forEach(item => {
+    item.classList.remove("selected");
+  });
+
+  element.classList.add("selected");
+}
+
+function showPhone() {
+  if (!selectedPackage) {
+    alert("Please select an internet package first.");
+    return;
+  }
+
+  hideSections();
+  document.getElementById("phoneSection").classList.remove("hidden");
+}
+
+function continueWithPhone() {
+  const phone = document.getElementById("phone").value.trim();
+
+  if (!/^\+?[0-9]{10,15}$/.test(phone)) {
+    alert("Please enter a valid phone number.");
+    return;
+  }
+
+  phoneNumber = phone;
+
+  alert("Phone verification is not connected yet. Backend integration is our next task.");
+}
+
+function verifyPhone() {
+  alert("OTP verification must be connected to the backend before this feature can be used.");
+}
+
+function claimReserve() {
+  alert("Reserve claiming will be enabled after backend integration.");
+}
+
+</script>
+
+</body>
+</html>
+  
