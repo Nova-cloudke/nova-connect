@@ -2,419 +2,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101827">
-<title>Nova Connect</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071b35">
+  <meta name="description" content="Nova Connect - simple internet package access.">
+  <title>Nova Connect</title>
 
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  <style>
+    :root {
+      --navy: #071b35;
+      --blue: #1769e0;
+      --blue-light: #eaf2ff;
+      --green: #0b9b70;
+      --text: #17243a;
+      --muted: #6b7890;
+      --border: #e2e8f0;
+      --background: #f4f7fb;
+      --white: #ffffff;
+      --danger: #c0392b;
+    }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #152238;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-  background: #101827;
-  color: white;
-  padding: 22px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-}
+    button, input {
+      font: inherit;
+    }
 
-.logo span {
-  color: #35d49a;
-}
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 22px 20px 30px;
+    }
 
-.status {
-  background: #23364a;
-  color: #35d49a;
-  padding: 7px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-}
+    .topbar-inner {
+      max-width: 850px;
+      margin: auto;
+    }
 
-.container {
-  max-width: 480px;
-  margin: auto;
-  padding: 22px 16px 40px;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
 
-.hero {
-  background: #14263c;
-  color: white;
-  padding: 28px 22px;
-  border-radius: 18px;
-  margin-bottom: 25px;
-}
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      background: var(--blue);
+      border-radius: 12px;
+      font-size: 21px;
+    }
 
-.hero h1 {
-  font-size: 27px;
-  margin-bottom: 10px;
-}
+    .tagline {
+      margin: 7px 0 0 50px;
+      color: #c5d4e9;
+      font-size: 13px;
+    }
 
-.hero p {
-  color: #c4d2e2;
-  line-height: 1.5;
-  font-size: 14px;
-}
+    main {
+      width: min(100% - 28px, 650px);
+      margin: 25px auto 45px;
+    }
 
-.section-title {
-  font-size: 19px;
-  margin-bottom: 14px;
-}
+    .intro {
+      margin-bottom: 23px;
+    }
 
-.packages {
-  display: grid;
-  gap: 12px;
-}
+    .intro h1 {
+      margin: 0 0 8px;
+      font-size: clamp(25px, 6vw, 34px);
+      color: var(--navy);
+    }
 
-.package {
-  background: white;
-  border: 2px solid #e4eaf1;
-  border-radius: 14px;
-  padding: 17px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 15px;
+    }
 
-.package.selected {
-  border-color: #13ae78;
-  background: #effcf6;
-}
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 21px;
+      margin-bottom: 17px;
+      box-shadow: 0 5px 20px rgba(15, 35, 65, .045);
+    }
 
-.package h3 {
-  margin-bottom: 6px;
-}
+    .step-heading {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 17px;
+    }
 
-.package p {
-  color: #718096;
-  font-size: 12px;
-}
+    .step-number {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-weight: 800;
+      flex-shrink: 0;
+    }
 
-.price {
-  color: #079967;
-  font-weight: bold;
-}
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--navy);
+    }
 
-button {
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: bold;
-}
+    .package-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
 
-.primary {
-  width: 100%;
-  background: #13ae78;
-  color: white;
-  margin-top: 18px;
-}
+    .package {
+      min-height: 105px;
+      border: 1.5px solid var(--border);
+      background: white;
+      border-radius: 13px;
+      padding: 15px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
 
-.secondary {
-  background: #e9f1f8;
-  color: #152238;
-  width: 100%;
-  margin-top: 10px;
-}
+    .package:hover {
+      border-color: var(--blue);
+    }
 
-.panel {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 20px;
-  box-shadow: 0 3px 15px #1020300a;
-}
+    .package.selected {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
 
-input {
-  width: 100%;
-  padding: 15px;
-  margin-top: 13px;
-  border: 1px solid #dce4ed;
-  border-radius: 10px;
-  font-size: 16px;
-}
+    .package-name {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
 
-.hidden {
-  display: none !important;
-}
+    .package-description {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
 
-.balance {
-  background: #effcf6;
-  padding: 20px;
-  border-radius: 13px;
-  margin: 15px 0;
-}
+    .selected-label {
+      display: none;
+      margin-top: 9px;
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+    }
 
-.balance strong {
-  display: block;
-  font-size: 29px;
-  color: #079967;
-  margin: 8px 0;
-}
+    .package.selected .selected-label {
+      display: block;
+    }
 
-.info {
-  color: #718096;
-  font-size: 12px;
-  line-height: 1.6;
-  margin-top: 10px;
-}
+    label {
+      display: block;
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
 
-footer {
-  text-align: center;
-  padding: 25px;
-  color: #8592a3;
-  font-size: 12px;
-}
+    .phone-input {
+      width: 100%;
+      min-height: 51px;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: white;
+      color: var(--text);
+      font-size: 16px;
+    }
 
-</style>
+    .phone-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(23, 105, 224, .1);
+    }
+
+    .hint {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .primary-button {
+      width: 100%;
+      min-height: 51px;
+      border: 0;
+      border-radius: 11px;
+      margin-top: 17px;
+      background: var(--blue);
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary-button:hover {
+      background: #1058c3;
+    }
+
+    .primary-button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .notice {
+      display: none;
+      margin-top: 13px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice.info {
+      background: #edf4ff;
+      color: #174d91;
+    }
+
+    .notice.error {
+      background: #fff0ef;
+      color: var(--danger);
+    }
+
+    .notice.success {
+      background: #eaf8f2;
+      color: #08734f;
+    }
+
+    .verification-panel {
+      display: none;
+    }
+
+    .verification-panel.show {
+      display: block;
+    }
+
+    .summary {
+      background: #f5f8fc;
+      border-radius: 11px;
+      padding: 14px;
+      margin: 14px 0;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .summary strong {
+      color: var(--navy);
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 13px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d89a26;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 10px 10px 25px;
+    }
+
+    @media (max-width: 390px) {
+      .panel {
+        padding: 16px;
+      }
+
+      .package {
+        padding: 12px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<header>
-  <div class="logo">Nova <span>Connect</span></div>
-  <div class="status" id="headerStatus">Explore freely</div>
-</header>
-
-<main class="container">
-
-<!-- HOME -->
-<section id="home">
-
-  <div class="hero">
-    <h1>Internet made simple.</h1>
-    <p>Choose your package. Connect when you're ready. Enjoy more control over your internet.</p>
-  </div>
-
-  <h2 class="section-title">Choose your package</h2>
-
-  <div class="packages">
-
-    <div class="package" onclick="selectPackage('1 Hour', this)">
-      <div>
-        <h3>1 Hour</h3>
-        <p>Short internet access</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-icon">N</div>
+        <span>Nova Connect</span>
       </div>
-      <div class="price">Select →</div>
+      <p class="tagline">Simple access. Connected possibilities.</p>
     </div>
+  </header>
 
-    <div class="package" onclick="selectPackage('3 Hours', this)">
-      <div>
-        <h3>3 Hours</h3>
-        <p>Flexible internet access</p>
+  <main>
+    <section class="intro">
+      <h1>Get connected</h1>
+      <p>Choose an internet package and enter your phone number to begin.</p>
+    </section>
+
+    <section class="panel">
+      <div class="step-heading">
+        <span class="step-number">1</span>
+        <h2>Choose your package</h2>
       </div>
-      <div class="price">Select →</div>
-    </div>
 
-    <div class="package" onclick="selectPackage('24 Hours', this)">
-      <div>
-        <h3>24 Hours</h3>
-        <p>Daily internet access</p>
+      <div class="package-list" id="packageList">
+        <button class="package" type="button" data-package="1 Hour">
+          <span class="package-name">1 Hour</span>
+          <span class="package-description">Short internet access</span>
+          <span class="selected-label">SELECTED</span>
+        </button>
+
+        <button class="package" type="button" data-package="3 Hours">
+          <span class="package-name">3 Hours</span>
+          <span class="package-description">More time to connect</span>
+          <span class="selected-label">SELECTED</span>
+        </button>
+
+        <button class="package" type="button" data-package="24 Hours">
+          <span class="package-name">24 Hours</span>
+          <span class="package-description">One full day of access</span>
+          <span class="selected-label">SELECTED</span>
+        </button>
+
+        <button class="package" type="button" data-package="7 Days">
+          <span class="package-name">7 Days</span>
+          <span class="package-description">Weekly access</span>
+          <span class="selected-label">SELECTED</span>
+        </button>
       </div>
-      <div class="price">Select →</div>
-    </div>
 
-    <div class="package" onclick="selectPackage('7 Days', this)">
-      <div>
-        <h3>7 Days</h3>
-        <p>Weekly internet access</p>
+      <div id="packageNotice" class="notice info show">
+        Select a package to continue. Package prices and provider availability will be added when the service is connected.
       </div>
-      <div class="price">Select →</div>
+    </section>
+
+    <section class="panel">
+      <div class="step-heading">
+        <span class="step-number">2</span>
+        <h2>Enter your phone number</h2>
+      </div>
+
+      <label for="phone">Kenyan phone number</label>
+      <input
+        id="phone"
+        class="phone-input"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="07XXXXXXXX or 01XXXXXXXX"
+        maxlength="16"
+      >
+
+      <p class="hint">
+        Use the phone number you want associated with your Nova Connect account.
+      </p>
+
+      <button id="continueButton" class="primary-button" type="button">
+        Continue
+      </button>
+
+      <div id="phoneNotice" class="notice" role="status" aria-live="polite"></div>
+    </section>
+
+    <section id="verificationPanel" class="panel verification-panel">
+      <div class="step-heading">
+        <span class="step-number">3</span>
+        <h2>Verification</h2>
+      </div>
+
+      <p>
+        Your details are ready for the next step.
+      </p>
+
+      <div class="summary">
+        <div>Selected package: <strong id="summaryPackage">Not selected</strong></div>
+        <div>Phone number: <strong id="summaryPhone">Not entered</strong></div>
+      </div>
+
+      <div class="notice info show">
+        Phone-number validation is working on this page, but an OTP has not been sent. SMS verification, payment, and internet activation must be connected to the Nova Connect backend and an internet provider before users can complete a purchase.
+      </div>
+
+      <button id="editButton" class="primary-button" type="button">
+        Edit my details
+      </button>
+    </section>
+
+    <div class="status-line">
+      <span class="status-dot"></span>
+      <span>Setup stage: mobile interface</span>
     </div>
+  </main>
 
-  </div>
+  <footer class="footer">
+    <strong>Nova Connect</strong><br>
+    A simpler way to access internet services.<br>
+    © <span id="year"></span> Nova Connect
+  </footer>
 
-  <button class="primary" onclick="showPhone()">
-    Continue
-  </button>
+  <script>
+    "use strict";
 
-  <p class="info">
-    Explore packages without creating an account.
-    Your phone number is only needed when you're ready to connect.
-  </p>
+    const packageButtons = document.querySelectorAll(".package");
+    const phoneInput = document.getElementById("phone");
+    const continueButton = document.getElementById("continueButton");
+    const editButton = document.getElementById("editButton");
+    const phoneNotice = document.getElementById("phoneNotice");
+    const packageNotice = document.getElementById("packageNotice");
+    const verificationPanel = document.getElementById("verificationPanel");
 
-</section>
+    let selectedPackage = "";
 
-<!-- PHONE ENTRY -->
-<section id="phoneSection" class="hidden">
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
-  <div class="panel">
-    <h2>Ready to connect?</h2>
-    <p class="info">Enter your phone number to continue.</p>
+    function showNotice(element, message, type) {
+      element.textContent = message;
+      element.className = "notice show " + type;
+    }
 
-    <input
-      id="phone"
-      type="tel"
-      placeholder="+254 7XX XXX XXX"
-      autocomplete="tel"
-    >
+    function selectPackage(button) {
+      packageButtons.forEach(function(item) {
+        item.classList.remove("selected");
+        item.setAttribute("aria-pressed", "false");
+      });
 
-    <button class="primary" onclick="continueWithPhone()">
-      Continue
-    </button>
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
 
-    <button class="secondary" onclick="goHome()">
-      Back to packages
-    </button>
-  </div>
+      selectedPackage = button.dataset.package;
 
-</section>
+      showNotice(
+        packageNotice,
+        selectedPackage + " package selected. Package pricing will appear when provider pricing is connected.",
+        "success"
+      );
+    }
 
-<!-- VERIFICATION PLACEHOLDER -->
-<section id="verificationSection" class="hidden">
+    packageButtons.forEach(function(button) {
+      button.setAttribute("aria-pressed", "false");
 
-  <div class="panel">
-    <h2>Verify your number</h2>
-    <p class="info">
-      Phone verification will be connected to the Nova Connect backend.
-    </p>
+      button.addEventListener("click", function() {
+        selectPackage(button);
+      });
+    });
 
-    <input
-      id="otp"
-      type="text"
-      placeholder="Enter verification code"
-      inputmode="numeric"
-    >
+    function normalizeKenyanPhone(value) {
+      let digits = value.replace(/\D/g, "");
 
-    <button class="primary" onclick="verifyPhone()">
-      Verify number
-    </button>
+      if (digits.startsWith("0") && digits.length === 10) {
+        digits = "254" + digits.substring(1);
+      }
 
-    <button class="secondary" onclick="goHome()">
-      Cancel
-    </button>
-  </div>
+      if (
+        (digits.startsWith("2547") || digits.startsWith("2541")) &&
+        digits.length === 12
+      ) {
+        return "+" + digits;
+      }
 
-</section>
+      return null;
+    }
 
-<!-- DASHBOARD -->
-<section id="dashboard" class="hidden">
+    function continueWithPhone() {
+      const phone = normalizeKenyanPhone(phoneInput.value.trim());
 
-  <div class="hero">
-    <h1>Welcome to Nova!</h1>
-    <p>Your internet account overview.</p>
-  </div>
+      if (!selectedPackage) {
+        showNotice(
+          phoneNotice,
+          "Please select an internet package first.",
+          "error"
+        );
+        return;
+      }
 
-  <div class="panel">
-    <h3>Connection status</h3>
-    <div class="balance">
-      <strong id="connectionStatus">Not connected</strong>
-      <p id="activePackage">No active package</p>
-    </div>
+      if (!phone) {
+        showNotice(
+          phoneNotice,
+          "Enter a valid Kenyan mobile number, such as 0712345678 or 0112345678.",
+          "error"
+        );
+        phoneInput.focus();
+        return;
+      }
 
-    <h3>Data usage</h3>
-    <div class="balance">
-      <strong id="dataRemaining">--</strong>
-      <p>Remaining data</p>
-    </div>
-  </div>
+      document.getElementById("summaryPackage").textContent =
+        selectedPackage;
 
-  <div class="panel">
-    <h3>Nova Data Reserve</h3>
-    <p class="info">
-      Your eligible unused data will be automatically preserved
-      when your package expires.
-    </p>
+      document.getElementById("summaryPhone").textContent = phone;
 
-    <div class="balance">
-      <strong id="reserveBalance">0 MB</strong>
-      <p id="reserveStatus">No reserve available</p>
-    </div>
+      verificationPanel.classList.add("show");
 
-    <button class="primary" onclick="claimReserve()">
-      Claim reserve
-    </button>
-  </div>
+      showNotice(
+        phoneNotice,
+        "Your package and phone number have been checked on this page. No OTP or payment has been initiated.",
+        "success"
+      );
 
-  <button class="secondary" onclick="goHome()">
-    Explore packages
-  </button>
+      verificationPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
 
-</section>
+    function editDetails() {
+      verificationPanel.classList.remove("show");
 
-</main>
+      phoneInput.focus();
 
-<footer>
-  Nova Connect © 2026<br>
-  Simple. Flexible. Connected.
-</footer>
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
 
-<script>
+    continueButton.addEventListener("click", continueWithPhone);
+    editButton.addEventListener("click", editDetails);
 
-let selectedPackage = "";
-let phoneNumber = "";
-
-function hideSections() {
-  document.querySelectorAll("main section").forEach(section => {
-    section.classList.add("hidden");
-  });
-}
-
-function goHome() {
-  hideSections();
-  document.getElementById("home").classList.remove("hidden");
-}
-
-function selectPackage(name, element) {
-  selectedPackage = name;
-
-  document.querySelectorAll(".package").forEach(item => {
-    item.classList.remove("selected");
-  });
-
-  element.classList.add("selected");
-}
-
-function showPhone() {
-  if (!selectedPackage) {
-    alert("Please select an internet package first.");
-    return;
-  }
-
-  hideSections();
-  document.getElementById("phoneSection").classList.remove("hidden");
-}
-
-function continueWithPhone() {
-  const phone = document.getElementById("phone").value.trim();
-
-  if (!/^\+?[0-9]{10,15}$/.test(phone)) {
-    alert("Please enter a valid phone number.");
-    return;
-  }
-
-  phoneNumber = phone;
-
-  alert("Phone verification is not connected yet. Backend integration is our next task.");
-}
-
-function verifyPhone() {
-  alert("OTP verification must be connected to the backend before this feature can be used.");
-}
-
-function claimReserve() {
-  alert("Reserve claiming will be enabled after backend integration.");
-}
-
-</script>
-
+    phoneInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        continueWithPhone();
+      }
+    });
+  </script>
 </body>
 </html>
-  
+            
