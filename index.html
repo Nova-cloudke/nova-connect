@@ -9,245 +9,47 @@
 <title>Nova Connect</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #152238;
-  min-height: 100vh;
-}
-
-header {
-  background: #101827;
-  color: white;
-  padding: 20px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.logo span {
-  color: #35d49a;
-}
-
-.status {
-  background: #23364a;
-  color: #35d49a;
-  padding: 7px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-}
-
-.container {
-  max-width: 480px;
-  margin: auto;
-  padding: 22px 16px 40px;
-}
-
-.hero {
-  background: #14263c;
-  color: white;
-  padding: 28px 22px;
-  border-radius: 18px;
-  margin-bottom: 25px;
-}
-
-.hero h1 {
-  font-size: 27px;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  color: #c4d2e2;
-  line-height: 1.6;
-  font-size: 14px;
-}
-
-.section-title {
-  font-size: 19px;
-  margin-bottom: 14px;
-}
-
-.packages {
-  display: grid;
-  gap: 12px;
-}
-
-.package {
-  width: 100%;
-  text-align: left;
-  background: white;
-  border: 2px solid #e4eaf1;
-  border-radius: 14px;
-  padding: 17px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #152238;
-}
-
-.package.selected {
-  border-color: #13ae78;
-  background: #effcf6;
-}
-
-.package h3 {
-  margin-bottom: 6px;
-}
-
-.package p {
-  color: #718096;
-  font-size: 12px;
-  font-weight: normal;
-}
-
-.price {
-  color: #079967;
-  font-weight: bold;
-  font-size: 13px;
-}
-
-button {
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-button:focus-visible,
-input:focus-visible {
-  outline: 3px solid #35d49a;
-  outline-offset: 3px;
-}
-
-button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-.primary {
-  width: 100%;
-  background: #13ae78;
-  color: white;
-  margin-top: 18px;
-}
-
-.secondary {
-  background: #e9f1f8;
-  color: #152238;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.panel {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 20px;
-  box-shadow: 0 3px 15px #1020300a;
-}
-
-.panel h2 {
-  margin-bottom: 8px;
-}
-
-input {
-  width: 100%;
-  padding: 15px;
-  margin-top: 13px;
-  border: 1px solid #dce4ed;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.info {
-  color: #718096;
-  font-size: 12px;
-  line-height: 1.7;
-  margin-top: 10px;
-}
-
-.notice {
-  background: #fff8e7;
-  color: #795b19;
-  border-radius: 10px;
-  padding: 13px;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-top: 15px;
-}
-
-.summary {
-  background: #effcf6;
-  padding: 16px;
-  border-radius: 12px;
-  margin-top: 16px;
-  overflow-wrap: anywhere;
-}
-
-.summary strong {
-  color: #079967;
-}
-
-.message {
-  display: none;
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 14px;
-  font-size: 13px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.message.show {
-  display: block;
-}
-
-.message.error {
-  background: #fff0f0;
-  color: #a12626;
-}
-
-.message.success {
-  background: #effcf6;
-  color: #08784f;
-}
-
-#recaptcha-container {
-  margin-top: 16px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-}
-
-footer {
-  text-align: center;
-  padding: 25px;
-  color: #8592a3;
-  font-size: 12px;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fb;color:#152238;min-height:100vh}
+header{background:#101827;color:white;padding:20px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:bold}
+.logo span{color:#35d49a}
+.status{background:#23364a;color:#35d49a;padding:7px 12px;border-radius:20px;font-size:11px}
+.container{max-width:480px;margin:auto;padding:22px 16px 40px}
+.hero{background:#14263c;color:white;padding:28px 22px;border-radius:18px;margin-bottom:25px}
+.hero h1{font-size:27px;margin-bottom:10px}
+.hero p{color:#c4d2e2;line-height:1.6;font-size:14px}
+.section-title{font-size:19px;margin-bottom:14px}
+.packages{display:grid;gap:12px}
+.package{width:100%;text-align:left;background:white;border:2px solid #e4eaf1;border-radius:14px;padding:17px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#152238}
+.package.selected{border-color:#13ae78;background:#effcf6}
+.package h3{margin-bottom:6px}
+.package p{color:#718096;font-size:12px;font-weight:normal}
+.price{color:#079967;font-weight:bold;font-size:13px}
+button{border:none;cursor:pointer;border-radius:10px;padding:14px;font-size:15px;font-weight:bold}
+button:focus-visible,input:focus-visible{outline:3px solid #35d49a;outline-offset:3px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.primary{width:100%;background:#13ae78;color:white;margin-top:18px}
+.secondary{background:#e9f1f8;color:#152238;width:100%;margin-top:10px}
+.panel{background:white;padding:20px;border-radius:15px;margin-top:20px;box-shadow:0 3px 15px #1020300a}
+.panel h2{margin-bottom:8px}
+input{width:100%;padding:15px;margin-top:13px;border:1px solid #dce4ed;border-radius:10px;font-size:16px}
+.hidden{display:none!important}
+.info{color:#718096;font-size:12px;line-height:1.7;margin-top:10px}
+.notice{background:#fff8e7;color:#795b19;border-radius:10px;padding:13px;font-size:13px;line-height:1.6;margin-top:15px}
+.summary{background:#effcf6;padding:16px;border-radius:12px;margin-top:16px;overflow-wrap:anywhere}
+.summary strong{color:#079967}
+.message{display:none;padding:12px;border-radius:10px;margin-top:14px;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.message.show{display:block}
+.message.error{background:#fff0f0;color:#a12626}
+.message.success{background:#effcf6;color:#08784f}
+.diagnostic{background:#fff5df;color:#654b14;border:1px solid #e8d49d;padding:12px;border-radius:9px;margin-top:10px;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+#recaptcha-container{margin-top:16px;display:flex;justify-content:center;overflow:hidden}
+footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 </style>
 </head>
 
 <body>
-
 <header>
   <div class="logo">Nova <span>Connect</span></div>
   <div class="status" id="headerStatus">Explore freely</div>
@@ -255,210 +57,95 @@ footer {
 
 <main class="container">
 
-  <!-- HOME -->
-  <section id="home">
+<section id="home">
+  <div class="hero">
+    <h1>Internet made simple.</h1>
+    <p>Choose your package. Connect when you're ready. Enjoy more control over your internet.</p>
+  </div>
 
-    <div class="hero">
-      <h1>Internet made simple.</h1>
-      <p>
-        Choose your package. Connect when you're ready.
-        Enjoy more control over your internet.
-      </p>
-    </div>
-
-    <h2 class="section-title">Choose your package</h2>
-
-    <div class="packages">
-
-      <button type="button" class="package" data-package="1 Hour">
-        <div>
-          <h3>1 Hour</h3>
-          <p>Short internet access</p>
-        </div>
-        <span class="price">Select →</span>
-      </button>
-
-      <button type="button" class="package" data-package="3 Hours">
-        <div>
-          <h3>3 Hours</h3>
-          <p>Flexible internet access</p>
-        </div>
-        <span class="price">Select →</span>
-      </button>
-
-      <button type="button" class="package" data-package="24 Hours">
-        <div>
-          <h3>24 Hours</h3>
-          <p>Daily internet access</p>
-        </div>
-        <span class="price">Select →</span>
-      </button>
-
-      <button type="button" class="package" data-package="7 Days">
-        <div>
-          <h3>7 Days</h3>
-          <p>Weekly internet access</p>
-        </div>
-        <span class="price">Select →</span>
-      </button>
-
-    </div>
-
-    <div class="summary" id="selectionSummary">
-      Selected package: <strong id="selectedName">None</strong>
-    </div>
-
-    <button class="primary" id="continueButton" disabled>
-      Continue
+  <h2 class="section-title">Choose your package</h2>
+  <div class="packages">
+    <button type="button" class="package" data-package="1 Hour">
+      <div><h3>1 Hour</h3><p>Short internet access</p></div>
+      <span class="price">Select →</span>
     </button>
+    <button type="button" class="package" data-package="3 Hours">
+      <div><h3>3 Hours</h3><p>Flexible internet access</p></div>
+      <span class="price">Select →</span>
+    </button>
+    <button type="button" class="package" data-package="24 Hours">
+      <div><h3>24 Hours</h3><p>Daily internet access</p></div>
+      <span class="price">Select →</span>
+    </button>
+    <button type="button" class="package" data-package="7 Days">
+      <div><h3>7 Days</h3><p>Weekly internet access</p></div>
+      <span class="price">Select →</span>
+    </button>
+  </div>
 
-    <p class="info">
-      Browse packages freely. Your phone number is requested
-      only when you are ready to continue.
-    </p>
+  <div class="summary">Selected package: <strong id="selectedName">None</strong></div>
+  <button class="primary" id="continueButton" disabled>Continue</button>
+  <p class="info">Browse packages freely. Your phone number is requested only when you are ready to continue.</p>
+</section>
 
-  </section>
+<section id="phoneSection" class="hidden">
+  <div class="panel">
+    <h2>Ready to connect?</h2>
+    <p class="info">Enter your phone number with its country code. Kenyan local numbers are also accepted.</p>
+    <input id="phone" type="tel" placeholder="+2547XX XXX XXX or 07XX XXX XXX" autocomplete="tel" inputmode="tel">
+    <div class="summary">Package: <strong id="phonePackage"></strong></div>
+    <div id="recaptcha-container"></div>
+    <div id="phoneMessage" class="message"></div>
+    <button class="primary" id="phoneContinue">Send verification code</button>
+    <button class="secondary" id="backHome">Back to packages</button>
+    <p class="info">Phone verification uses SMS. Standard message rates may apply. Your number is processed by Google Firebase for authentication and abuse prevention.</p>
+  </div>
+</section>
 
-  <!-- PHONE -->
-  <section id="phoneSection" class="hidden">
-
-    <div class="panel">
-      <h2>Ready to connect?</h2>
-
-      <p class="info">
-        Enter your phone number with its country code.
-        Kenyan local numbers are also accepted.
-      </p>
-
-      <input
-        id="phone"
-        type="tel"
-        placeholder="+2547XX XXX XXX or 07XX XXX XXX"
-        autocomplete="tel"
-        inputmode="tel"
-      >
-
-      <div class="summary">
-        Package: <strong id="phonePackage"></strong>
-      </div>
-
-      <div id="recaptcha-container"></div>
-
-      <div id="phoneMessage" class="message"></div>
-
-      <button class="primary" id="phoneContinue">
-        Send verification code
-      </button>
-
-      <button class="secondary" id="backHome">
-        Back to packages
-      </button>
-
-      <p class="info">
-        Phone verification uses SMS. Standard message rates
-        may apply. Your number is processed by Google Firebase
-        for authentication and abuse prevention.
-      </p>
+<section id="codeSection" class="hidden">
+  <div class="panel">
+    <h2>Enter verification code</h2>
+    <p class="info">Enter the six-digit code sent to your phone.</p>
+    <div class="summary">
+      Phone: <strong id="codePhone"></strong><br><br>
+      Package: <strong id="codePackage"></strong>
     </div>
+    <input id="verificationCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit code" maxlength="6">
+    <div id="codeMessage" class="message"></div>
+    <button class="primary" id="verifyButton">Verify phone number</button>
+    <button class="secondary" id="changePhone">Change phone number</button>
+    <button class="secondary" id="returnHomeFromCode">Return to packages</button>
+  </div>
+</section>
 
-  </section>
-
-  <!-- VERIFICATION CODE -->
-  <section id="codeSection" class="hidden">
-
-    <div class="panel">
-      <h2>Enter verification code</h2>
-
-      <p class="info">
-        Enter the six-digit code sent to your phone.
-      </p>
-
-      <div class="summary">
-        Phone: <strong id="codePhone"></strong><br><br>
-        Package: <strong id="codePackage"></strong>
-      </div>
-
-      <input
-        id="verificationCode"
-        type="text"
-        inputmode="numeric"
-        autocomplete="one-time-code"
-        placeholder="Enter 6-digit code"
-        maxlength="6"
-      >
-
-      <div id="codeMessage" class="message"></div>
-
-      <button class="primary" id="verifyButton">
-        Verify phone number
-      </button>
-
-      <button class="secondary" id="changePhone">
-        Change phone number
-      </button>
-
-      <button class="secondary" id="returnHomeFromCode">
-        Return to packages
-      </button>
+<section id="verificationSection" class="hidden">
+  <div class="panel">
+    <h2>Phone verified successfully</h2>
+    <div class="summary">
+      <p>Phone: <strong id="verificationPhone"></strong></p><br>
+      <p>Package: <strong id="verificationPackage"></strong></p><br>
+      <p>Status: <strong>Verified</strong></p>
     </div>
-
-  </section>
-
-  <!-- VERIFIED -->
-  <section id="verificationSection" class="hidden">
-
-    <div class="panel">
-      <h2>Phone verified successfully</h2>
-
-      <div class="summary">
-        <p>Phone: <strong id="verificationPhone"></strong></p>
-        <br>
-        <p>Package: <strong id="verificationPackage"></strong></p>
-        <br>
-        <p>Status: <strong>Verified</strong></p>
-      </div>
-
-      <div class="notice">
-        Your phone number has been verified by Firebase.
-
-        Nova Connect's backend account linking and package
-        activation are not connected yet. No internet package
-        has been purchased or activated.
-      </div>
-
-      <button class="secondary" id="returnHome">
-        Return to packages
-      </button>
+    <div class="notice">
+      Your phone number has been verified by Firebase.
+      Nova Connect's backend account linking and package activation are not connected yet. No internet package has been purchased or activated.
     </div>
-
-  </section>
+    <button class="secondary" id="returnHome">Return to packages</button>
+  </div>
+</section>
 
 </main>
 
-<footer>
-  Nova Connect © 2026<br>
-  Simple. Flexible. Connected.
-</footer>
+<footer>Nova Connect © 2026<br>Simple. Flexible. Connected.</footer>
 
 <script type="module">
-"use strict";
-
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
-
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber
-} from
-  "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
 
-import {
-  initializeAppCheck
-} from
-  "https://www.gstatic.com/firebasejs/13.2.0/firebase-app-check.js";
-
-// FIREBASE PROJECT CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyDIQWy-shws1ZjztBnBgVE6PD_BoKJCA8A",
   authDomain: "nova-connect-ee507.firebaseapp.com",
@@ -479,117 +166,84 @@ let recaptchaVerifier = null;
 let isSending = false;
 let isVerifying = false;
 
-const sections = [
-  "home",
-  "phoneSection",
-  "codeSection",
-  "verificationSection"
-];
+const sections = ["home","phoneSection","codeSection","verificationSection"];
 
-function showSection(sectionId) {
-  sections.forEach(id => {
-    document.getElementById(id).classList.add("hidden");
-  });
-
-  document.getElementById(sectionId).classList.remove("hidden");
-
+function showSection(id) {
+  sections.forEach(section => document.getElementById(section).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
   document.getElementById("headerStatus").textContent =
-    sectionId === "home" ? "Explore freely" :
-    sectionId === "verificationSection" ? "Phone verified" :
-    "Getting started";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    id === "home" ? "Explore freely" :
+    id === "verificationSection" ? "Phone verified" : "Getting started";
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function showMessage(elementId, message, type = "error") {
-  const element = document.getElementById(elementId);
+function showMessage(id,message,type="error") {
+  const element = document.getElementById(id);
   element.textContent = message;
   element.className = "message show " + type;
 }
 
-function clearMessage(elementId) {
-  const element = document.getElementById(elementId);
+function clearMessage(id) {
+  const element = document.getElementById(id);
   element.textContent = "";
   element.className = "message";
 }
 
-function selectPackage(name, element) {
+function showFirebaseDiagnostic(error) {
+  const code = error?.code || "No Firebase error code returned";
+  const message = error?.message || "No additional error message returned";
+  const diagnostic = document.createElement("div");
+  diagnostic.className = "diagnostic";
+
+  const heading = document.createElement("strong");
+  heading.textContent = "Firebase diagnostic details";
+
+  const project = document.createElement("div");
+  project.textContent = "Project: " + firebaseConfig.projectId;
+
+  const errorCode = document.createElement("div");
+  errorCode.textContent = "Error code: " + code;
+
+  const errorMessage = document.createElement("div");
+  errorMessage.textContent = "Firebase message: " + message;
+
+  diagnostic.append(heading,project,errorCode,errorMessage);
+
+  const container = document.getElementById("phoneMessage");
+  container.appendChild(diagnostic);
+}
+
+function selectPackage(name,button) {
   selectedPackage = name;
-
-  document.querySelectorAll(".package").forEach(button => {
-    button.classList.remove("selected");
-    button.setAttribute("aria-pressed", "false");
+  document.querySelectorAll(".package").forEach(item => {
+    item.classList.remove("selected");
+    item.setAttribute("aria-pressed","false");
   });
-
-  element.classList.add("selected");
-  element.setAttribute("aria-pressed", "true");
-
+  button.classList.add("selected");
+  button.setAttribute("aria-pressed","true");
   document.getElementById("selectedName").textContent = name;
   document.getElementById("continueButton").disabled = false;
 }
 
 document.querySelectorAll(".package").forEach(button => {
-  button.setAttribute("aria-pressed", "false");
-
-  button.addEventListener("click", () => {
-    selectPackage(button.dataset.package, button);
-  });
+  button.setAttribute("aria-pressed","false");
+  button.addEventListener("click",() => selectPackage(button.dataset.package,button));
 });
 
-document.getElementById("continueButton").addEventListener("click", () => {
+document.getElementById("continueButton").addEventListener("click",() => {
   if (!selectedPackage) return;
-
-  document.getElementById("phonePackage").textContent =
-    selectedPackage;
-
+  document.getElementById("phonePackage").textContent = selectedPackage;
   showSection("phoneSection");
 });
 
-// Convert Kenyan local formats to international E.164.
-// Other countries must be entered with their +country code.
 function normalizePhone(value) {
-  let phone = value.replace(/[\s()-]/g, "");
-
+  let phone = value.replace(/[\s()-]/g,"");
   if (/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
     phone = "+254" + phone.substring(1);
   } else if (/^254[17]\d{8}$/.test(phone)) {
     phone = "+" + phone;
   }
-
-  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
-    return null;
-  }
-
-  return phone;
-}
-
-function getFriendlyError(error) {
-  const code = error?.code || "";
-
-  const messages = {
-    "auth/invalid-phone-number":
-      "That phone number is not valid. Include the country code.",
-    "auth/too-many-requests":
-      "Too many attempts. Please wait before trying again.",
-    "auth/quota-exceeded":
-      "Firebase's SMS quota has been reached. Try again later.",
-    "auth/captcha-check-failed":
-      "The security check failed. Please try again.",
-    "auth/invalid-verification-code":
-      "The verification code is incorrect. Check it and try again.",
-    "auth/code-expired":
-      "That verification code has expired. Request a new one.",
-    "auth/network-request-failed":
-      "Network connection failed. Check your internet and retry.",
-    "auth/operation-not-allowed":
-      "Phone authentication is not enabled in Firebase.",
-    "auth/unauthorized-domain":
-      "This website domain is not authorized in Firebase."
-  };
-
-  return messages[code] ||
-    "Verification could not be completed. Please try again. (" +
-    (code || "unknown error") + ")";
+  return /^\+[1-9]\d{7,14}$/.test(phone) ? phone : null;
 }
 
 function clearRecaptcha() {
@@ -597,47 +251,28 @@ function clearRecaptcha() {
     recaptchaVerifier.clear();
     recaptchaVerifier = null;
   }
-
   document.getElementById("recaptcha-container").innerHTML = "";
 }
 
 function createRecaptcha() {
   if (recaptchaVerifier) return recaptchaVerifier;
-
-  recaptchaVerifier = new RecaptchaVerifier(
-    auth,
-    "recaptcha-container",
-    {
-      size: "normal",
-      callback: () => {
-        clearMessage("phoneMessage");
-      },
-      "expired-callback": () => {
-        showMessage(
-          "phoneMessage",
-          "Security check expired. Please complete it again."
-        );
-      }
-    }
-  );
-
+  recaptchaVerifier = new RecaptchaVerifier(auth,"recaptcha-container",{
+    size:"normal",
+    callback:() => clearMessage("phoneMessage"),
+    "expired-callback":() => showMessage("phoneMessage","Security check expired. Please complete it again.")
+  });
   return recaptchaVerifier;
 }
 
-// SEND SMS CODE
-document.getElementById("phoneContinue").addEventListener("click", async () => {
+document.getElementById("phoneContinue").addEventListener("click",async() => {
   if (isSending) return;
 
+  clearMessage("phoneMessage");
   const input = document.getElementById("phone");
   const normalized = normalizePhone(input.value.trim());
 
-  clearMessage("phoneMessage");
-
   if (!normalized) {
-    showMessage(
-      "phoneMessage",
-      "Enter a valid international number, for example +254 followed by your mobile number."
-    );
+    showMessage("phoneMessage","Enter a valid international number, for example +254 followed by your mobile number.");
     input.focus();
     return;
   }
@@ -651,28 +286,22 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
 
   try {
     const verifier = createRecaptcha();
-
-    confirmationResult = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      verifier
-    );
+    confirmationResult = await signInWithPhoneNumber(auth,phoneNumber,verifier);
 
     document.getElementById("codePhone").textContent = phoneNumber;
     document.getElementById("codePackage").textContent = selectedPackage;
     document.getElementById("verificationCode").value = "";
-
     showSection("codeSection");
 
-  } catch (error) {
-    console.error("Firebase phone authentication error:", error);
-
+  } catch(error) {
+    console.error("Firebase phone authentication error:",error);
     clearRecaptcha();
 
     showMessage(
       "phoneMessage",
-      getFriendlyError(error)
+      "Firebase could not send the verification code. See the diagnostic details below."
     );
+    showFirebaseDiagnostic(error);
 
   } finally {
     isSending = false;
@@ -681,61 +310,40 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
   }
 });
 
-// VERIFY SMS CODE
-document.getElementById("verifyButton").addEventListener("click", async () => {
+document.getElementById("verifyButton").addEventListener("click",async() => {
   if (isVerifying) return;
 
   clearMessage("codeMessage");
-
   const code = document.getElementById("verificationCode").value.trim();
 
   if (!/^\d{6}$/.test(code)) {
-    showMessage("codeMessage", "Enter the six-digit verification code.");
+    showMessage("codeMessage","Enter the six-digit verification code.");
     return;
   }
 
   if (!confirmationResult) {
-    showMessage(
-      "codeMessage",
-      "No verification request was found. Please request a new code."
-    );
+    showMessage("codeMessage","No verification request was found. Please request a new code.");
     return;
   }
 
   isVerifying = true;
-
   const button = document.getElementById("verifyButton");
   button.disabled = true;
   button.textContent = "Verifying...";
 
   try {
     const result = await confirmationResult.confirm(code);
-
-    // Firebase authentication succeeded.
-    // Backend linking is intentionally not performed here.
     const user = result.user;
 
-    console.log("Firebase phone authentication successful.");
-    console.log("Firebase user ID:", user.uid);
-
-    document.getElementById("verificationPhone").textContent =
-      user.phoneNumber || phoneNumber;
-
-    document.getElementById("verificationPackage").textContent =
-      selectedPackage;
+    document.getElementById("verificationPhone").textContent = user.phoneNumber || phoneNumber;
+    document.getElementById("verificationPackage").textContent = selectedPackage;
 
     confirmationResult = null;
-
     showSection("verificationSection");
 
-  } catch (error) {
-    console.error("Firebase code verification error:", error);
-
-    showMessage(
-      "codeMessage",
-      getFriendlyError(error)
-    );
-
+  } catch(error) {
+    console.error("Firebase code verification error:",error);
+    showMessage("codeMessage","Verification failed: " + (error?.code || "unknown") + " — " + (error?.message || "No additional details"));
   } finally {
     isVerifying = false;
     button.disabled = false;
@@ -743,7 +351,7 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
   }
 });
 
-document.getElementById("changePhone").addEventListener("click", () => {
+document.getElementById("changePhone").addEventListener("click",() => {
   confirmationResult = null;
   clearRecaptcha();
   clearMessage("phoneMessage");
@@ -751,23 +359,23 @@ document.getElementById("changePhone").addEventListener("click", () => {
   showSection("phoneSection");
 });
 
-document.getElementById("backHome").addEventListener("click", () => {
+document.getElementById("backHome").addEventListener("click",() => {
   clearRecaptcha();
   showSection("home");
 });
 
-document.getElementById("returnHomeFromCode").addEventListener("click", () => {
+document.getElementById("returnHomeFromCode").addEventListener("click",() => {
   confirmationResult = null;
   clearRecaptcha();
   showSection("home");
 });
 
-document.getElementById("returnHome").addEventListener("click", () => {
-  showSection("home");
-});
+document.getElementById("returnHome").addEventListener("click",() => showSection("home"));
 
+console.log("Nova Connect Firebase diagnostic loaded.");
+console.log("Firebase project:",firebaseConfig.projectId);
+console.log("Firebase app ID:",firebaseConfig.appId);
 </script>
-
 </body>
 </html>
-    
+                                                                       
