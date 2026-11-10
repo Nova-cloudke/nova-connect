@@ -133,16 +133,16 @@ input:focus-visible {
   outline-offset: 3px;
 }
 
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
 .primary {
   width: 100%;
   background: #13ae78;
   color: white;
   margin-top: 18px;
-}
-
-.primary:disabled {
-  opacity: .5;
-  cursor: not-allowed;
 }
 
 .secondary {
@@ -199,10 +199,42 @@ input {
   padding: 16px;
   border-radius: 12px;
   margin-top: 16px;
+  overflow-wrap: anywhere;
 }
 
 .summary strong {
   color: #079967;
+}
+
+.message {
+  display: none;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+  background: #fff0f0;
+  color: #a12626;
+}
+
+.message.success {
+  background: #effcf6;
+  color: #08784f;
+}
+
+#recaptcha-container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
 }
 
 footer {
@@ -211,7 +243,6 @@ footer {
   color: #8592a3;
   font-size: 12px;
 }
-
 </style>
 </head>
 
@@ -239,8 +270,7 @@ footer {
 
     <div class="packages">
 
-      <button type="button" class="package"
-        data-package="1 Hour">
+      <button type="button" class="package" data-package="1 Hour">
         <div>
           <h3>1 Hour</h3>
           <p>Short internet access</p>
@@ -248,8 +278,7 @@ footer {
         <span class="price">Select →</span>
       </button>
 
-      <button type="button" class="package"
-        data-package="3 Hours">
+      <button type="button" class="package" data-package="3 Hours">
         <div>
           <h3>3 Hours</h3>
           <p>Flexible internet access</p>
@@ -257,8 +286,7 @@ footer {
         <span class="price">Select →</span>
       </button>
 
-      <button type="button" class="package"
-        data-package="24 Hours">
+      <button type="button" class="package" data-package="24 Hours">
         <div>
           <h3>24 Hours</h3>
           <p>Daily internet access</p>
@@ -266,8 +294,7 @@ footer {
         <span class="price">Select →</span>
       </button>
 
-      <button type="button" class="package"
-        data-package="7 Days">
+      <button type="button" class="package" data-package="7 Days">
         <div>
           <h3>7 Days</h3>
           <p>Weekly internet access</p>
@@ -286,8 +313,8 @@ footer {
     </button>
 
     <p class="info">
-      Browse packages freely. Your phone number is only
-      requested when you are ready to continue.
+      Browse packages freely. Your phone number is requested
+      only when you are ready to continue.
     </p>
 
   </section>
@@ -299,58 +326,105 @@ footer {
       <h2>Ready to connect?</h2>
 
       <p class="info">
-        Enter your Kenyan mobile number to continue.
+        Enter your phone number with its country code.
+        Kenyan local numbers are also accepted.
       </p>
 
       <input
         id="phone"
         type="tel"
-        placeholder="07XX XXX XXX or +2547XX XXX XXX"
+        placeholder="+2547XX XXX XXX or 07XX XXX XXX"
         autocomplete="tel"
         inputmode="tel"
-        maxlength="16"
       >
 
       <div class="summary">
         Package: <strong id="phonePackage"></strong>
       </div>
 
+      <div id="recaptcha-container"></div>
+
+      <div id="phoneMessage" class="message"></div>
+
       <button class="primary" id="phoneContinue">
-        Continue
+        Send verification code
       </button>
 
       <button class="secondary" id="backHome">
         Back to packages
       </button>
+
+      <p class="info">
+        Phone verification uses SMS. Standard message rates
+        may apply. Your number is processed by Google Firebase
+        for authentication and abuse prevention.
+      </p>
     </div>
 
   </section>
 
-  <!-- VERIFICATION -->
-  <section id="verificationSection" class="hidden">
+  <!-- VERIFICATION CODE -->
+  <section id="codeSection" class="hidden">
 
     <div class="panel">
-      <h2>Phone verification</h2>
+      <h2>Enter verification code</h2>
 
       <p class="info">
-        Your selected package and phone number are ready
-        for backend integration.
+        Enter the six-digit code sent to your phone.
       </p>
 
       <div class="summary">
-        Phone: <strong id="verificationPhone"></strong><br><br>
-        Package: <strong id="verificationPackage"></strong>
+        Phone: <strong id="codePhone"></strong><br><br>
+        Package: <strong id="codePackage"></strong>
       </div>
 
-      <div class="notice">
-        Verification is not connected yet. No OTP has been
-        sent. We must connect the backend before this step
-        can authenticate your number.
-      </div>
+      <input
+        id="verificationCode"
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        placeholder="Enter 6-digit code"
+        maxlength="6"
+      >
+
+      <div id="codeMessage" class="message"></div>
+
+      <button class="primary" id="verifyButton">
+        Verify phone number
+      </button>
 
       <button class="secondary" id="changePhone">
         Change phone number
       </button>
+
+      <button class="secondary" id="returnHomeFromCode">
+        Return to packages
+      </button>
+    </div>
+
+  </section>
+
+  <!-- VERIFIED -->
+  <section id="verificationSection" class="hidden">
+
+    <div class="panel">
+      <h2>Phone verified successfully</h2>
+
+      <div class="summary">
+        <p>Phone: <strong id="verificationPhone"></strong></p>
+        <br>
+        <p>Package: <strong id="verificationPackage"></strong></p>
+        <br>
+        <p>Status: <strong>Verified</strong></p>
+      </div>
+
+      <div class="notice">
+        Your phone number has been verified by Firebase.
+
+        Nova Connect's backend account linking and package
+        activation are not connected yet. No internet package
+        has been purchased or activated.
+      </div>
 
       <button class="secondary" id="returnHome">
         Return to packages
@@ -366,15 +440,49 @@ footer {
   Simple. Flexible. Connected.
 </footer>
 
-<script>
+<script type="module">
 "use strict";
+
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from
+  "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+
+import {
+  initializeAppCheck
+} from
+  "https://www.gstatic.com/firebasejs/13.2.0/firebase-app-check.js";
+
+// FIREBASE PROJECT CONFIGURATION
+const firebaseConfig = {
+  apiKey: "AIzaSyDIQWy-shws1ZjztBnBgVE6PD_BoKJCA8A",
+  authDomain: "nova-connect-ee507.firebaseapp.com",
+  projectId: "nova-connect-ee507",
+  storageBucket: "nova-connect-ee507.firebasestorage.app",
+  messagingSenderId: "960547092750",
+  appId: "1:960547092750:web:49fb7b5f4f292ed37b3f5f",
+  measurementId: "G-ZLRQSN9BHJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 let selectedPackage = "";
 let phoneNumber = "";
+let confirmationResult = null;
+let recaptchaVerifier = null;
+let isSending = false;
+let isVerifying = false;
 
 const sections = [
   "home",
   "phoneSection",
+  "codeSection",
   "verificationSection"
 ];
 
@@ -386,9 +494,23 @@ function showSection(sectionId) {
   document.getElementById(sectionId).classList.remove("hidden");
 
   document.getElementById("headerStatus").textContent =
-    sectionId === "home" ? "Explore freely" : "Getting started";
+    sectionId === "home" ? "Explore freely" :
+    sectionId === "verificationSection" ? "Phone verified" :
+    "Getting started";
 
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showMessage(elementId, message, type = "error") {
+  const element = document.getElementById(elementId);
+  element.textContent = message;
+  element.className = "message show " + type;
+}
+
+function clearMessage(elementId) {
+  const element = document.getElementById(elementId);
+  element.textContent = "";
+  element.className = "message";
 }
 
 function selectPackage(name, element) {
@@ -415,10 +537,7 @@ document.querySelectorAll(".package").forEach(button => {
 });
 
 document.getElementById("continueButton").addEventListener("click", () => {
-  if (!selectedPackage) {
-    alert("Please select a package first.");
-    return;
-  }
+  if (!selectedPackage) return;
 
   document.getElementById("phonePackage").textContent =
     selectedPackage;
@@ -426,51 +545,221 @@ document.getElementById("continueButton").addEventListener("click", () => {
   showSection("phoneSection");
 });
 
-function normalizeKenyanPhone(value) {
+// Convert Kenyan local formats to international E.164.
+// Other countries must be entered with their +country code.
+function normalizePhone(value) {
   let phone = value.replace(/[\s()-]/g, "");
 
   if (/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
-    return "+254" + phone.substring(1);
+    phone = "+254" + phone.substring(1);
+  } else if (/^254[17]\d{8}$/.test(phone)) {
+    phone = "+" + phone;
   }
 
-  if (/^254[17]\d{8}$/.test(phone)) {
-    return "+" + phone;
+  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    return null;
   }
 
-  if (/^\+254[17]\d{8}$/.test(phone)) {
-    return phone;
-  }
-
-  return null;
+  return phone;
 }
 
-document.getElementById("phoneContinue").addEventListener("click", () => {
+function getFriendlyError(error) {
+  const code = error?.code || "";
+
+  const messages = {
+    "auth/invalid-phone-number":
+      "That phone number is not valid. Include the country code.",
+    "auth/too-many-requests":
+      "Too many attempts. Please wait before trying again.",
+    "auth/quota-exceeded":
+      "Firebase's SMS quota has been reached. Try again later.",
+    "auth/captcha-check-failed":
+      "The security check failed. Please try again.",
+    "auth/invalid-verification-code":
+      "The verification code is incorrect. Check it and try again.",
+    "auth/code-expired":
+      "That verification code has expired. Request a new one.",
+    "auth/network-request-failed":
+      "Network connection failed. Check your internet and retry.",
+    "auth/operation-not-allowed":
+      "Phone authentication is not enabled in Firebase.",
+    "auth/unauthorized-domain":
+      "This website domain is not authorized in Firebase."
+  };
+
+  return messages[code] ||
+    "Verification could not be completed. Please try again. (" +
+    (code || "unknown error") + ")";
+}
+
+function clearRecaptcha() {
+  if (recaptchaVerifier) {
+    recaptchaVerifier.clear();
+    recaptchaVerifier = null;
+  }
+
+  document.getElementById("recaptcha-container").innerHTML = "";
+}
+
+function createRecaptcha() {
+  if (recaptchaVerifier) return recaptchaVerifier;
+
+  recaptchaVerifier = new RecaptchaVerifier(
+    auth,
+    "recaptcha-container",
+    {
+      size: "normal",
+      callback: () => {
+        clearMessage("phoneMessage");
+      },
+      "expired-callback": () => {
+        showMessage(
+          "phoneMessage",
+          "Security check expired. Please complete it again."
+        );
+      }
+    }
+  );
+
+  return recaptchaVerifier;
+}
+
+// SEND SMS CODE
+document.getElementById("phoneContinue").addEventListener("click", async () => {
+  if (isSending) return;
+
   const input = document.getElementById("phone");
-  const normalized = normalizeKenyanPhone(input.value.trim());
+  const normalized = normalizePhone(input.value.trim());
+
+  clearMessage("phoneMessage");
 
   if (!normalized) {
-    alert("Enter a valid Kenyan mobile number.");
+    showMessage(
+      "phoneMessage",
+      "Enter a valid international number, for example +254 followed by your mobile number."
+    );
     input.focus();
     return;
   }
 
   phoneNumber = normalized;
+  isSending = true;
 
-  document.getElementById("verificationPhone").textContent =
-    phoneNumber;
+  const button = document.getElementById("phoneContinue");
+  button.disabled = true;
+  button.textContent = "Sending code...";
 
-  document.getElementById("verificationPackage").textContent =
-    selectedPackage;
+  try {
+    const verifier = createRecaptcha();
 
-  showSection("verificationSection");
+    confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      verifier
+    );
+
+    document.getElementById("codePhone").textContent = phoneNumber;
+    document.getElementById("codePackage").textContent = selectedPackage;
+    document.getElementById("verificationCode").value = "";
+
+    showSection("codeSection");
+
+  } catch (error) {
+    console.error("Firebase phone authentication error:", error);
+
+    clearRecaptcha();
+
+    showMessage(
+      "phoneMessage",
+      getFriendlyError(error)
+    );
+
+  } finally {
+    isSending = false;
+    button.disabled = false;
+    button.textContent = "Send verification code";
+  }
 });
 
-document.getElementById("backHome").addEventListener("click", () => {
-  showSection("home");
+// VERIFY SMS CODE
+document.getElementById("verifyButton").addEventListener("click", async () => {
+  if (isVerifying) return;
+
+  clearMessage("codeMessage");
+
+  const code = document.getElementById("verificationCode").value.trim();
+
+  if (!/^\d{6}$/.test(code)) {
+    showMessage("codeMessage", "Enter the six-digit verification code.");
+    return;
+  }
+
+  if (!confirmationResult) {
+    showMessage(
+      "codeMessage",
+      "No verification request was found. Please request a new code."
+    );
+    return;
+  }
+
+  isVerifying = true;
+
+  const button = document.getElementById("verifyButton");
+  button.disabled = true;
+  button.textContent = "Verifying...";
+
+  try {
+    const result = await confirmationResult.confirm(code);
+
+    // Firebase authentication succeeded.
+    // Backend linking is intentionally not performed here.
+    const user = result.user;
+
+    console.log("Firebase phone authentication successful.");
+    console.log("Firebase user ID:", user.uid);
+
+    document.getElementById("verificationPhone").textContent =
+      user.phoneNumber || phoneNumber;
+
+    document.getElementById("verificationPackage").textContent =
+      selectedPackage;
+
+    confirmationResult = null;
+
+    showSection("verificationSection");
+
+  } catch (error) {
+    console.error("Firebase code verification error:", error);
+
+    showMessage(
+      "codeMessage",
+      getFriendlyError(error)
+    );
+
+  } finally {
+    isVerifying = false;
+    button.disabled = false;
+    button.textContent = "Verify phone number";
+  }
 });
 
 document.getElementById("changePhone").addEventListener("click", () => {
+  confirmationResult = null;
+  clearRecaptcha();
+  clearMessage("phoneMessage");
+  clearMessage("codeMessage");
   showSection("phoneSection");
+});
+
+document.getElementById("backHome").addEventListener("click", () => {
+  clearRecaptcha();
+  showSection("home");
+});
+
+document.getElementById("returnHomeFromCode").addEventListener("click", () => {
+  confirmationResult = null;
+  clearRecaptcha();
+  showSection("home");
 });
 
 document.getElementById("returnHome").addEventListener("click", () => {
@@ -481,4 +770,4 @@ document.getElementById("returnHome").addEventListener("click", () => {
 
 </body>
 </html>
-        
+    
