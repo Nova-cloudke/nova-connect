@@ -37,7 +37,7 @@ input{width:100%;padding:15px;margin-top:13px;border:1px solid #dce4ed;border-ra
 .hidden{display:none!important}
 .info{color:#718096;font-size:12px;line-height:1.7;margin-top:10px}
 .notice{background:#fff8e7;color:#795b19;border-radius:10px;padding:13px;font-size:13px;line-height:1.6;margin-top:15px}
-.summary{background:#effcf6;padding:16px;border-radius:12px;margin-top:16px;overflow-wrap:anywhere}
+.summary{background:#effcf6;padding:16px;border-radius:12px;margin-top:16px;overflow-wrap:anywhere;line-height:1.7}
 .summary strong{color:#079967}
 .message{display:none;padding:12px;border-radius:10px;margin-top:14px;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
 .message.show{display:block}
@@ -67,25 +67,27 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
   <h2 class="section-title">Choose your package</h2>
 
   <div class="packages">
+
     <button type="button" class="package" data-package="1 Hour">
       <div><h3>1 Hour</h3><p>Short internet access</p></div>
-      <span class="price">Select →</span>
+      <span class="price">KSh 10 · Select →</span>
     </button>
 
     <button type="button" class="package" data-package="3 Hours">
       <div><h3>3 Hours</h3><p>Flexible internet access</p></div>
-      <span class="price">Select →</span>
+      <span class="price">KSh 20 · Select →</span>
     </button>
 
     <button type="button" class="package" data-package="24 Hours">
       <div><h3>24 Hours</h3><p>Daily internet access</p></div>
-      <span class="price">Select →</span>
+      <span class="price">KSh 50 · Select →</span>
     </button>
 
     <button type="button" class="package" data-package="7 Days">
       <div><h3>7 Days</h3><p>Weekly internet access</p></div>
-      <span class="price">Select →</span>
+      <span class="price">KSh 200 · Select →</span>
     </button>
+
   </div>
 
   <div class="summary">
@@ -94,10 +96,11 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 
   <button class="primary" id="continueButton" disabled>Continue</button>
 
-  <p class="info">
+  <p class="info" id="homeInfo">
     Browse packages freely. Your phone number is requested only when you are ready to continue.
   </p>
 </section>
+
 
 <section id="phoneSection" class="hidden">
   <div class="panel">
@@ -107,13 +110,9 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
       Enter your phone number with its country code. Kenyan local numbers are also accepted.
     </p>
 
-    <input
-      id="phone"
-      type="tel"
+    <input id="phone" type="tel"
       placeholder="+2547XX XXX XXX or 07XX XXX XXX"
-      autocomplete="tel"
-      inputmode="tel"
-    >
+      autocomplete="tel" inputmode="tel">
 
     <div class="summary">
       Package: <strong id="phonePackage"></strong>
@@ -137,27 +136,21 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
   </div>
 </section>
 
+
 <section id="codeSection" class="hidden">
   <div class="panel">
     <h2>Enter verification code</h2>
 
-    <p class="info">
-      Enter the six-digit code sent to your phone.
-    </p>
+    <p class="info">Enter the six-digit code sent to your phone.</p>
 
     <div class="summary">
       Phone: <strong id="codePhone"></strong><br><br>
       Package: <strong id="codePackage"></strong>
     </div>
 
-    <input
-      id="verificationCode"
-      type="text"
-      inputmode="numeric"
-      autocomplete="one-time-code"
-      placeholder="Enter 6-digit code"
-      maxlength="6"
-    >
+    <input id="verificationCode" type="text"
+      inputmode="numeric" autocomplete="one-time-code"
+      placeholder="Enter 6-digit code" maxlength="6">
 
     <div id="codeMessage" class="message"></div>
 
@@ -175,6 +168,7 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
   </div>
 </section>
 
+
 <section id="verificationSection" class="hidden">
   <div class="panel">
     <h2>Phone and account verified</h2>
@@ -187,12 +181,34 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
     </div>
 
     <div class="notice">
-      Your phone number has been verified by Firebase and your Nova Connect account has been connected to the backend.
-
+      Your phone number has been verified and your Nova Connect account is connected.
       No internet package has been purchased or activated yet.
     </div>
 
-    <button class="secondary" id="returnHome">
+    <button class="primary" id="continueAfterVerification">
+      Continue to packages
+    </button>
+  </div>
+</section>
+
+
+<section id="purchaseSection" class="hidden">
+  <div class="panel">
+    <h2>Purchase created</h2>
+
+    <div class="summary">
+      <p>Package: <strong id="purchasePackage"></strong></p><br>
+      <p>Amount: <strong id="purchaseAmount"></strong></p><br>
+      <p>Purchase ID: <strong id="purchaseId"></strong></p><br>
+      <p>Payment status: <strong id="purchaseStatus">Pending</strong></p>
+    </div>
+
+    <div class="notice">
+      Your purchase record has been created successfully.
+      Payment has not been made and your internet package has not been activated.
+    </div>
+
+    <button class="secondary" id="purchaseReturn">
       Return to packages
     </button>
   </div>
@@ -205,16 +221,19 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
   Simple. Flexible. Connected.
 </footer>
 
+
 <script type="module">
 
-import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import {initializeApp} from
+"https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 
 import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
   signOut
-} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+} from
+"https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
 
 
 // =====================================
@@ -236,7 +255,7 @@ const auth = getAuth(app);
 
 
 // =====================================
-// 2. NOVA CONNECT BACKEND
+// 2. BACKEND
 // =====================================
 
 const NOVA_API_URL = "https://nova-wifi-backend.onrender.com";
@@ -248,25 +267,41 @@ const NOVA_API_URL = "https://nova-wifi-backend.onrender.com";
 
 let selectedPackage = "";
 let phoneNumber = "";
-
 let confirmationResult = null;
 let verifiedFirebaseUser = null;
-
 let recaptchaVerifier = null;
+
+let accountAuthenticated = false;
+let accountPhone = "";
+let checkingSession = true;
 
 let isSending = false;
 let isVerifying = false;
+let isCreatingPurchase = false;
 
 
 // =====================================
-// 4. PAGE SECTIONS
+// 4. PACKAGE MAPPING
+// =====================================
+
+const packageCodes = {
+  "1 Hour": "1-hour",
+  "3 Hours": "3-hours",
+  "24 Hours": "24-hours",
+  "7 Days": "7-days"
+};
+
+
+// =====================================
+// 5. PAGE SECTIONS
 // =====================================
 
 const sections = [
   "home",
   "phoneSection",
   "codeSection",
-  "verificationSection"
+  "verificationSection",
+  "purchaseSection"
 ];
 
 function showSection(id) {
@@ -277,20 +312,24 @@ function showSection(id) {
 
   document.getElementById(id).classList.remove("hidden");
 
-  document.getElementById("headerStatus").textContent =
-    id === "home" ? "Explore freely" :
-    id === "verificationSection" ? "Account connected" :
-    "Getting started";
+  const status = document.getElementById("headerStatus");
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  if (id === "home") {
+    status.textContent = accountAuthenticated ?
+      "Account connected" : "Explore freely";
+  } else if (id === "verificationSection" ||
+             id === "purchaseSection") {
+    status.textContent = "Account connected";
+  } else {
+    status.textContent = "Getting started";
+  }
+
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 
 // =====================================
-// 5. MESSAGES
+// 6. MESSAGES
 // =====================================
 
 function showMessage(id, message, type = "error") {
@@ -311,41 +350,119 @@ function clearMessage(id) {
 
 
 // =====================================
-// 6. FIREBASE DIAGNOSTICS
+// 7. BACKEND REQUEST HELPER
 // =====================================
 
-function showFirebaseDiagnostic(error) {
+async function backendRequest(path, options = {}) {
 
-  const diagnostic = document.createElement("div");
-  diagnostic.className = "diagnostic";
-
-  const heading = document.createElement("strong");
-  heading.textContent = "Firebase diagnostic details";
-
-  const project = document.createElement("div");
-  project.textContent = "Project: " + firebaseConfig.projectId;
-
-  const errorCode = document.createElement("div");
-  errorCode.textContent =
-    "Error code: " + (error?.code || "Not available");
-
-  const errorMessage = document.createElement("div");
-  errorMessage.textContent =
-    "Firebase message: " + (error?.message || "No additional details");
-
-  diagnostic.append(
-    heading,
-    project,
-    errorCode,
-    errorMessage
+  const response = await fetch(
+    NOVA_API_URL + path,
+    {
+      ...options,
+      credentials: "include",
+      headers: {
+        ...(options.headers || {})
+      }
+    }
   );
 
-  document.getElementById("phoneMessage").appendChild(diagnostic);
+  const responseText = await response.text();
+
+  let data = {};
+
+  try {
+    data = responseText ? JSON.parse(responseText) : {};
+  } catch {
+    throw new Error("The backend returned an invalid response.");
+  }
+
+  if (!response.ok) {
+
+    if (response.status === 401) {
+      accountAuthenticated = false;
+    }
+
+    throw new Error(
+      data.message ||
+      data.error ||
+      "Backend request failed. HTTP " + response.status
+    );
+  }
+
+  return data;
 }
 
 
 // =====================================
-// 7. PACKAGE SELECTION
+// 8. RESTORE EXISTING SESSION
+// =====================================
+
+async function checkExistingSession() {
+
+  checkingSession = true;
+
+  document.getElementById("continueButton").disabled = true;
+  document.getElementById("homeInfo").textContent =
+    "Checking your account connection...";
+
+  try {
+
+    const data = await backendRequest("/api/auth/me");
+
+    if (
+      data.success === true &&
+      data.authenticated !== false &&
+      (data.authenticated === true || data.user || data.account)
+    ) {
+
+      accountAuthenticated = true;
+
+      const user = data.user || data.account || {};
+
+      accountPhone =
+        user.phone_number ||
+        user.phone ||
+        data.phone_number ||
+        data.phone ||
+        "";
+
+      document.getElementById("headerStatus").textContent =
+        "Account connected";
+
+      document.getElementById("homeInfo").textContent =
+        "Your account is connected. Select a package to continue to purchase.";
+
+      console.log("Existing Nova Connect session restored.");
+
+    } else {
+
+      accountAuthenticated = false;
+
+      document.getElementById("homeInfo").textContent =
+        "Browse packages freely. Your phone number is requested only when you are ready to continue.";
+    }
+
+  } catch(error) {
+
+    accountAuthenticated = false;
+
+    console.log("No active backend session:", error.message);
+
+    document.getElementById("homeInfo").textContent =
+      "Browse packages freely. Your phone number is requested only when you are ready to continue.";
+
+  } finally {
+
+    checkingSession = false;
+
+    document.getElementById("continueButton").disabled =
+      !selectedPackage;
+  }
+}
+
+
+// =====================================
+// 9. PACKAGE SELECTION
 // =====================================
 
 function selectPackage(name, button) {
@@ -353,17 +470,17 @@ function selectPackage(name, button) {
   selectedPackage = name;
 
   document.querySelectorAll(".package").forEach(item => {
-
     item.classList.remove("selected");
     item.setAttribute("aria-pressed", "false");
-
   });
 
   button.classList.add("selected");
   button.setAttribute("aria-pressed", "true");
 
   document.getElementById("selectedName").textContent = name;
-  document.getElementById("continueButton").disabled = false;
+
+  document.getElementById("continueButton").disabled =
+    checkingSession;
 }
 
 document.querySelectorAll(".package").forEach(button => {
@@ -376,18 +493,32 @@ document.querySelectorAll(".package").forEach(button => {
 
 });
 
-document.getElementById("continueButton").addEventListener("click", () => {
 
-  if (!selectedPackage) return;
+// =====================================
+// 10. CONTINUE AFTER PACKAGE SELECTION
+// =====================================
 
-  document.getElementById("phonePackage").textContent = selectedPackage;
+document.getElementById("continueButton").addEventListener("click", async () => {
 
-  showSection("phoneSection");
+  if (!selectedPackage || checkingSession) return;
+
+  if (accountAuthenticated) {
+
+    await createPurchase();
+
+  } else {
+
+    document.getElementById("phonePackage").textContent =
+      selectedPackage;
+
+    showSection("phoneSection");
+  }
+
 });
 
 
 // =====================================
-// 8. PHONE NUMBER NORMALIZATION
+// 11. PHONE NORMALIZATION
 // =====================================
 
 function normalizePhone(value) {
@@ -395,13 +526,9 @@ function normalizePhone(value) {
   let phone = value.replace(/[\s()-]/g, "");
 
   if (/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
-
     phone = "+254" + phone.substring(1);
-
   } else if (/^254[17]\d{8}$/.test(phone)) {
-
     phone = "+" + phone;
-
   }
 
   return /^\+[1-9]\d{7,14}$/.test(phone) ? phone : null;
@@ -409,16 +536,14 @@ function normalizePhone(value) {
 
 
 // =====================================
-// 9. RECAPTCHA MANAGEMENT
+// 12. RECAPTCHA
 // =====================================
 
 function clearRecaptcha() {
 
   if (recaptchaVerifier) {
-
     recaptchaVerifier.clear();
     recaptchaVerifier = null;
-
   }
 
   document.getElementById("recaptcha-container").innerHTML = "";
@@ -426,9 +551,7 @@ function clearRecaptcha() {
 
 function createRecaptcha() {
 
-  if (recaptchaVerifier) {
-    return recaptchaVerifier;
-  }
+  if (recaptchaVerifier) return recaptchaVerifier;
 
   recaptchaVerifier = new RecaptchaVerifier(
     auth,
@@ -454,7 +577,35 @@ function createRecaptcha() {
 
 
 // =====================================
-// 10. SEND FIREBASE SMS CODE
+// 13. FIREBASE DIAGNOSTICS
+// =====================================
+
+function showFirebaseDiagnostic(error) {
+
+  const diagnostic = document.createElement("div");
+  diagnostic.className = "diagnostic";
+
+  const heading = document.createElement("strong");
+  heading.textContent = "Firebase diagnostic details";
+
+  const project = document.createElement("div");
+  project.textContent = "Project: " + firebaseConfig.projectId;
+
+  const errorCode = document.createElement("div");
+  errorCode.textContent = "Error code: " + (error?.code || "Unknown");
+
+  const errorMessage = document.createElement("div");
+  errorMessage.textContent =
+    "Firebase message: " + (error?.message || "No details");
+
+  diagnostic.append(heading, project, errorCode, errorMessage);
+
+  document.getElementById("phoneMessage").appendChild(diagnostic);
+}
+
+
+// =====================================
+// 14. SEND VERIFICATION CODE
 // =====================================
 
 document.getElementById("phoneContinue").addEventListener("click", async () => {
@@ -464,14 +615,13 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
   clearMessage("phoneMessage");
 
   const input = document.getElementById("phone");
-
   const normalized = normalizePhone(input.value.trim());
 
   if (!normalized) {
 
     showMessage(
       "phoneMessage",
-      "Enter a valid international number, for example +254 followed by your mobile number."
+      "Enter a valid international phone number."
     );
 
     input.focus();
@@ -479,7 +629,6 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
   }
 
   phoneNumber = normalized;
-
   isSending = true;
 
   const button = document.getElementById("phoneContinue");
@@ -500,22 +649,20 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
     verifiedFirebaseUser = null;
 
     document.getElementById("codePhone").textContent = phoneNumber;
-
     document.getElementById("codePackage").textContent = selectedPackage;
-
     document.getElementById("verificationCode").value = "";
 
     showSection("codeSection");
 
   } catch(error) {
 
-    console.error("Firebase phone authentication error:", error);
+    console.error("Firebase authentication error:", error);
 
     clearRecaptcha();
 
     showMessage(
       "phoneMessage",
-      "Firebase could not send the verification code. See the diagnostic details below."
+      "Firebase could not send the verification code."
     );
 
     showFirebaseDiagnostic(error);
@@ -523,63 +670,37 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
   } finally {
 
     isSending = false;
-
     button.disabled = false;
     button.textContent = "Send verification code";
-
   }
 
 });
 
 
 // =====================================
-// 11. CONNECT FIREBASE TO NOVA BACKEND
+// 15. CONNECT FIREBASE ACCOUNT
 // =====================================
 
 async function connectNovaAccount(firebaseUser) {
 
   const idToken = await firebaseUser.getIdToken();
 
-  const response = await fetch(
-    NOVA_API_URL + "/api/auth/firebase",
+  const data = await backendRequest(
+    "/api/auth/firebase",
     {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + idToken
       },
-
-      credentials: "include",
-
       body: JSON.stringify({})
     }
   );
 
-  const responseText = await response.text();
-
-  let data;
-
-  try {
-
-    data = responseText ? JSON.parse(responseText) : {};
-
-  } catch {
-
+  if (data.success !== true) {
     throw new Error(
-      "The backend returned an invalid response. Please try again."
+      data.message || data.error || "Account connection failed."
     );
-
-  }
-
-  if (!response.ok || data.success !== true) {
-
-    throw new Error(
-      data.message ||
-      data.error ||
-      "Nova Connect could not connect your account."
-    );
-
   }
 
   return data;
@@ -587,7 +708,7 @@ async function connectNovaAccount(firebaseUser) {
 
 
 // =====================================
-// 12. VERIFY PHONE AND CONNECT ACCOUNT
+// 16. VERIFY PHONE AND CONNECT ACCOUNT
 // =====================================
 
 document.getElementById("verifyButton").addEventListener("click", async () => {
@@ -596,33 +717,22 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
 
   clearMessage("codeMessage");
 
-  // Firebase verification has already succeeded
-  // if a previous backend connection attempt failed.
-
   if (!verifiedFirebaseUser) {
 
     const code = document.getElementById("verificationCode").value.trim();
 
     if (!/^\d{6}$/.test(code)) {
-
-      showMessage(
-        "codeMessage",
-        "Enter the six-digit verification code."
-      );
-
+      showMessage("codeMessage", "Enter the six-digit verification code.");
       return;
     }
 
     if (!confirmationResult) {
-
       showMessage(
         "codeMessage",
         "No verification request was found. Please request a new code."
       );
-
       return;
     }
-
   }
 
   isVerifying = true;
@@ -634,30 +744,26 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
 
   try {
 
-    // STEP A: Verify the SMS code with Firebase.
-    // This only happens once.
-
     if (!verifiedFirebaseUser) {
 
-      const code = document.getElementById("verificationCode").value.trim();
+      const code =
+        document.getElementById("verificationCode").value.trim();
 
       const result = await confirmationResult.confirm(code);
 
       verifiedFirebaseUser = result.user;
-
       confirmationResult = null;
-
     }
-
-    // STEP B: Connect the verified Firebase identity
-    // to the Nova Connect PostgreSQL account.
 
     await connectNovaAccount(verifiedFirebaseUser);
 
-    // STEP C: Display success only after backend confirmation.
+    accountAuthenticated = true;
+
+    accountPhone =
+      verifiedFirebaseUser.phoneNumber || phoneNumber;
 
     document.getElementById("verificationPhone").textContent =
-      verifiedFirebaseUser.phoneNumber || phoneNumber;
+      accountPhone;
 
     document.getElementById("verificationPackage").textContent =
       selectedPackage;
@@ -666,7 +772,7 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
 
   } catch(error) {
 
-    console.error("Nova Connect authentication error:", error);
+    console.error("Nova Connect account error:", error);
 
     showMessage(
       "codeMessage",
@@ -677,17 +783,135 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
   } finally {
 
     isVerifying = false;
-
     button.disabled = false;
     button.textContent = "Verify phone number";
-
   }
 
 });
 
 
 // =====================================
-// 13. RESET PENDING AUTHENTICATION
+// 17. CREATE PURCHASE RECORD
+// =====================================
+
+async function createPurchase() {
+
+  if (isCreatingPurchase) return;
+
+  if (!accountAuthenticated) {
+    showSection("phoneSection");
+    return;
+  }
+
+  const packageCode = packageCodes[selectedPackage];
+
+  if (!packageCode) {
+    alert("Please select a valid package.");
+    return;
+  }
+
+  isCreatingPurchase = true;
+
+  const button = document.getElementById("continueButton");
+
+  button.disabled = true;
+  button.textContent = "Creating purchase...";
+
+  try {
+
+    const data = await backendRequest(
+      "/api/purchases",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          package_code: packageCode
+        })
+      }
+    );
+
+    if (data.success !== true) {
+      throw new Error(
+        data.message || data.error || "Purchase creation failed."
+      );
+    }
+
+    const purchase = data.purchase || data.data || data;
+
+    document.getElementById("purchasePackage").textContent =
+      purchase.package_name || purchase.name || selectedPackage;
+
+    const amount =
+      purchase.amount_kes ??
+      purchase.price_kes ??
+      purchase.amount;
+
+    document.getElementById("purchaseAmount").textContent =
+      amount !== undefined ? "KSh " + amount : "Confirmed by backend";
+
+    document.getElementById("purchaseId").textContent =
+      purchase.id || purchase.purchase_id || "Created";
+
+    document.getElementById("purchaseStatus").textContent =
+      purchase.status || "pending";
+
+    showSection("purchaseSection");
+
+  } catch(error) {
+
+    console.error("Purchase creation error:", error);
+
+    if (!accountAuthenticated) {
+
+      showMessage(
+        "homeInfo",
+        "Your session has expired. Please sign in again."
+      );
+
+      document.getElementById("homeInfo").textContent =
+        "Your session has expired. Please continue to verify your phone number again.";
+
+      document.getElementById("headerStatus").textContent =
+        "Explore freely";
+
+      document.getElementById("phonePackage").textContent =
+        selectedPackage;
+
+      showSection("phoneSection");
+
+    } else {
+
+      document.getElementById("homeInfo").textContent =
+        "Purchase could not be created: " + error.message;
+
+      showSection("home");
+    }
+
+  } finally {
+
+    isCreatingPurchase = false;
+    button.disabled = !selectedPackage;
+    button.textContent = "Continue";
+  }
+
+}
+
+
+// =====================================
+// 18. RETURN AFTER VERIFICATION
+// =====================================
+
+document.getElementById("continueAfterVerification").addEventListener("click", () => {
+
+  showSection("home");
+
+});
+
+
+// =====================================
+// 19. RESET PENDING AUTHENTICATION
 // =====================================
 
 async function resetPendingAuthentication() {
@@ -695,49 +919,35 @@ async function resetPendingAuthentication() {
   confirmationResult = null;
   verifiedFirebaseUser = null;
 
-  if (auth.currentUser) {
+  if (auth.currentUser && !accountAuthenticated) {
 
     try {
-
       await signOut(auth);
-
     } catch(error) {
-
       console.error("Firebase sign-out error:", error);
-
     }
-
   }
 
   clearRecaptcha();
-
   clearMessage("phoneMessage");
   clearMessage("codeMessage");
-
 }
 
 
 // =====================================
-// 14. CHANGE PHONE NUMBER
+// 20. NAVIGATION
 // =====================================
 
 document.getElementById("changePhone").addEventListener("click", async () => {
 
   await resetPendingAuthentication();
-
   showSection("phoneSection");
 
 });
 
-
-// =====================================
-// 15. NAVIGATION
-// =====================================
-
 document.getElementById("backHome").addEventListener("click", async () => {
 
   await resetPendingAuthentication();
-
   showSection("home");
 
 });
@@ -745,12 +955,11 @@ document.getElementById("backHome").addEventListener("click", async () => {
 document.getElementById("returnHomeFromCode").addEventListener("click", async () => {
 
   await resetPendingAuthentication();
-
   showSection("home");
 
 });
 
-document.getElementById("returnHome").addEventListener("click", () => {
+document.getElementById("purchaseReturn").addEventListener("click", () => {
 
   showSection("home");
 
@@ -758,19 +967,17 @@ document.getElementById("returnHome").addEventListener("click", () => {
 
 
 // =====================================
-// 16. STARTUP DIAGNOSTICS
+// 21. STARTUP
 // =====================================
 
 console.log("Nova Connect frontend loaded.");
-
 console.log("Firebase project:", firebaseConfig.projectId);
+console.log("Backend:", NOVA_API_URL);
 
-console.log("Firebase app ID:", firebaseConfig.appId);
-
-console.log("Nova Connect backend:", NOVA_API_URL);
+checkExistingSession();
 
 </script>
 
 </body>
 </html>
-      
+  
