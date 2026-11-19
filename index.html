@@ -47,8 +47,8 @@ input{width:100%;padding:15px;margin-top:13px;border:1px solid #dce4ed;border-ra
 #recaptcha-container{margin-top:16px;display:flex;justify-content:center;overflow:hidden}
 footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 @media(max-width:380px){
-  .package{align-items:flex-start;flex-direction:column}
-  .price{white-space:normal}
+.package{align-items:flex-start;flex-direction:column}
+.price{white-space:normal}
 }
 </style>
 </head>
@@ -56,251 +56,202 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 <body>
 
 <header>
-  <div class="logo">Nova <span>Connect</span></div>
-  <div class="status" id="headerStatus">Explore freely</div>
+<div class="logo">Nova <span>Connect</span></div>
+<div class="status" id="headerStatus">Explore freely</div>
 </header>
 
 <main class="container">
 
-<!-- HOME AND PACKAGES -->
 <section id="home">
-  <div class="hero">
-    <h1>Internet made simple.</h1>
-    <p>Choose your package. Connect when you're ready. Enjoy more control over your internet.</p>
-  </div>
+<div class="hero">
+<h1>Internet made simple.</h1>
+<p>Choose your package. Connect when you're ready. Enjoy more control over your internet.</p>
+</div>
 
-  <h2 class="section-title">Choose your package</h2>
+<h2 class="section-title">Choose your package</h2>
 
-  <div class="packages">
+<div class="packages">
 
-    <button type="button" class="package" data-package="1 Hour" aria-pressed="false">
-      <div>
-        <h3>1 Hour Access</h3>
-        <p>Internet access for 60 minutes</p>
-      </div>
-      <span class="price">KSh 10 · Select →</span>
-    </button>
+<button type="button" class="package" data-package="1 Hour" aria-pressed="false">
+<div><h3>1 Hour Access</h3><p>Internet access for 60 minutes</p></div>
+<span class="price">KSh 10 · Select →</span>
+</button>
 
-    <button type="button" class="package" data-package="3 Hours" aria-pressed="false">
-      <div>
-        <h3>3 Hours Access</h3>
-        <p>Internet access for 3 hours</p>
-      </div>
-      <span class="price">KSh 18 · Select →</span>
-    </button>
+<button type="button" class="package" data-package="3 Hours" aria-pressed="false">
+<div><h3>3 Hours Access</h3><p>Internet access for 3 hours</p></div>
+<span class="price">KSh 18 · Select →</span>
+</button>
 
-    <button type="button" class="package" data-package="24 Hours" aria-pressed="false">
-      <div>
-        <h3>24 Hours Access</h3>
-        <p>Internet access for one full day</p>
-      </div>
-      <span class="price">KSh 40 · Select →</span>
-    </button>
+<button type="button" class="package" data-package="24 Hours" aria-pressed="false">
+<div><h3>24 Hours Access</h3><p>Internet access for one full day</p></div>
+<span class="price">KSh 40 · Select →</span>
+</button>
 
-    <button type="button" class="package" data-package="7 Days" aria-pressed="false">
-      <div>
-        <h3>7 Days Access</h3>
-        <p>Internet access for one week</p>
-      </div>
-      <span class="price">KSh 150 · Select →</span>
-    </button>
+<button type="button" class="package" data-package="7 Days" aria-pressed="false">
+<div><h3>7 Days Access</h3><p>Internet access for one week</p></div>
+<span class="price">KSh 150 · Select →</span>
+</button>
 
-  </div>
+</div>
 
-  <div class="summary">
-    Selected package: <strong id="selectedName">None</strong>
-  </div>
+<div class="summary">
+Selected package: <strong id="selectedName">None</strong>
+</div>
 
-  <button class="primary" id="continueButton" disabled>Continue</button>
+<button class="primary" id="continueButton" disabled>Continue</button>
 
-  <p class="info" id="homeInfo">
-    Browse packages freely. Your phone number is requested only when you are ready to continue.
-  </p>
+<p class="info" id="homeInfo">
+Browse packages freely. Your phone number is requested only when you are ready to continue.
+</p>
 </section>
 
 
-<!-- PHONE VERIFICATION -->
 <section id="phoneSection" class="hidden">
-  <div class="panel">
-    <h2>Ready to connect?</h2>
+<div class="panel">
+<h2>Ready to connect?</h2>
 
-    <p class="info">
-      Enter your phone number with its country code. Kenyan local numbers are also accepted.
-    </p>
+<p class="info">Enter your phone number with its country code. Kenyan local numbers are also accepted.</p>
 
-    <input id="phone" type="tel"
-      placeholder="+2547XX XXX XXX or 07XX XXX XXX"
-      autocomplete="tel" inputmode="tel">
+<input id="phone" type="tel" placeholder="+2547XX XXX XXX or 07XX XXX XXX" autocomplete="tel" inputmode="tel">
 
-    <div class="summary">
-      Package: <strong id="phonePackage"></strong>
-    </div>
+<div class="summary">
+Package: <strong id="phonePackage"></strong>
+</div>
 
-    <div id="recaptcha-container"></div>
-    <div id="phoneMessage" class="message"></div>
+<div id="recaptcha-container"></div>
+<div id="phoneMessage" class="message"></div>
 
-    <button class="primary" id="phoneContinue">
-      Send verification code
-    </button>
+<button class="primary" id="phoneContinue">Send verification code</button>
+<button class="secondary" id="backHome">Back to packages</button>
 
-    <button class="secondary" id="backHome">
-      Back to packages
-    </button>
-
-    <p class="info">
-      Phone verification uses SMS. Standard message rates may apply.
-      Your number is processed by Google Firebase for authentication and abuse prevention.
-    </p>
-  </div>
+<p class="info">
+Phone verification uses SMS. Standard message rates may apply.
+Your number is processed by Google Firebase for authentication and abuse prevention.
+</p>
+</div>
 </section>
 
 
-<!-- VERIFICATION CODE -->
 <section id="codeSection" class="hidden">
-  <div class="panel">
-    <h2>Enter verification code</h2>
+<div class="panel">
+<h2>Enter verification code</h2>
+<p class="info">Enter the six-digit code sent to your phone.</p>
 
-    <p class="info">Enter the six-digit code sent to your phone.</p>
+<div class="summary">
+Phone: <strong id="codePhone"></strong><br><br>
+Package: <strong id="codePackage"></strong>
+</div>
 
-    <div class="summary">
-      Phone: <strong id="codePhone"></strong><br><br>
-      Package: <strong id="codePackage"></strong>
-    </div>
+<input id="verificationCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit code" maxlength="6">
 
-    <input id="verificationCode" type="text"
-      inputmode="numeric" autocomplete="one-time-code"
-      placeholder="Enter 6-digit code" maxlength="6">
+<div id="codeMessage" class="message"></div>
 
-    <div id="codeMessage" class="message"></div>
-
-    <button class="primary" id="verifyButton">
-      Verify phone number
-    </button>
-
-    <button class="secondary" id="changePhone">
-      Change phone number
-    </button>
-
-    <button class="secondary" id="returnHomeFromCode">
-      Return to packages
-    </button>
-  </div>
+<button class="primary" id="verifyButton">Verify phone number</button>
+<button class="secondary" id="changePhone">Change phone number</button>
+<button class="secondary" id="returnHomeFromCode">Return to packages</button>
+</div>
 </section>
 
 
-<!-- ACCOUNT VERIFIED -->
 <section id="verificationSection" class="hidden">
-  <div class="panel">
-    <h2>Phone and account verified</h2>
+<div class="panel">
+<h2>Phone and account verified</h2>
 
-    <div class="summary">
-      <p>Phone: <strong id="verificationPhone"></strong></p><br>
-      <p>Package: <strong id="verificationPackage"></strong></p><br>
-      <p>Phone status: <strong>Verified</strong></p><br>
-      <p>Account status: <strong>Connected</strong></p>
-    </div>
+<div class="summary">
+<p>Phone: <strong id="verificationPhone"></strong></p><br>
+<p>Package: <strong id="verificationPackage"></strong></p><br>
+<p>Phone status: <strong>Verified</strong></p><br>
+<p>Account status: <strong>Connected</strong></p>
+</div>
 
-    <div class="notice">
-      Your phone number has been verified and your Nova Connect account is connected.
-      No internet package has been purchased or activated yet.
-    </div>
+<div class="notice">
+Your phone number has been verified and your Nova Connect account is connected.
+No internet package has been purchased or activated yet.
+</div>
 
-    <button class="primary" id="continueAfterVerification">
-      Continue to packages
-    </button>
-  </div>
+<button class="primary" id="continueAfterVerification">Continue to packages</button>
+</div>
 </section>
 
 
-<!-- M-PESA PAYMENT -->
 <section id="paymentSection" class="hidden">
-  <div class="panel">
-    <h2>Pay with M-Pesa</h2>
+<div class="panel">
+<h2>Pay with M-Pesa</h2>
 
-    <p class="info">
-      Review your package and payment number. You will receive an M-Pesa payment prompt on the number entered below.
-    </p>
+<p class="info">
+Review your package and payment number. You will receive an M-Pesa payment prompt on the number entered below.
+</p>
 
-    <div class="summary">
-      Package: <strong id="paymentPackage"></strong><br><br>
-      Amount: <strong id="paymentAmount"></strong><br><br>
-      Verified account: <strong id="paymentVerifiedPhone"></strong>
-    </div>
+<div class="summary">
+Package: <strong id="paymentPackage"></strong><br><br>
+Amount: <strong id="paymentAmount"></strong><br><br>
+Verified account: <strong id="paymentVerifiedPhone"></strong>
+</div>
 
-    <label for="paymentPhone" class="info">M-Pesa payment phone number</label>
-    <input id="paymentPhone" type="tel"
-      placeholder="+2547XX XXX XXX"
-      autocomplete="tel" inputmode="tel">
+<label for="paymentPhone" class="info">M-Pesa payment phone number</label>
+<input id="paymentPhone" type="tel" placeholder="+2547XX XXX XXX" autocomplete="tel" inputmode="tel">
 
-    <p class="info">
-      Your verified number is filled in automatically. You may change it if you want to pay using another number.
-    </p>
+<p class="info">
+Your verified number is filled in automatically. You may change it if you want to pay using another number.
+</p>
 
-    <div id="paymentMessage" class="message"></div>
+<div id="paymentMessage" class="message"></div>
 
-    <button class="primary" id="payButton">
-      Pay with M-Pesa
-    </button>
+<button class="primary" id="payButton">Pay with M-Pesa</button>
 
-    <button class="secondary" id="paymentBack">
-      Back to packages
-    </button>
-  </div>
+<button class="secondary" id="recoverPaymentButton">
+Recover latest payment
+</button>
+
+<button class="secondary" id="paymentBack">Back to packages</button>
+</div>
 </section>
 
 
-<!-- PAYMENT STATUS -->
 <section id="purchaseSection" class="hidden">
-  <div class="panel">
-    <h2 id="paymentStatusHeading">M-Pesa payment</h2>
+<div class="panel">
+<h2 id="paymentStatusHeading">M-Pesa payment</h2>
 
-    <div class="summary">
-      <p>Package: <strong id="purchasePackage"></strong></p><br>
-      <p>Amount: <strong id="purchaseAmount"></strong></p><br>
-      <p>Purchase ID: <strong id="purchaseId"></strong></p><br>
-      <p>Payment number: <strong id="purchasePhone"></strong></p><br>
-      <p>Payment status: <strong id="purchaseStatus">Pending</strong></p><br>
-      <p>M-Pesa receipt: <strong id="purchaseReceipt">Not received</strong></p>
-    </div>
+<div class="summary">
+<p>Package: <strong id="purchasePackage"></strong></p><br>
+<p>Amount: <strong id="purchaseAmount"></strong></p><br>
+<p>Purchase ID: <strong id="purchaseId"></strong></p><br>
+<p>Payment number: <strong id="purchasePhone"></strong></p><br>
+<p>Payment status: <strong id="purchaseStatus">Pending</strong></p><br>
+<p>M-Pesa receipt: <strong id="purchaseReceipt">Not received</strong></p>
+</div>
 
-    <div id="purchaseMessage" class="message show">
-      Check your phone for the M-Pesa payment prompt. Follow the instructions on your phone.
-    </div>
+<div id="purchaseMessage" class="message show">
+Check your phone for the M-Pesa payment prompt.
+</div>
 
-    <button class="primary" id="checkPaymentButton">
-      Check payment status
-    </button>
+<button class="primary" id="checkPaymentButton">Check payment status</button>
+<button class="secondary" id="purchaseReturn">Return to packages</button>
 
-    <button class="secondary" id="purchaseReturn">
-      Return to packages
-    </button>
-
-    <p class="info">
-      Payment confirmation does not itself activate internet access. Service activation requires the network connection system to be integrated.
-    </p>
-  </div>
+<p class="info">
+Payment confirmation does not itself activate internet access. Service activation requires the network connection system to be integrated.
+</p>
+</div>
 </section>
 
 </main>
 
 <footer>
-  Nova Connect © 2026<br>
-  Simple. Flexible. Connected.
+Nova Connect © 2026<br>
+Simple. Flexible. Connected.
 </footer>
 
 
 <script type="module">
 
-import {initializeApp} from
-"https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 
 import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-  signOut
-} from
-"https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+getAuth,
+RecaptchaVerifier,
+signInWithPhoneNumber,
+signOut
+} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
 
 
 // =====================================
@@ -308,13 +259,13 @@ import {
 // =====================================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDIQWy-shws1ZjztBnBgVE6PD_BoKJCA8A",
-  authDomain: "nova-connect-ee507.firebaseapp.com",
-  projectId: "nova-connect-ee507",
-  storageBucket: "nova-connect-ee507.firebasestorage.app",
-  messagingSenderId: "960547092750",
-  appId: "1:960547092750:web:49fb7b5f4f292ed37b3f5f",
-  measurementId: "G-ZLRQSN9BHJ"
+apiKey: "AIzaSyDIQWy-shws1ZjztBnBgVE6PD_BoKJCA8A",
+authDomain: "nova-connect-ee507.firebaseapp.com",
+projectId: "nova-connect-ee507",
+storageBucket: "nova-connect-ee507.firebasestorage.app",
+messagingSenderId: "960547092750",
+appId: "1:960547092750:web:49fb7b5f4f292ed37b3f5f",
+measurementId: "G-ZLRQSN9BHJ"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -348,6 +299,7 @@ let isSending = false;
 let isVerifying = false;
 let isCreatingPayment = false;
 let isCheckingPayment = false;
+let isRecoveringPayment = false;
 
 
 // =====================================
@@ -355,22 +307,10 @@ let isCheckingPayment = false;
 // =====================================
 
 const packages = {
-  "1 Hour": {
-    code: "1-hour",
-    amount: 10
-  },
-  "3 Hours": {
-    code: "3-hours",
-    amount: 18
-  },
-  "24 Hours": {
-    code: "24-hours",
-    amount: 40
-  },
-  "7 Days": {
-    code: "7-days",
-    amount: 150
-  }
+"1 Hour": {code:"1-hour",amount:10},
+"3 Hours": {code:"3-hours",amount:18},
+"24 Hours": {code:"24-hours",amount:40},
+"7 Days": {code:"7-days",amount:150}
 };
 
 
@@ -379,38 +319,37 @@ const packages = {
 // =====================================
 
 const sections = [
-  "home",
-  "phoneSection",
-  "codeSection",
-  "verificationSection",
-  "paymentSection",
-  "purchaseSection"
+"home",
+"phoneSection",
+"codeSection",
+"verificationSection",
+"paymentSection",
+"purchaseSection"
 ];
 
 function showSection(id) {
 
-  sections.forEach(section => {
-    document.getElementById(section).classList.add("hidden");
-  });
+sections.forEach(section => {
+document.getElementById(section).classList.add("hidden");
+});
 
-  document.getElementById(id).classList.remove("hidden");
+document.getElementById(id).classList.remove("hidden");
 
-  const status = document.getElementById("headerStatus");
+const status = document.getElementById("headerStatus");
 
-  if (id === "home") {
-    status.textContent = accountAuthenticated ?
-      "Account connected" : "Explore freely";
-  } else if (
-    id === "verificationSection" ||
-    id === "paymentSection" ||
-    id === "purchaseSection"
-  ) {
-    status.textContent = "Account connected";
-  } else {
-    status.textContent = "Getting started";
-  }
+if(id === "home") {
+status.textContent = accountAuthenticated ? "Account connected" : "Explore freely";
+} else if(
+id === "verificationSection" ||
+id === "paymentSection" ||
+id === "purchaseSection"
+) {
+status.textContent = "Account connected";
+} else {
+status.textContent = "Getting started";
+}
 
-  window.scrollTo({top: 0, behavior: "smooth"});
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
 
@@ -418,20 +357,16 @@ function showSection(id) {
 // 6. MESSAGES
 // =====================================
 
-function showMessage(id, message, type = "error") {
-
-  const element = document.getElementById(id);
-
-  element.textContent = message;
-  element.className = "message show " + type;
+function showMessage(id,message,type="error") {
+const element = document.getElementById(id);
+element.textContent = message;
+element.className = "message show " + type;
 }
 
 function clearMessage(id) {
-
-  const element = document.getElementById(id);
-
-  element.textContent = "";
-  element.className = "message";
+const element = document.getElementById(id);
+element.textContent = "";
+element.className = "message";
 }
 
 
@@ -439,43 +374,43 @@ function clearMessage(id) {
 // 7. BACKEND REQUEST HELPER
 // =====================================
 
-async function backendRequest(path, options = {}) {
+async function backendRequest(path,options={}) {
 
-  const response = await fetch(
-    NOVA_API_URL + path,
-    {
-      ...options,
-      credentials: "include",
-      headers: {
-        ...(options.headers || {})
-      }
-    }
-  );
+const response = await fetch(
+NOVA_API_URL + path,
+{
+...options,
+credentials:"include",
+headers:{
+...(options.headers || {})
+}
+}
+);
 
-  const responseText = await response.text();
+const responseText = await response.text();
 
-  let data = {};
+let data = {};
 
-  try {
-    data = responseText ? JSON.parse(responseText) : {};
-  } catch {
-    throw new Error("The backend returned an invalid response.");
-  }
+try {
+data = responseText ? JSON.parse(responseText) : {};
+} catch {
+throw new Error("The backend returned an invalid response.");
+}
 
-  if (!response.ok) {
+if(!response.ok) {
 
-    if (response.status === 401) {
-      accountAuthenticated = false;
-    }
+if(response.status === 401) {
+accountAuthenticated = false;
+}
 
-    throw new Error(
-      data.message ||
-      data.error ||
-      "Backend request failed. HTTP " + response.status
-    );
-  }
+throw new Error(
+data.message ||
+data.error ||
+"Backend request failed. HTTP " + response.status
+);
+}
 
-  return data;
+return data;
 }
 
 
@@ -485,63 +420,61 @@ async function backendRequest(path, options = {}) {
 
 async function checkExistingSession() {
 
-  checkingSession = true;
+checkingSession = true;
 
-  document.getElementById("continueButton").disabled = true;
-  document.getElementById("homeInfo").textContent =
-    "Checking your account connection...";
+document.getElementById("continueButton").disabled = true;
+document.getElementById("homeInfo").textContent =
+"Checking your account connection...";
 
-  try {
+try {
 
-    const data = await backendRequest("/api/auth/me");
+const data = await backendRequest("/api/auth/me");
 
-    if (
-      data.success === true &&
-      data.authenticated !== false &&
-      (data.authenticated === true || data.user || data.account)
-    ) {
+if(
+data.success === true &&
+data.authenticated !== false &&
+(data.authenticated === true || data.user || data.account)
+) {
 
-      accountAuthenticated = true;
+accountAuthenticated = true;
 
-      const user = data.user || data.account || {};
+const user = data.user || data.account || {};
 
-      accountPhone =
-        user.phone_number ||
-        user.phone ||
-        data.phone_number ||
-        data.phone ||
-        "";
+accountPhone =
+user.phone_number ||
+user.phone ||
+data.phone_number ||
+data.phone ||
+"";
 
-      document.getElementById("headerStatus").textContent =
-        "Account connected";
+document.getElementById("headerStatus").textContent =
+"Account connected";
 
-      document.getElementById("homeInfo").textContent =
-        "Your account is connected. Select a package to continue to payment.";
+document.getElementById("homeInfo").textContent =
+"Your account is connected. Select a package to continue to payment.";
 
-    } else {
+} else {
 
-      accountAuthenticated = false;
+accountAuthenticated = false;
 
-      document.getElementById("homeInfo").textContent =
-        "Browse packages freely. Your phone number is requested only when you are ready to continue.";
-    }
+document.getElementById("homeInfo").textContent =
+"Browse packages freely. Your phone number is requested only when you are ready to continue.";
+}
 
-  } catch(error) {
+} catch(error) {
 
-    accountAuthenticated = false;
+accountAuthenticated = false;
 
-    console.log("No active backend session:", error.message);
+console.log("No active backend session:",error.message);
 
-    document.getElementById("homeInfo").textContent =
-      "Browse packages freely. Your phone number is requested only when you are ready to continue.";
+document.getElementById("homeInfo").textContent =
+"Browse packages freely. Your phone number is requested only when you are ready to continue.";
 
-  } finally {
+} finally {
 
-    checkingSession = false;
-
-    document.getElementById("continueButton").disabled =
-      !selectedPackage;
-  }
+checkingSession = false;
+document.getElementById("continueButton").disabled = !selectedPackage;
+}
 }
 
 
@@ -549,30 +482,27 @@ async function checkExistingSession() {
 // 9. PACKAGE SELECTION
 // =====================================
 
-function selectPackage(name, button) {
+function selectPackage(name,button) {
 
-  selectedPackage = name;
+selectedPackage = name;
 
-  document.querySelectorAll(".package").forEach(item => {
-    item.classList.remove("selected");
-    item.setAttribute("aria-pressed", "false");
-  });
+document.querySelectorAll(".package").forEach(item => {
+item.classList.remove("selected");
+item.setAttribute("aria-pressed","false");
+});
 
-  button.classList.add("selected");
-  button.setAttribute("aria-pressed", "true");
+button.classList.add("selected");
+button.setAttribute("aria-pressed","true");
 
-  document.getElementById("selectedName").textContent = name;
+document.getElementById("selectedName").textContent = name;
 
-  document.getElementById("continueButton").disabled =
-    checkingSession;
+document.getElementById("continueButton").disabled = checkingSession;
 }
 
 document.querySelectorAll(".package").forEach(button => {
-
-  button.addEventListener("click", () => {
-    selectPackage(button.dataset.package, button);
-  });
-
+button.addEventListener("click",() => {
+selectPackage(button.dataset.package,button);
+});
 });
 
 
@@ -580,18 +510,16 @@ document.querySelectorAll(".package").forEach(button => {
 // 10. CONTINUE AFTER PACKAGE SELECTION
 // =====================================
 
-document.getElementById("continueButton").addEventListener("click", () => {
+document.getElementById("continueButton").addEventListener("click",() => {
 
-  if (!selectedPackage || checkingSession) return;
+if(!selectedPackage || checkingSession) return;
 
-  if (accountAuthenticated) {
-    openPaymentSection();
-  } else {
-    document.getElementById("phonePackage").textContent =
-      selectedPackage;
-
-    showSection("phoneSection");
-  }
+if(accountAuthenticated) {
+openPaymentSection();
+} else {
+document.getElementById("phonePackage").textContent = selectedPackage;
+showSection("phoneSection");
+}
 
 });
 
@@ -602,15 +530,15 @@ document.getElementById("continueButton").addEventListener("click", () => {
 
 function normalizePhone(value) {
 
-  let phone = value.replace(/[\s()-]/g, "");
+let phone = value.replace(/[\s()-]/g,"");
 
-  if (/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
-    phone = "+254" + phone.substring(1);
-  } else if (/^254[17]\d{8}$/.test(phone)) {
-    phone = "+" + phone;
-  }
+if(/^07\d{8}$/.test(phone) || /^01\d{8}$/.test(phone)) {
+phone = "+254" + phone.substring(1);
+} else if(/^254[17]\d{8}$/.test(phone)) {
+phone = "+" + phone;
+}
 
-  return /^\+[1-9]\d{7,14}$/.test(phone) ? phone : null;
+return /^\+[1-9]\d{7,14}$/.test(phone) ? phone : null;
 }
 
 
@@ -620,38 +548,33 @@ function normalizePhone(value) {
 
 function clearRecaptcha() {
 
-  if (recaptchaVerifier) {
-    recaptchaVerifier.clear();
-    recaptchaVerifier = null;
-  }
+if(recaptchaVerifier) {
+recaptchaVerifier.clear();
+recaptchaVerifier = null;
+}
 
-  document.getElementById("recaptcha-container").innerHTML = "";
+document.getElementById("recaptcha-container").innerHTML = "";
 }
 
 function createRecaptcha() {
 
-  if (recaptchaVerifier) return recaptchaVerifier;
+if(recaptchaVerifier) return recaptchaVerifier;
 
-  recaptchaVerifier = new RecaptchaVerifier(
-    auth,
-    "recaptcha-container",
-    {
-      size: "normal",
+recaptchaVerifier = new RecaptchaVerifier(
+auth,
+"recaptcha-container",
+{
+size:"normal",
+callback:() => {
+clearMessage("phoneMessage");
+},
+"expired-callback":() => {
+showMessage("phoneMessage","Security check expired. Please complete it again.");
+}
+}
+);
 
-      callback: () => {
-        clearMessage("phoneMessage");
-      },
-
-      "expired-callback": () => {
-        showMessage(
-          "phoneMessage",
-          "Security check expired. Please complete it again."
-        );
-      }
-    }
-  );
-
-  return recaptchaVerifier;
+return recaptchaVerifier;
 }
 
 
@@ -661,25 +584,24 @@ function createRecaptcha() {
 
 function showFirebaseDiagnostic(error) {
 
-  const diagnostic = document.createElement("div");
-  diagnostic.className = "diagnostic";
+const diagnostic = document.createElement("div");
+diagnostic.className = "diagnostic";
 
-  const heading = document.createElement("strong");
-  heading.textContent = "Firebase diagnostic details";
+const heading = document.createElement("strong");
+heading.textContent = "Firebase diagnostic details";
 
-  const project = document.createElement("div");
-  project.textContent = "Project: " + firebaseConfig.projectId;
+const project = document.createElement("div");
+project.textContent = "Project: " + firebaseConfig.projectId;
 
-  const errorCode = document.createElement("div");
-  errorCode.textContent = "Error code: " + (error?.code || "Unknown");
+const errorCode = document.createElement("div");
+errorCode.textContent = "Error code: " + (error?.code || "Unknown");
 
-  const errorMessage = document.createElement("div");
-  errorMessage.textContent =
-    "Firebase message: " + (error?.message || "No details");
+const errorMessage = document.createElement("div");
+errorMessage.textContent = "Firebase message: " + (error?.message || "No details");
 
-  diagnostic.append(heading, project, errorCode, errorMessage);
+diagnostic.append(heading,project,errorCode,errorMessage);
 
-  document.getElementById("phoneMessage").appendChild(diagnostic);
+document.getElementById("phoneMessage").appendChild(diagnostic);
 }
 
 
@@ -687,71 +609,61 @@ function showFirebaseDiagnostic(error) {
 // 14. SEND VERIFICATION CODE
 // =====================================
 
-document.getElementById("phoneContinue").addEventListener("click", async () => {
+document.getElementById("phoneContinue").addEventListener("click",async() => {
 
-  if (isSending) return;
+if(isSending) return;
 
-  clearMessage("phoneMessage");
+clearMessage("phoneMessage");
 
-  const input = document.getElementById("phone");
-  const normalized = normalizePhone(input.value.trim());
+const input = document.getElementById("phone");
+const normalized = normalizePhone(input.value.trim());
 
-  if (!normalized) {
+if(!normalized) {
+showMessage("phoneMessage","Enter a valid international phone number.");
+input.focus();
+return;
+}
 
-    showMessage(
-      "phoneMessage",
-      "Enter a valid international phone number."
-    );
+phoneNumber = normalized;
+isSending = true;
 
-    input.focus();
-    return;
-  }
+const button = document.getElementById("phoneContinue");
+button.disabled = true;
+button.textContent = "Sending code...";
 
-  phoneNumber = normalized;
-  isSending = true;
+try {
 
-  const button = document.getElementById("phoneContinue");
+const verifier = createRecaptcha();
 
-  button.disabled = true;
-  button.textContent = "Sending code...";
+confirmationResult = await signInWithPhoneNumber(
+auth,
+phoneNumber,
+verifier
+);
 
-  try {
+verifiedFirebaseUser = null;
 
-    const verifier = createRecaptcha();
+document.getElementById("codePhone").textContent = phoneNumber;
+document.getElementById("codePackage").textContent = selectedPackage;
+document.getElementById("verificationCode").value = "";
 
-    confirmationResult = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      verifier
-    );
+showSection("codeSection");
 
-    verifiedFirebaseUser = null;
+} catch(error) {
 
-    document.getElementById("codePhone").textContent = phoneNumber;
-    document.getElementById("codePackage").textContent = selectedPackage;
-    document.getElementById("verificationCode").value = "";
+console.error("Firebase authentication error:",error);
 
-    showSection("codeSection");
+clearRecaptcha();
 
-  } catch(error) {
+showMessage("phoneMessage","Firebase could not send the verification code.");
+showFirebaseDiagnostic(error);
 
-    console.error("Firebase authentication error:", error);
+} finally {
 
-    clearRecaptcha();
-
-    showMessage(
-      "phoneMessage",
-      "Firebase could not send the verification code."
-    );
-
-    showFirebaseDiagnostic(error);
-
-  } finally {
-
-    isSending = false;
-    button.disabled = false;
-    button.textContent = "Send verification code";
-  }
+isSending = false;
+button.disabled = false;
+button.textContent = "Send verification code";
+}
 
 });
 
@@ -762,27 +674,25 @@ document.getElementById("phoneContinue").addEventListener("click", async () => {
 
 async function connectNovaAccount(firebaseUser) {
 
-  const idToken = await firebaseUser.getIdToken();
+const idToken = await firebaseUser.getIdToken();
 
-  const data = await backendRequest(
-    "/api/auth/firebase",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + idToken
-      },
-      body: JSON.stringify({})
-    }
-  );
+const data = await backendRequest(
+"/api/auth/firebase",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer " + idToken
+},
+body:JSON.stringify({})
+}
+);
 
-  if (data.success !== true) {
-    throw new Error(
-      data.message || data.error || "Account connection failed."
-    );
-  }
+if(data.success !== true) {
+throw new Error(data.message || data.error || "Account connection failed.");
+}
 
-  return data;
+return data;
 }
 
 
@@ -790,81 +700,71 @@ async function connectNovaAccount(firebaseUser) {
 // 16. VERIFY PHONE AND CONNECT ACCOUNT
 // =====================================
 
-document.getElementById("verifyButton").addEventListener("click", async () => {
+document.getElementById("verifyButton").addEventListener("click",async() => {
 
-  if (isVerifying) return;
+if(isVerifying) return;
 
-  clearMessage("codeMessage");
+clearMessage("codeMessage");
 
-  if (!verifiedFirebaseUser) {
+if(!verifiedFirebaseUser) {
 
-    const code = document.getElementById("verificationCode").value.trim();
+const code = document.getElementById("verificationCode").value.trim();
 
-    if (!/^\d{6}$/.test(code)) {
-      showMessage("codeMessage", "Enter the six-digit verification code.");
-      return;
-    }
+if(!/^\d{6}$/.test(code)) {
+showMessage("codeMessage","Enter the six-digit verification code.");
+return;
+}
 
-    if (!confirmationResult) {
-      showMessage(
-        "codeMessage",
-        "No verification request was found. Please request a new code."
-      );
-      return;
-    }
-  }
+if(!confirmationResult) {
+showMessage("codeMessage","No verification request was found. Please request a new code.");
+return;
+}
+}
 
-  isVerifying = true;
+isVerifying = true;
 
-  const button = document.getElementById("verifyButton");
+const button = document.getElementById("verifyButton");
+button.disabled = true;
+button.textContent = "Connecting account...";
 
-  button.disabled = true;
-  button.textContent = "Connecting account...";
+try {
 
-  try {
+if(!verifiedFirebaseUser) {
 
-    if (!verifiedFirebaseUser) {
+const code = document.getElementById("verificationCode").value.trim();
 
-      const code =
-        document.getElementById("verificationCode").value.trim();
+const result = await confirmationResult.confirm(code);
 
-      const result = await confirmationResult.confirm(code);
+verifiedFirebaseUser = result.user;
+confirmationResult = null;
+}
 
-      verifiedFirebaseUser = result.user;
-      confirmationResult = null;
-    }
+await connectNovaAccount(verifiedFirebaseUser);
 
-    await connectNovaAccount(verifiedFirebaseUser);
+accountAuthenticated = true;
 
-    accountAuthenticated = true;
+accountPhone = verifiedFirebaseUser.phoneNumber || phoneNumber;
 
-    accountPhone =
-      verifiedFirebaseUser.phoneNumber || phoneNumber;
+document.getElementById("verificationPhone").textContent = accountPhone;
+document.getElementById("verificationPackage").textContent = selectedPackage;
 
-    document.getElementById("verificationPhone").textContent =
-      accountPhone;
+showSection("verificationSection");
 
-    document.getElementById("verificationPackage").textContent =
-      selectedPackage;
+} catch(error) {
 
-    showSection("verificationSection");
+console.error("Nova Connect account error:",error);
 
-  } catch(error) {
+showMessage(
+"codeMessage",
+"Account connection failed: " + (error.message || "Please try again.")
+);
 
-    console.error("Nova Connect account error:", error);
+} finally {
 
-    showMessage(
-      "codeMessage",
-      "Account connection failed: " +
-      (error.message || "Please try again.")
-    );
-
-  } finally {
-
-    isVerifying = false;
-    button.disabled = false;
-    button.textContent = "Verify phone number";
-  }
+isVerifying = false;
+button.disabled = false;
+button.textContent = "Verify phone number";
+}
 
 });
 
@@ -875,352 +775,425 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
 
 function openPaymentSection() {
 
-  if (!accountAuthenticated) {
-    showSection("phoneSection");
-    return;
-  }
+if(!accountAuthenticated) {
+showSection("phoneSection");
+return;
+}
 
-  const selected = packages[selectedPackage];
+const selected = packages[selectedPackage];
 
-  if (!selected) {
-    showMessage("paymentMessage", "Please select a valid package.");
-    return;
-  }
+if(!selected) {
+showMessage("paymentMessage","Please select a valid package.");
+return;
+}
 
-  const verifiedPhone =
-    accountPhone ||
-    auth.currentUser?.phoneNumber ||
-    "";
+const verifiedPhone =
+accountPhone ||
+auth.currentUser?.phoneNumber ||
+"";
 
-  document.getElementById("paymentPackage").textContent =
-    selectedPackage;
+document.getElementById("paymentPackage").textContent = selectedPackage;
+document.getElementById("paymentAmount").textContent = "KSh " + selected.amount;
+document.getElementById("paymentVerifiedPhone").textContent = verifiedPhone || "Not available";
+document.getElementById("paymentPhone").value = verifiedPhone;
 
-  document.getElementById("paymentAmount").textContent =
-    "KSh " + selected.amount;
+clearMessage("paymentMessage");
 
-  document.getElementById("paymentVerifiedPhone").textContent =
-    verifiedPhone || "Not available";
-
-  document.getElementById("paymentPhone").value =
-    verifiedPhone;
-
-  clearMessage("paymentMessage");
-
-  showSection("paymentSection");
+showSection("paymentSection");
 }
 
 
 // =====================================
-// 18. START M-PESA STK PUSH
+// 18. DISPLAY PURCHASE DETAILS
 // =====================================
 
-document.getElementById("payButton").addEventListener("click", async () => {
+function displayPurchase(purchase,paymentPhoneFallback="") {
 
-  if (isCreatingPayment) return;
+currentPurchaseId =
+purchase.purchase_id ??
+purchase.purchaseId ??
+purchase.id ??
+null;
 
-  clearMessage("paymentMessage");
+document.getElementById("purchasePackage").textContent =
+purchase.package_name ||
+purchase.packageName ||
+selectedPackage ||
+"Purchase";
 
-  if (!accountAuthenticated) {
-    showSection("phoneSection");
-    return;
-  }
+document.getElementById("purchaseAmount").textContent =
+"KSh " + (
+purchase.amount_kes ??
+purchase.price_kes ??
+purchase.amount ??
+"—"
+);
 
-  const selected = packages[selectedPackage];
+document.getElementById("purchaseId").textContent =
+currentPurchaseId || "Unavailable";
 
-  if (!selected) {
-    showMessage("paymentMessage", "Please select a valid package.");
-    return;
-  }
+document.getElementById("purchasePhone").textContent =
+purchase.phone_number ||
+purchase.phone ||
+paymentPhoneFallback ||
+accountPhone ||
+"Not available";
 
-  const paymentPhone = normalizePhone(
-    document.getElementById("paymentPhone").value.trim()
-  );
+document.getElementById("purchaseStatus").textContent =
+purchase.status ||
+purchase.payment_status ||
+"pending";
 
-  if (!paymentPhone) {
-    showMessage(
-      "paymentMessage",
-      "Enter a valid M-Pesa phone number."
-    );
-    return;
-  }
+document.getElementById("purchaseReceipt").textContent =
+purchase.mpesa_receipt_number ||
+purchase.receipt_number ||
+"Not received";
 
-  isCreatingPayment = true;
+document.getElementById("paymentStatusHeading").textContent =
+"M-Pesa payment";
 
-  const button = document.getElementById("payButton");
+showSection("purchaseSection");
+}
 
-  button.disabled = true;
-  button.textContent = "Sending payment request...";
 
-  try {
+// =====================================
+// 19. START M-PESA STK PUSH
+// =====================================
 
-    const data = await backendRequest(
-      "/api/payments/mpesa/stk-push",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          package_code: selected.code,
-          phone_number: paymentPhone
-        })
-      }
-    );
+document.getElementById("payButton").addEventListener("click",async() => {
 
-    if (data.success !== true) {
-      throw new Error(
-        data.message || data.error || "M-Pesa request failed."
-      );
-    }
+if(isCreatingPayment) return;
 
-    const purchase =
-      data.purchase ||
-      data.data?.purchase ||
-      data.data ||
-      data;
+clearMessage("paymentMessage");
 
-    currentPurchaseId =
-      purchase.id ||
-      purchase.purchase_id ||
-      purchase.purchaseId ||
-      data.purchase_id ||
-      data.purchaseId ||
-      null;
+if(!accountAuthenticated) {
+showSection("phoneSection");
+return;
+}
 
-    document.getElementById("purchasePackage").textContent =
-      purchase.package_name || selectedPackage;
+const selected = packages[selectedPackage];
 
-    document.getElementById("purchaseAmount").textContent =
-      "KSh " + (
-        purchase.amount_kes ??
-        purchase.price_kes ??
-        purchase.amount ??
-        selected.amount
-      );
+if(!selected) {
+showMessage("paymentMessage","Please select a valid package.");
+return;
+}
 
-    document.getElementById("purchaseId").textContent =
-      currentPurchaseId || "Created";
+const paymentPhone = normalizePhone(
+document.getElementById("paymentPhone").value.trim()
+);
 
-    document.getElementById("purchasePhone").textContent =
-      paymentPhone;
+if(!paymentPhone) {
+showMessage("paymentMessage","Enter a valid M-Pesa phone number.");
+return;
+}
 
-    document.getElementById("purchaseStatus").textContent =
-      purchase.status || data.status || "pending";
+isCreatingPayment = true;
 
-    document.getElementById("purchaseReceipt").textContent =
-      purchase.mpesa_receipt_number || "Not received";
+const button = document.getElementById("payButton");
+button.disabled = true;
+button.textContent = "Sending payment request...";
 
-    document.getElementById("paymentStatusHeading").textContent =
-      "M-Pesa payment";
+try {
 
-    showMessage(
-      "purchaseMessage",
-      data.customerMessage ||
-      "Check your phone for the M-Pesa payment prompt. Follow the instructions on your phone.",
-      "success"
-    );
+const data = await backendRequest(
+"/api/payments/mpesa/stk-push",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+package_code:selected.code,
+phone_number:paymentPhone
+})
+}
+);
 
-    showSection("purchaseSection");
+if(data.success !== true) {
+throw new Error(data.message || data.error || "M-Pesa request failed.");
+}
 
-    if (currentPurchaseId) {
-      checkPaymentStatus();
-    }
+// BACKEND RETURNS PURCHASE DETAILS INSIDE data.payment
+const purchase =
+data.payment ||
+data.purchase ||
+data.data?.payment ||
+data.data?.purchase ||
+data.data ||
+data;
 
-  } catch(error) {
+displayPurchase(purchase,paymentPhone);
 
-    console.error("M-Pesa STK Push error:", error);
+showMessage(
+"purchaseMessage",
+purchase.customer_message ||
+purchase.customerMessage ||
+data.customerMessage ||
+data.message ||
+"Check your phone for the M-Pesa payment prompt. Follow the instructions on your phone.",
+"success"
+);
 
-    showMessage(
-      "paymentMessage",
-      error.message || "Unable to initiate M-Pesa payment."
-    );
+// Only check status if the backend supplied a purchase ID.
+if(currentPurchaseId) {
+await checkPaymentStatus();
+}
 
-  } finally {
+} catch(error) {
 
-    isCreatingPayment = false;
-    button.disabled = false;
-    button.textContent = "Pay with M-Pesa";
-  }
+console.error("M-Pesa STK Push error:",error);
+
+showMessage(
+"paymentMessage",
+error.message || "Unable to initiate M-Pesa payment."
+);
+
+} finally {
+
+isCreatingPayment = false;
+button.disabled = false;
+button.textContent = "Pay with M-Pesa";
+}
 
 });
 
 
 // =====================================
-// 19. CHECK PAYMENT STATUS
+// 20. CHECK PAYMENT STATUS
 // =====================================
 
 async function checkPaymentStatus() {
 
-  if (!currentPurchaseId || isCheckingPayment) return;
+if(!currentPurchaseId || isCheckingPayment) return;
 
-  isCheckingPayment = true;
+isCheckingPayment = true;
 
-  const button = document.getElementById("checkPaymentButton");
+const button = document.getElementById("checkPaymentButton");
+button.disabled = true;
+button.textContent = "Checking...";
 
-  button.disabled = true;
-  button.textContent = "Checking...";
+try {
 
-  try {
+const data = await backendRequest(
+"/api/payments/" + encodeURIComponent(currentPurchaseId)
+);
 
-    const data = await backendRequest(
-      "/api/payments/" + encodeURIComponent(currentPurchaseId)
-    );
+const purchase = data.purchase || data.data?.purchase || data.data || data;
 
-    const purchase = data.purchase || data.data || data;
+const status = String(
+purchase.status ||
+purchase.payment_status ||
+data.status ||
+"pending"
+).toLowerCase();
 
-    const status = String(
-      purchase.status ||
-      purchase.payment_status ||
-      data.status ||
-      "pending"
-    ).toLowerCase();
+document.getElementById("purchaseStatus").textContent = status;
 
-    document.getElementById("purchaseStatus").textContent =
-      status;
+document.getElementById("purchaseReceipt").textContent =
+purchase.mpesa_receipt_number ||
+purchase.receipt_number ||
+"Not received";
 
-    document.getElementById("purchaseReceipt").textContent =
-      purchase.mpesa_receipt_number ||
-      purchase.receipt_number ||
-      "Not received";
+if(status === "paid") {
 
-    if (status === "paid") {
+document.getElementById("paymentStatusHeading").textContent =
+"Payment confirmed";
 
-      document.getElementById("paymentStatusHeading").textContent =
-        "Payment confirmed";
+showMessage(
+"purchaseMessage",
+"Your M-Pesa payment has been confirmed. Your purchase is recorded. Internet service activation is a separate step.",
+"success"
+);
 
-      showMessage(
-        "purchaseMessage",
-        "Your M-Pesa payment has been confirmed. Your purchase is recorded. Internet service activation is a separate step.",
-        "success"
-      );
+} else if(status === "failed") {
 
-    } else if (status === "failed") {
+document.getElementById("paymentStatusHeading").textContent =
+"Payment unsuccessful";
 
-      document.getElementById("paymentStatusHeading").textContent =
-        "Payment unsuccessful";
+showMessage(
+"purchaseMessage",
+purchase.result_description ||
+purchase.resultDescription ||
+"The payment was not completed. Contact support if money was deducted.",
+"error"
+);
 
-      showMessage(
-        "purchaseMessage",
-        purchase.result_description ||
-        purchase.resultDescription ||
-        "The payment was not completed. You can return and try again.",
-        "error"
-      );
+} else {
 
-    } else {
+document.getElementById("paymentStatusHeading").textContent =
+"M-Pesa payment";
 
-      showMessage(
-        "purchaseMessage",
-        "Payment is still pending. Check your phone and complete the M-Pesa prompt if it is waiting for your confirmation.",
-        "success"
-      );
-    }
+showMessage(
+"purchaseMessage",
+"Payment is still pending. Check your phone and complete the M-Pesa prompt if it is waiting for your confirmation.",
+"success"
+);
+}
 
-  } catch(error) {
+} catch(error) {
 
-    console.error("Payment status error:", error);
+console.error("Payment status error:",error);
 
-    showMessage(
-      "purchaseMessage",
-      "We could not retrieve the latest payment status. You can try checking again.",
-      "error"
-    );
+showMessage(
+"purchaseMessage",
+"We could not retrieve the latest payment status. You can try checking again.",
+"error"
+);
 
-  } finally {
+} finally {
 
-    isCheckingPayment = false;
-    button.disabled = false;
-    button.textContent = "Check payment status";
-  }
+isCheckingPayment = false;
+button.disabled = false;
+button.textContent = "Check payment status";
+}
 
 }
 
 document.getElementById("checkPaymentButton").addEventListener(
-  "click",
-  checkPaymentStatus
+"click",
+checkPaymentStatus
 );
 
 
 // =====================================
-// 20. CONTINUE AFTER VERIFICATION
+// 21. RECOVER LATEST PAYMENT
 // =====================================
 
-document.getElementById("continueAfterVerification").addEventListener("click", () => {
+document.getElementById("recoverPaymentButton").addEventListener("click",async() => {
 
-  showSection("home");
+if(isRecoveringPayment) return;
+
+if(!accountAuthenticated) {
+showMessage("paymentMessage","Please connect your account first.");
+return;
+}
+
+isRecoveringPayment = true;
+
+const button = document.getElementById("recoverPaymentButton");
+button.disabled = true;
+button.textContent = "Finding payment...";
+
+try {
+
+const data = await backendRequest("/api/purchases");
+
+if(data.success !== true) {
+throw new Error(data.message || "Could not retrieve purchase history.");
+}
+
+const purchases = Array.isArray(data.purchases)
+? data.purchases
+: [];
+
+const latestMpesaPurchase = purchases.find(item =>
+String(item.payment_method || "").toLowerCase() === "mpesa"
+);
+
+if(!latestMpesaPurchase) {
+showMessage(
+"paymentMessage",
+"No M-Pesa purchase was found in your account history."
+);
+return;
+}
+
+displayPurchase(
+latestMpesaPurchase,
+latestMpesaPurchase.phone_number || accountPhone
+);
+
+if(currentPurchaseId) {
+await checkPaymentStatus();
+}
+
+} catch(error) {
+
+console.error("Payment recovery error:",error);
+
+showMessage(
+"paymentMessage",
+error.message || "Unable to recover your latest payment."
+);
+
+} finally {
+
+isRecoveringPayment = false;
+button.disabled = false;
+button.textContent = "Recover latest payment";
+}
 
 });
 
 
 // =====================================
-// 21. RESET PENDING AUTHENTICATION
+// 22. CONTINUE AFTER VERIFICATION
+// =====================================
+
+document.getElementById("continueAfterVerification").addEventListener("click",() => {
+openPaymentSection();
+});
+
+
+// =====================================
+// 23. RESET PENDING AUTHENTICATION
 // =====================================
 
 async function resetPendingAuthentication() {
 
-  confirmationResult = null;
-  verifiedFirebaseUser = null;
+confirmationResult = null;
+verifiedFirebaseUser = null;
 
-  if (auth.currentUser && !accountAuthenticated) {
+if(auth.currentUser && !accountAuthenticated) {
 
-    try {
-      await signOut(auth);
-    } catch(error) {
-      console.error("Firebase sign-out error:", error);
-    }
-  }
+try {
+await signOut(auth);
+} catch(error) {
+console.error("Firebase sign-out error:",error);
+}
+}
 
-  clearRecaptcha();
-  clearMessage("phoneMessage");
-  clearMessage("codeMessage");
+clearRecaptcha();
+clearMessage("phoneMessage");
+clearMessage("codeMessage");
 }
 
 
 // =====================================
-// 22. NAVIGATION
+// 24. NAVIGATION
 // =====================================
 
-document.getElementById("changePhone").addEventListener("click", async () => {
-
-  await resetPendingAuthentication();
-  showSection("phoneSection");
-
+document.getElementById("changePhone").addEventListener("click",async() => {
+await resetPendingAuthentication();
+showSection("phoneSection");
 });
 
-document.getElementById("backHome").addEventListener("click", async () => {
-
-  await resetPendingAuthentication();
-  showSection("home");
-
+document.getElementById("backHome").addEventListener("click",async() => {
+await resetPendingAuthentication();
+showSection("home");
 });
 
-document.getElementById("returnHomeFromCode").addEventListener("click", async () => {
-
-  await resetPendingAuthentication();
-  showSection("home");
-
+document.getElementById("returnHomeFromCode").addEventListener("click",async() => {
+await resetPendingAuthentication();
+showSection("home");
 });
 
-document.getElementById("paymentBack").addEventListener("click", () => {
-
-  showSection("home");
-
+document.getElementById("paymentBack").addEventListener("click",() => {
+showSection("home");
 });
 
-document.getElementById("purchaseReturn").addEventListener("click", () => {
-
-  showSection("home");
-
+document.getElementById("purchaseReturn").addEventListener("click",() => {
+showSection("home");
 });
 
 
 // =====================================
-// 23. STARTUP
+// 25. STARTUP
 // =====================================
 
 console.log("Nova Connect frontend loaded.");
-console.log("Firebase project:", firebaseConfig.projectId);
-console.log("Backend:", NOVA_API_URL);
+console.log("Firebase project:",firebaseConfig.projectId);
+console.log("Backend:",NOVA_API_URL);
 
 checkExistingSession();
 
