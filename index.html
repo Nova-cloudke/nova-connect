@@ -21,11 +21,11 @@ header{background:#101827;color:white;padding:20px 18px;display:flex;justify-con
 .hero p{color:#c4d2e2;line-height:1.6;font-size:14px}
 .section-title{font-size:19px;margin-bottom:14px}
 .packages{display:grid;gap:12px}
-.package{width:100%;text-align:left;background:white;border:2px solid #e4eaf1;border-radius:14px;padding:17px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#152238}
+.package{width:100%;text-align:left;background:white;border:2px solid #e4eaf1;border-radius:14px;padding:17px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#152238;gap:12px}
 .package.selected{border-color:#13ae78;background:#effcf6}
 .package h3{margin-bottom:6px}
-.package p{color:#718096;font-size:12px;font-weight:normal}
-.price{color:#079967;font-weight:bold;font-size:13px}
+.package p{color:#718096;font-size:12px;font-weight:normal;line-height:1.5}
+.price{color:#079967;font-weight:bold;font-size:13px;white-space:nowrap}
 button{border:none;cursor:pointer;border-radius:10px;padding:14px;font-size:15px;font-weight:bold}
 button:focus-visible,input:focus-visible{outline:3px solid #35d49a;outline-offset:3px}
 button:disabled{opacity:.5;cursor:not-allowed}
@@ -46,6 +46,10 @@ input{width:100%;padding:15px;margin-top:13px;border:1px solid #dce4ed;border-ra
 .diagnostic{background:#fff5df;color:#654b14;border:1px solid #e8d49d;padding:12px;border-radius:9px;margin-top:10px;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
 #recaptcha-container{margin-top:16px;display:flex;justify-content:center;overflow:hidden}
 footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
+@media(max-width:380px){
+  .package{align-items:flex-start;flex-direction:column}
+  .price{white-space:normal}
+}
 </style>
 </head>
 
@@ -58,6 +62,7 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 
 <main class="container">
 
+<!-- HOME AND PACKAGES -->
 <section id="home">
   <div class="hero">
     <h1>Internet made simple.</h1>
@@ -68,10 +73,38 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 
   <div class="packages">
 
-    <span class="price">KSh 10 · Select →</span>
-<span class="price">KSh 18 · Select →</span>
-<span class="price">KSh 40 · Select →</span>
-<span class="price">KSh 150 · Select →</span>
+    <button type="button" class="package" data-package="1 Hour" aria-pressed="false">
+      <div>
+        <h3>1 Hour Access</h3>
+        <p>Internet access for 60 minutes</p>
+      </div>
+      <span class="price">KSh 10 · Select →</span>
+    </button>
+
+    <button type="button" class="package" data-package="3 Hours" aria-pressed="false">
+      <div>
+        <h3>3 Hours Access</h3>
+        <p>Internet access for 3 hours</p>
+      </div>
+      <span class="price">KSh 18 · Select →</span>
+    </button>
+
+    <button type="button" class="package" data-package="24 Hours" aria-pressed="false">
+      <div>
+        <h3>24 Hours Access</h3>
+        <p>Internet access for one full day</p>
+      </div>
+      <span class="price">KSh 40 · Select →</span>
+    </button>
+
+    <button type="button" class="package" data-package="7 Days" aria-pressed="false">
+      <div>
+        <h3>7 Days Access</h3>
+        <p>Internet access for one week</p>
+      </div>
+      <span class="price">KSh 150 · Select →</span>
+    </button>
+
   </div>
 
   <div class="summary">
@@ -86,6 +119,7 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 </section>
 
 
+<!-- PHONE VERIFICATION -->
 <section id="phoneSection" class="hidden">
   <div class="panel">
     <h2>Ready to connect?</h2>
@@ -121,6 +155,7 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 </section>
 
 
+<!-- VERIFICATION CODE -->
 <section id="codeSection" class="hidden">
   <div class="panel">
     <h2>Enter verification code</h2>
@@ -153,6 +188,7 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 </section>
 
 
+<!-- ACCOUNT VERIFIED -->
 <section id="verificationSection" class="hidden">
   <div class="panel">
     <h2>Phone and account verified</h2>
@@ -176,25 +212,72 @@ footer{text-align:center;padding:25px;color:#8592a3;font-size:12px}
 </section>
 
 
+<!-- M-PESA PAYMENT -->
+<section id="paymentSection" class="hidden">
+  <div class="panel">
+    <h2>Pay with M-Pesa</h2>
+
+    <p class="info">
+      Review your package and payment number. You will receive an M-Pesa payment prompt on the number entered below.
+    </p>
+
+    <div class="summary">
+      Package: <strong id="paymentPackage"></strong><br><br>
+      Amount: <strong id="paymentAmount"></strong><br><br>
+      Verified account: <strong id="paymentVerifiedPhone"></strong>
+    </div>
+
+    <label for="paymentPhone" class="info">M-Pesa payment phone number</label>
+    <input id="paymentPhone" type="tel"
+      placeholder="+2547XX XXX XXX"
+      autocomplete="tel" inputmode="tel">
+
+    <p class="info">
+      Your verified number is filled in automatically. You may change it if you want to pay using another number.
+    </p>
+
+    <div id="paymentMessage" class="message"></div>
+
+    <button class="primary" id="payButton">
+      Pay with M-Pesa
+    </button>
+
+    <button class="secondary" id="paymentBack">
+      Back to packages
+    </button>
+  </div>
+</section>
+
+
+<!-- PAYMENT STATUS -->
 <section id="purchaseSection" class="hidden">
   <div class="panel">
-    <h2>Purchase created</h2>
+    <h2 id="paymentStatusHeading">M-Pesa payment</h2>
 
     <div class="summary">
       <p>Package: <strong id="purchasePackage"></strong></p><br>
       <p>Amount: <strong id="purchaseAmount"></strong></p><br>
       <p>Purchase ID: <strong id="purchaseId"></strong></p><br>
-      <p>Payment status: <strong id="purchaseStatus">Pending</strong></p>
+      <p>Payment number: <strong id="purchasePhone"></strong></p><br>
+      <p>Payment status: <strong id="purchaseStatus">Pending</strong></p><br>
+      <p>M-Pesa receipt: <strong id="purchaseReceipt">Not received</strong></p>
     </div>
 
-    <div class="notice">
-      Your purchase record has been created successfully.
-      Payment has not been made and your internet package has not been activated.
+    <div id="purchaseMessage" class="message show">
+      Check your phone for the M-Pesa payment prompt. Follow the instructions on your phone.
     </div>
+
+    <button class="primary" id="checkPaymentButton">
+      Check payment status
+    </button>
 
     <button class="secondary" id="purchaseReturn">
       Return to packages
     </button>
+
+    <p class="info">
+      Payment confirmation does not itself activate internet access. Service activation requires the network connection system to be integrated.
+    </p>
   </div>
 </section>
 
@@ -259,20 +342,35 @@ let accountAuthenticated = false;
 let accountPhone = "";
 let checkingSession = true;
 
+let currentPurchaseId = null;
+
 let isSending = false;
 let isVerifying = false;
-let isCreatingPurchase = false;
+let isCreatingPayment = false;
+let isCheckingPayment = false;
 
 
 // =====================================
-// 4. PACKAGE MAPPING
+// 4. PACKAGE INFORMATION
 // =====================================
 
-const packageCodes = {
-  "1 Hour": "1-hour",
-  "3 Hours": "3-hours",
-  "24 Hours": "24-hours",
-  "7 Days": "7-days"
+const packages = {
+  "1 Hour": {
+    code: "1-hour",
+    amount: 10
+  },
+  "3 Hours": {
+    code: "3-hours",
+    amount: 18
+  },
+  "24 Hours": {
+    code: "24-hours",
+    amount: 40
+  },
+  "7 Days": {
+    code: "7-days",
+    amount: 150
+  }
 };
 
 
@@ -285,6 +383,7 @@ const sections = [
   "phoneSection",
   "codeSection",
   "verificationSection",
+  "paymentSection",
   "purchaseSection"
 ];
 
@@ -301,8 +400,11 @@ function showSection(id) {
   if (id === "home") {
     status.textContent = accountAuthenticated ?
       "Account connected" : "Explore freely";
-  } else if (id === "verificationSection" ||
-             id === "purchaseSection") {
+  } else if (
+    id === "verificationSection" ||
+    id === "paymentSection" ||
+    id === "purchaseSection"
+  ) {
     status.textContent = "Account connected";
   } else {
     status.textContent = "Getting started";
@@ -414,9 +516,7 @@ async function checkExistingSession() {
         "Account connected";
 
       document.getElementById("homeInfo").textContent =
-        "Your account is connected. Select a package to continue to purchase.";
-
-      console.log("Existing Nova Connect session restored.");
+        "Your account is connected. Select a package to continue to payment.";
 
     } else {
 
@@ -469,8 +569,6 @@ function selectPackage(name, button) {
 
 document.querySelectorAll(".package").forEach(button => {
 
-  button.setAttribute("aria-pressed", "false");
-
   button.addEventListener("click", () => {
     selectPackage(button.dataset.package, button);
   });
@@ -482,16 +580,13 @@ document.querySelectorAll(".package").forEach(button => {
 // 10. CONTINUE AFTER PACKAGE SELECTION
 // =====================================
 
-document.getElementById("continueButton").addEventListener("click", async () => {
+document.getElementById("continueButton").addEventListener("click", () => {
 
   if (!selectedPackage || checkingSession) return;
 
   if (accountAuthenticated) {
-
-    await createPurchase();
-
+    openPaymentSection();
   } else {
-
     document.getElementById("phonePackage").textContent =
       selectedPackage;
 
@@ -775,116 +870,279 @@ document.getElementById("verifyButton").addEventListener("click", async () => {
 
 
 // =====================================
-// 17. CREATE PURCHASE RECORD
+// 17. OPEN PAYMENT SECTION
 // =====================================
 
-async function createPurchase() {
-
-  if (isCreatingPurchase) return;
+function openPaymentSection() {
 
   if (!accountAuthenticated) {
     showSection("phoneSection");
     return;
   }
 
-  const packageCode = packageCodes[selectedPackage];
+  const selected = packages[selectedPackage];
 
-  if (!packageCode) {
-    alert("Please select a valid package.");
+  if (!selected) {
+    showMessage("paymentMessage", "Please select a valid package.");
     return;
   }
 
-  isCreatingPurchase = true;
+  const verifiedPhone =
+    accountPhone ||
+    auth.currentUser?.phoneNumber ||
+    "";
 
-  const button = document.getElementById("continueButton");
+  document.getElementById("paymentPackage").textContent =
+    selectedPackage;
+
+  document.getElementById("paymentAmount").textContent =
+    "KSh " + selected.amount;
+
+  document.getElementById("paymentVerifiedPhone").textContent =
+    verifiedPhone || "Not available";
+
+  document.getElementById("paymentPhone").value =
+    verifiedPhone;
+
+  clearMessage("paymentMessage");
+
+  showSection("paymentSection");
+}
+
+
+// =====================================
+// 18. START M-PESA STK PUSH
+// =====================================
+
+document.getElementById("payButton").addEventListener("click", async () => {
+
+  if (isCreatingPayment) return;
+
+  clearMessage("paymentMessage");
+
+  if (!accountAuthenticated) {
+    showSection("phoneSection");
+    return;
+  }
+
+  const selected = packages[selectedPackage];
+
+  if (!selected) {
+    showMessage("paymentMessage", "Please select a valid package.");
+    return;
+  }
+
+  const paymentPhone = normalizePhone(
+    document.getElementById("paymentPhone").value.trim()
+  );
+
+  if (!paymentPhone) {
+    showMessage(
+      "paymentMessage",
+      "Enter a valid M-Pesa phone number."
+    );
+    return;
+  }
+
+  isCreatingPayment = true;
+
+  const button = document.getElementById("payButton");
 
   button.disabled = true;
-  button.textContent = "Creating purchase...";
+  button.textContent = "Sending payment request...";
 
   try {
 
     const data = await backendRequest(
-      "/api/purchases",
+      "/api/payments/mpesa/stk-push",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          package_code: packageCode
+          package_code: selected.code,
+          phone_number: paymentPhone
         })
       }
     );
 
     if (data.success !== true) {
       throw new Error(
-        data.message || data.error || "Purchase creation failed."
+        data.message || data.error || "M-Pesa request failed."
       );
     }
 
-    const purchase = data.purchase || data.data || data;
+    const purchase =
+      data.purchase ||
+      data.data?.purchase ||
+      data.data ||
+      data;
+
+    currentPurchaseId =
+      purchase.id ||
+      purchase.purchase_id ||
+      purchase.purchaseId ||
+      data.purchase_id ||
+      data.purchaseId ||
+      null;
 
     document.getElementById("purchasePackage").textContent =
-      purchase.package_name || purchase.name || selectedPackage;
-
-    const amount =
-      purchase.amount_kes ??
-      purchase.price_kes ??
-      purchase.amount;
+      purchase.package_name || selectedPackage;
 
     document.getElementById("purchaseAmount").textContent =
-      amount !== undefined ? "KSh " + amount : "Confirmed by backend";
+      "KSh " + (
+        purchase.amount_kes ??
+        purchase.price_kes ??
+        purchase.amount ??
+        selected.amount
+      );
 
     document.getElementById("purchaseId").textContent =
-      purchase.id || purchase.purchase_id || "Created";
+      currentPurchaseId || "Created";
+
+    document.getElementById("purchasePhone").textContent =
+      paymentPhone;
 
     document.getElementById("purchaseStatus").textContent =
-      purchase.status || "pending";
+      purchase.status || data.status || "pending";
+
+    document.getElementById("purchaseReceipt").textContent =
+      purchase.mpesa_receipt_number || "Not received";
+
+    document.getElementById("paymentStatusHeading").textContent =
+      "M-Pesa payment";
+
+    showMessage(
+      "purchaseMessage",
+      data.customerMessage ||
+      "Check your phone for the M-Pesa payment prompt. Follow the instructions on your phone.",
+      "success"
+    );
 
     showSection("purchaseSection");
 
+    if (currentPurchaseId) {
+      checkPaymentStatus();
+    }
+
   } catch(error) {
 
-    console.error("Purchase creation error:", error);
+    console.error("M-Pesa STK Push error:", error);
 
-    if (!accountAuthenticated) {
-
-      showMessage(
-        "homeInfo",
-        "Your session has expired. Please sign in again."
-      );
-
-      document.getElementById("homeInfo").textContent =
-        "Your session has expired. Please continue to verify your phone number again.";
-
-      document.getElementById("headerStatus").textContent =
-        "Explore freely";
-
-      document.getElementById("phonePackage").textContent =
-        selectedPackage;
-
-      showSection("phoneSection");
-
-    } else {
-
-      document.getElementById("homeInfo").textContent =
-        "Purchase could not be created: " + error.message;
-
-      showSection("home");
-    }
+    showMessage(
+      "paymentMessage",
+      error.message || "Unable to initiate M-Pesa payment."
+    );
 
   } finally {
 
-    isCreatingPurchase = false;
-    button.disabled = !selectedPackage;
-    button.textContent = "Continue";
+    isCreatingPayment = false;
+    button.disabled = false;
+    button.textContent = "Pay with M-Pesa";
+  }
+
+});
+
+
+// =====================================
+// 19. CHECK PAYMENT STATUS
+// =====================================
+
+async function checkPaymentStatus() {
+
+  if (!currentPurchaseId || isCheckingPayment) return;
+
+  isCheckingPayment = true;
+
+  const button = document.getElementById("checkPaymentButton");
+
+  button.disabled = true;
+  button.textContent = "Checking...";
+
+  try {
+
+    const data = await backendRequest(
+      "/api/payments/" + encodeURIComponent(currentPurchaseId)
+    );
+
+    const purchase = data.purchase || data.data || data;
+
+    const status = String(
+      purchase.status ||
+      purchase.payment_status ||
+      data.status ||
+      "pending"
+    ).toLowerCase();
+
+    document.getElementById("purchaseStatus").textContent =
+      status;
+
+    document.getElementById("purchaseReceipt").textContent =
+      purchase.mpesa_receipt_number ||
+      purchase.receipt_number ||
+      "Not received";
+
+    if (status === "paid") {
+
+      document.getElementById("paymentStatusHeading").textContent =
+        "Payment confirmed";
+
+      showMessage(
+        "purchaseMessage",
+        "Your M-Pesa payment has been confirmed. Your purchase is recorded. Internet service activation is a separate step.",
+        "success"
+      );
+
+    } else if (status === "failed") {
+
+      document.getElementById("paymentStatusHeading").textContent =
+        "Payment unsuccessful";
+
+      showMessage(
+        "purchaseMessage",
+        purchase.result_description ||
+        purchase.resultDescription ||
+        "The payment was not completed. You can return and try again.",
+        "error"
+      );
+
+    } else {
+
+      showMessage(
+        "purchaseMessage",
+        "Payment is still pending. Check your phone and complete the M-Pesa prompt if it is waiting for your confirmation.",
+        "success"
+      );
+    }
+
+  } catch(error) {
+
+    console.error("Payment status error:", error);
+
+    showMessage(
+      "purchaseMessage",
+      "We could not retrieve the latest payment status. You can try checking again.",
+      "error"
+    );
+
+  } finally {
+
+    isCheckingPayment = false;
+    button.disabled = false;
+    button.textContent = "Check payment status";
   }
 
 }
 
+document.getElementById("checkPaymentButton").addEventListener(
+  "click",
+  checkPaymentStatus
+);
+
 
 // =====================================
-// 18. RETURN AFTER VERIFICATION
+// 20. CONTINUE AFTER VERIFICATION
 // =====================================
 
 document.getElementById("continueAfterVerification").addEventListener("click", () => {
@@ -895,7 +1153,7 @@ document.getElementById("continueAfterVerification").addEventListener("click", (
 
 
 // =====================================
-// 19. RESET PENDING AUTHENTICATION
+// 21. RESET PENDING AUTHENTICATION
 // =====================================
 
 async function resetPendingAuthentication() {
@@ -919,7 +1177,7 @@ async function resetPendingAuthentication() {
 
 
 // =====================================
-// 20. NAVIGATION
+// 22. NAVIGATION
 // =====================================
 
 document.getElementById("changePhone").addEventListener("click", async () => {
@@ -943,6 +1201,12 @@ document.getElementById("returnHomeFromCode").addEventListener("click", async ()
 
 });
 
+document.getElementById("paymentBack").addEventListener("click", () => {
+
+  showSection("home");
+
+});
+
 document.getElementById("purchaseReturn").addEventListener("click", () => {
 
   showSection("home");
@@ -951,7 +1215,7 @@ document.getElementById("purchaseReturn").addEventListener("click", () => {
 
 
 // =====================================
-// 21. STARTUP
+// 23. STARTUP
 // =====================================
 
 console.log("Nova Connect frontend loaded.");
