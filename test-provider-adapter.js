@@ -9,6 +9,7 @@ assert.equal(provider.MODE, "simulation");
 // 1. Provider lookup
 const ast = provider.getProvider("ast-spacemobile");
 assert.equal(ast.name, "AST SpaceMobile");
+assert.equal(ast.id, "ast-spacemobile");
 
 // 2. Unknown provider
 assert.throws(() =>
@@ -68,4 +69,3 @@ assert.throws(() =>
 );
 
 console.log("All 9 adapter checks passed.");
-  
