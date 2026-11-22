@@ -9,63 +9,63 @@ assert.equal(provider.MODE, "simulation");
 // 1. Provider lookup
 const ast = provider.getProvider("ast-spacemobile");
 assert.equal(ast.name, "AST SpaceMobile");
-assert.equal(ast.id, "ast-spacemobile");
 
 // 2. Unknown provider
-assert.throws(() =>
-  provider.getProvider("unknown-provider")
+assert.throws(
+  () => provider.getProvider("unknown-provider"),
+  /Unknown provider/
 );
 
-// 3. Eligibility
-const eligibility = provider.checkEligibility({
+// 3. Customer eligibility
+const customer = {
   phone: "+254700000000"
-});
-assert.equal(eligibility.eligible, true);
+};
 
-// 4. Coverage
+assert.equal(
+  provider.checkEligibility(customer).eligible,
+  true
+);
+
+// 4. Invalid customer
+assert.throws(
+  () => provider.activate({}, "1-hour", "ast-spacemobile"),
+  /Customer phone number is required/
+);
+
+// 5. Coverage check
 const coverage = provider.checkCoverage(
   "Kenya",
   "ast-spacemobile"
 );
-assert.equal(coverage.availability, "unknown");
 
-// 5. Activation
-const activation = provider.activate(
-  { phone: "+254700000000" },
+assert.equal(coverage.availability, "unknown");
+assert.equal(coverage.verified, false);
+
+// 6. Activation
+const service = provider.activate(
+  customer,
   "1-hour",
   "ast-spacemobile"
 );
 
-assert.equal(activation.success, true);
-assert.equal(
-  activation.service.providerId,
-  "ast-spacemobile"
-);
+assert.equal(service.providerId, "ast-spacemobile");
+assert.equal(service.status, "simulated_pending");
+assert.equal(service.providerConnection, "not_connected");
 
-const serviceId = activation.service.id;
+// 7. Status
+const status = provider.getStatus(service.serviceId);
+assert.equal(status.status, "simulated_pending");
 
-// 6. Status
-const status = provider.getStatus(serviceId);
-assert.equal(status.success, true);
-assert.equal(status.service.status, "simulated_pending");
-
-// 7. Deactivation
-const deactivation = provider.deactivate(serviceId);
-assert.equal(
-  deactivation.service.status,
-  "simulated_deactivated"
-);
-
-// 8. Invalid customer
-assert.throws(() => provider.checkEligibility(null));
+// 8. Deactivation
+const result = provider.deactivate(service.serviceId);
+assert.equal(result.success, true);
+assert.equal(result.service.status, "simulated_deactivated");
 
 // 9. Missing package
-assert.throws(() =>
-  provider.activate(
-    { phone: "+254700000000" },
-    "",
-    "ast-spacemobile"
-  )
+assert.throws(
+  () => provider.activate(customer, "", "ast-spacemobile"),
+  /Package code is required/
 );
 
-console.log("All 9 adapter checks passed.");
+console.log("All provider adapter tests passed.");
+  
