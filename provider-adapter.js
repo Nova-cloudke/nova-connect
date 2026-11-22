@@ -1,28 +1,14 @@
 
-/**
- * NOVA CONNECT
- * Provider Integration Module v1.1
- *
- * Registry-connected simulation mode.
- * No real satellite activation.
- */
-
 const registry = require("./provider-registry");
 
 const MODE = "simulation";
-
 const services = new Map();
-
-function createId() {
-  return "NOVA-" + Date.now() + "-" +
-    Math.random().toString(36).slice(2, 8);
-}
 
 function getProvider(providerId) {
   const provider = registry.getProvider(providerId);
 
   if (!provider) {
-    throw new Error("Unknown provider: " + providerId);
+    throw new Error(`Unknown provider: ${providerId}`);
   }
 
   return provider;
@@ -30,84 +16,65 @@ function getProvider(providerId) {
 
 function checkEligibility(customer) {
   if (!customer || !customer.phone) {
-    throw new Error("Customer phone number is required.");
-  }
-
-  return {
-    success: true,
-    simulated: true,
-    eligible: true,
-    customer: customer.phone,
-    message: "Simulated eligibility check."
-  };
-}
-
-function checkCoverage(location, providerId) {
-  if (!location) {
-    throw new Error("Location information is required.");
-  }
-
-  const provider = getProvider(providerId);
-
-  return {
-    success: true,
-    simulated: true,
-    providerId: provider.id,
-    providerName: provider.name,
-    availability: "unknown",
-    message:
-      "Real D2D coverage must be confirmed by the provider."
-  };
-}
-
-function activate(customer, packageCode, providerId) {
-  if (!customer || !customer.phone) {
-    throw new Error("Valid customer information is required.");
-  }
-
-  if (!packageCode) {
-    throw new Error("Package code is required.");
-  }
-
-  const provider = getProvider(providerId);
-
-  const id = createId();
-
-  const service = {
-    id,
-    customer: customer.phone,
-    packageCode,
-    providerId: provider.id,
-    providerName: provider.name,
-    status: "simulated_pending",
-    providerConnection: "not_connected",
-    createdAt: new Date().toISOString()
-  };
-
-  services.set(id, service);
-
-  return {
-    success: true,
-    simulated: true,
-    service
-  };
-}
-
-function getStatus(serviceId) {
-  const service = services.get(serviceId);
-
-  if (!service) {
     return {
-      success: false,
-      message: "Service not found."
+      eligible: false,
+      reason: "Customer phone number is required"
     };
   }
 
   return {
-    success: true,
-    simulated: true,
-    service
+    eligible: true,
+    status: "simulation_only"
   };
+}
+
+function checkCoverage(location, providerId) {
+  const provider = getProvider(providerId);
+
+  return {
+    providerId: provider.id,
+    providerName: provider.name,
+    location,
+    availability: "unknown",
+    verified: false,
+    mode: MODE
+  };
+}
+
+function activate(customer, packageCode, providerId) {
+  const provider = getProvider(providerId);
+
+  const eligibility = checkEligibility(customer);
+
+  if (!eligibility.eligible) {
+    throw new Error(eligibility.reason);
+  }
+
+  if (!packageCode) {
+    throw new Error("Package code is required");
+  }
+
+  const serviceId = `SIM-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+  const service = {
+    serviceId,
+    providerId: provider.id,
+    providerName: provider.name,
+    customer,
+    packageCode,
+    status: "simulated_pending",
+    providerConnection: "not_connected",
+    mode: MODE,
+    createdAt: new Date().toISOString()
+  };
+
+  services.set(serviceId, service);
+
+  return service;
+}
+
+function getStatus(serviceId) {
+  return services.get(serviceId) || null;
 }
 
 function deactivate(serviceId) {
@@ -116,7 +83,7 @@ function deactivate(serviceId) {
   if (!service) {
     return {
       success: false,
-      message: "Service not found."
+      reason: "Service not found"
     };
   }
 
@@ -124,7 +91,6 @@ function deactivate(serviceId) {
 
   return {
     success: true,
-    simulated: true,
     service
   };
 }
@@ -138,3 +104,4 @@ module.exports = {
   getStatus,
   deactivate
 };
+      
