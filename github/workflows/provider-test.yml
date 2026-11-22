@@ -4,6 +4,8 @@ name: Nova Provider Adapter Test
 on:
   push:
     paths:
+      - 'provider-registry.js'
+      - 'test-provider-registry.js'
       - 'provider-adapter.js'
       - 'test-provider-adapter.js'
       - '.github/workflows/provider-test.yml'
@@ -11,6 +13,8 @@ on:
 
 jobs:
   test:
+      - name: Test provider registry
+        run: node test-provider-registry.js
     runs-on: ubuntu-latest
 
     steps:
