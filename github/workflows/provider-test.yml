@@ -4,6 +4,8 @@ name: Nova Provider Tests
 on:
   push:
     paths:
+      - 'connection-orchestrator.js'
+      - 'test-connection-orchestrator.js'
       - 'connection-recovery-manager.js'
       - 'test-connection-recovery-manager.js'
       - 'connection-health-monitor.js'
@@ -39,6 +41,8 @@ on:
 
 jobs:
   test:
+      - name: Test connection orchestrator
+        run: node test-connection-orchestrator.js
       - name: Test connection recovery manager
         run: node test-connection-recovery-manager.js
       - name: Test connection health monitor
