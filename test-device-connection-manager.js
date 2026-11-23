@@ -1,10 +1,8 @@
-
 const assert = require("node:assert/strict");
 const manager = require("./device-connection-manager");
 
-console.log("Testing Device Connection Manager...");
+console.log("Testing Battery-Aware Device Connection Manager...");
 
-// 1. Request smartphone connection
 const phoneResult = manager.requestConnection(
   { type: "smartphone", model: "Test Phone" },
   "ast-spacemobile"
@@ -12,35 +10,43 @@ const phoneResult = manager.requestConnection(
 
 assert.equal(phoneResult.success, true);
 assert.equal(phoneResult.connection.mode, "simulation");
-assert.equal(phoneResult.connection.connectionMethod, "direct_device");
+assert.equal(phoneResult.connection.connectionMethod, "alternative_connection_required");
+assert.equal(phoneResult.connection.phoneHotspotRequired, false);
+assert.equal(phoneResult.connection.batteryPolicy, "protect_phone_battery");
 
-// 2. Request laptop connection
 const laptopResult = manager.requestConnection(
   { type: "laptop", model: "Test Laptop" },
   "starlink-direct-to-cell"
 );
 
-assert.equal(laptopResult.success, true);
 assert.equal(laptopResult.connection.deviceType, "laptop");
+assert.equal(laptopResult.connection.phoneHotspotRequired, false);
 
-// 3. Battery efficiency preference
-assert.equal(phoneResult.connection.batteryEfficient, true);
+const fallback = manager.requestConnection(
+  { type: "laptop", model: "Test Laptop" },
+  "starlink-direct-to-cell",
+  { allowPhoneHotspot: true, phoneBatteryPercent: 80 }
+);
 
-// 4. Retrieve connection
+assert.equal(fallback.connection.connectionMethod, "phone_hotspot");
+assert.equal(fallback.connection.phoneHotspotRequired, true);
+
+const low = manager.requestConnection(
+  { type: "laptop", model: "Test Laptop" },
+  "starlink-direct-to-cell",
+  { allowPhoneHotspot: true, phoneBatteryPercent: 20 }
+);
+
+assert.equal(low.connection.connectionMethod, "alternative_connection_required");
+
 const saved = manager.getConnection(phoneResult.connection.id);
 assert.equal(saved.status, "awaiting_provider_verification");
+assert.equal(manager.getAllConnections().length, 4);
 
-// 5. List connections
-assert.equal(manager.getAllConnections().length, 2);
-
-// 6. Disconnect
 const disconnected = manager.disconnect(phoneResult.connection.id);
 assert.equal(disconnected.connection.status, "disconnected");
-
-// 7. Unknown connection
 assert.equal(manager.getConnection("unknown-id"), null);
 
-// 8. Invalid device
 assert.throws(() =>
   manager.requestConnection(
     { type: "tablet", model: "Test Tablet" },
@@ -48,5 +54,4 @@ assert.throws(() =>
   )
 );
 
-console.log("All 8 device connection manager checks passed.");
-             
+console.log("All 9 integrated connection manager checks passed.");
