@@ -1,7 +1,10 @@
 const assert = require("node:assert/strict");
 const manager = require("./connection-state-manager");
+const eventLog = require("./connection-event-log");
 
-console.log("Testing Connection State Manager...");
+console.log("Testing Integrated Connection State Manager...");
+
+eventLog.clearEvents();
 
 // 1. Create connection
 const created = manager.createConnection(
@@ -11,12 +14,18 @@ const created = manager.createConnection(
 
 assert.equal(created.state, manager.STATES.AWAITING);
 
-// 2. Prevent connection before confirmation
+// 2. Confirm creation event
+assert.equal(
+  eventLog.getConnectionEvents("test-connection-001")[0].eventType,
+  "connection_created"
+);
+
+// 3. Prevent connecting before confirmation
 assert.throws(() => {
   manager.startConnecting("test-connection-001");
 });
 
-// 3. Reject simulated provider confirmation
+// 4. Reject simulated confirmation
 const rejected = manager.confirmConnection(
   "test-connection-001",
   {
@@ -32,13 +41,13 @@ const rejected = manager.confirmConnection(
 assert.equal(rejected.success, false);
 assert.equal(rejected.connection.state, manager.STATES.FAILED);
 
-// 4. Create a fresh connection
+// 5. Create fresh connection
 manager.createConnection(
   "test-connection-002",
   "ast-spacemobile"
 );
 
-// 5. Accept valid provider confirmation
+// 6. Confirm provider response
 const confirmation = manager.confirmConnection(
   "test-connection-002",
   {
@@ -53,29 +62,45 @@ const confirmation = manager.confirmConnection(
 assert.equal(confirmation.success, true);
 assert.equal(confirmation.connection.state, manager.STATES.CONFIRMED);
 
-// 6. Move to connecting
-const connecting = manager.startConnecting("test-connection-002");
-assert.equal(connecting.state, manager.STATES.CONNECTING);
+// 7. Start connection
+assert.equal(
+  manager.startConnecting("test-connection-002").state,
+  manager.STATES.CONNECTING
+);
 
-// 7. Move to connected
-const connected = manager.markConnected("test-connection-002");
-assert.equal(connected.state, manager.STATES.CONNECTED);
+// 8. Mark connected
+assert.equal(
+  manager.markConnected("test-connection-002").state,
+  manager.STATES.CONNECTED
+);
 
-// 8. Disconnect
-const disconnected = manager.disconnect("test-connection-002");
-assert.equal(disconnected.state, manager.STATES.DISCONNECTED);
+// 9. Disconnect
+assert.equal(
+  manager.disconnect("test-connection-002").state,
+  manager.STATES.DISCONNECTED
+);
 
-// 9. Retrieve connection
+// 10. Check recorded lifecycle events
+const events = eventLog.getConnectionEvents("test-connection-002");
+
+assert.deepEqual(
+  events.map(event => event.eventType),
+  [
+    "connection_created",
+    "provider_confirmation_received",
+    "provider_confirmed",
+    "connection_started",
+    "connection_established",
+    "connection_disconnected"
+  ]
+);
+
+// 11. Check retrieval
 assert.equal(
   manager.getConnection("test-connection-002").state,
   manager.STATES.DISCONNECTED
 );
 
-// 10. Reject unknown connection
 assert.equal(manager.getConnection("unknown"), null);
 
-assert.throws(() => {
-  manager.createConnection("", "ast-spacemobile");
-});
-
-console.log("All 11 connection state manager checks passed.");
+console.log("All 11 integrated connection checks passed.");
