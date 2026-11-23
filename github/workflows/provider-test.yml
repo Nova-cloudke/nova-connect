@@ -11,7 +11,7 @@ on:
       - 'connection-health-monitor.js'
       - 'test-connection-health-monitor.js'
       - 'connection-event-log.js'
-      - 'test-connection-event-log.js' 
+      - 'test-connection-event-log.js'
       - 'connection-state-manager.js'
       - 'test-connection-state-manager.js'
       - 'provider-confirmation-gate.js'
@@ -37,22 +37,11 @@ on:
       - 'connection-policy.js'
       - 'test-connection-policy.js'
       - '.github/workflows/provider-test.yml'
+
   workflow_dispatch:
 
 jobs:
   test:
-      - name: Test connection orchestrator
-        run: node test-connection-orchestrator.js
-      - name: Test connection recovery manager
-        run: node test-connection-recovery-manager.js
-      - name: Test connection health monitor
-        run: node test-connection-health-monitor.js
-      - name: Test connection event log
-        run: node test-connection-event-log.js
-      - name: Test connection state manager
-        run: node test-connection-state-manager.js
-      - name: Test provider confirmation gate
-        run: node test-provider-confirmation-gate.js
     runs-on: ubuntu-latest
 
     steps:
@@ -93,4 +82,22 @@ jobs:
 
       - name: Test connection policy
         run: node test-connection-policy.js
+
+      - name: Test provider confirmation gate
+        run: node test-provider-confirmation-gate.js
+
+      - name: Test connection state manager
+        run: node test-connection-state-manager.js
+
+      - name: Test connection event log
+        run: node test-connection-event-log.js
+
+      - name: Test connection health monitor
+        run: node test-connection-health-monitor.js
+
+      - name: Test connection recovery manager
+        run: node test-connection-recovery-manager.js
+
+      - name: Test connection orchestrator
+        run: node test-connection-orchestrator.js
         
