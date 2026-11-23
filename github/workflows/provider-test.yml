@@ -10,6 +10,8 @@ on:
       - 'test-provider-registry.js'
       - 'provider-capabilities.js'
       - 'test-provider-capabilities.js'
+      - 'provider-selector.js'
+      - 'test-provider-selector.js'
       - '.github/workflows/provider-test.yml'
   workflow_dispatch:
 
@@ -34,4 +36,7 @@ jobs:
 
       - name: Test provider capabilities
         run: node test-provider-capabilities.js
+
+      - name: Test provider selector
+        run: node test-provider-selector.js
         
