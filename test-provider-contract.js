@@ -1,6 +1,7 @@
 
 const assert = require("node:assert/strict");
 const contract = require("./provider-contract");
+const adapter = require("./provider-adapter");
 
 console.log("Testing Provider Integration Contract...");
 
@@ -8,10 +9,14 @@ console.log("Testing Provider Integration Contract...");
 assert.equal(contract.getContractVersion(), "1.0.0");
 
 // 2. Required methods
-const methods = contract.getRequiredMethods();
-assert.equal(methods.length, 5);
+assert.equal(contract.getRequiredMethods().length, 5);
 
-// 3. Valid provider
+// 3. Actual Nova adapter satisfies the contract
+const adapterResult = contract.validateProvider(adapter);
+assert.equal(adapterResult.valid, true);
+assert.deepEqual(adapterResult.missingMethods, []);
+
+// 4. Valid example provider
 const validProvider = {
   checkEligibility() {},
   checkCoverage() {},
@@ -20,11 +25,9 @@ const validProvider = {
   deactivate() {}
 };
 
-const validResult = contract.validateProvider(validProvider);
-assert.equal(validResult.valid, true);
-assert.deepEqual(validResult.missingMethods, []);
+assert.equal(contract.validateProvider(validProvider).valid, true);
 
-// 4. Missing methods
+// 5. Incomplete provider
 const incompleteProvider = {
   checkEligibility() {},
   activate() {}
@@ -38,10 +41,10 @@ assert.deepEqual(incompleteResult.missingMethods, [
   "deactivate"
 ]);
 
-// 5. Invalid provider
+// 6. Invalid provider
 const invalidResult = contract.validateProvider(null);
 assert.equal(invalidResult.valid, false);
 assert.equal(invalidResult.missingMethods.length, 5);
 
-console.log("All 5 provider contract checks passed.");
+console.log("All 6 provider contract checks passed.");
   
