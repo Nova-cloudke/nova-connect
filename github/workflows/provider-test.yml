@@ -1,20 +1,20 @@
 
-name: Nova Provider Adapter Test
+name: Nova Provider Tests
 
 on:
   push:
     paths:
-      - 'provider-registry.js'
-      - 'test-provider-registry.js'
       - 'provider-adapter.js'
       - 'test-provider-adapter.js'
+      - 'provider-registry.js'
+      - 'test-provider-registry.js'
+      - 'provider-capabilities.js'
+      - 'test-provider-capabilities.js'
       - '.github/workflows/provider-test.yml'
   workflow_dispatch:
 
 jobs:
   test:
-      - name: Test provider registry
-        run: node test-provider-registry.js
     runs-on: ubuntu-latest
 
     steps:
@@ -28,4 +28,10 @@ jobs:
 
       - name: Test provider adapter
         run: node test-provider-adapter.js
+
+      - name: Test provider registry
+        run: node test-provider-registry.js
+
+      - name: Test provider capabilities
+        run: node test-provider-capabilities.js
         
