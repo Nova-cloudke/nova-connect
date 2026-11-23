@@ -1,4 +1,5 @@
 const confirmationGate = require("./provider-confirmation-gate");
+const eventLog = require("./connection-event-log");
 
 const connections = new Map();
 
@@ -30,6 +31,10 @@ function createConnection(connectionId, providerId) {
 
   connections.set(connectionId, connection);
 
+  eventLog.recordEvent(connectionId, "connection_created", {
+    providerId
+  });
+
   return { ...connection };
 }
 
@@ -40,12 +45,24 @@ function confirmConnection(connectionId, providerResponse) {
     throw new Error("Connection not found");
   }
 
+  eventLog.recordEvent(
+    connectionId,
+    "provider_confirmation_received"
+  );
+
   const result = confirmationGate.verifyConfirmation(providerResponse);
 
-  if (!result.success || result.connectionId !== connectionId ||
-      result.providerId !== connection.providerId) {
+  if (
+    !result.success ||
+    result.connectionId !== connectionId ||
+    result.providerId !== connection.providerId
+  ) {
     connection.state = STATES.FAILED;
     connection.updatedAt = new Date().toISOString();
+
+    eventLog.recordEvent(connectionId, "connection_failed", {
+      reason: result.reason || "Provider confirmation does not match"
+    });
 
     return {
       success: false,
@@ -57,6 +74,10 @@ function confirmConnection(connectionId, providerResponse) {
   connection.state = STATES.CONFIRMED;
   connection.confirmedAt = result.confirmedAt;
   connection.updatedAt = new Date().toISOString();
+
+  eventLog.recordEvent(connectionId, "provider_confirmed", {
+    providerId: connection.providerId
+  });
 
   return {
     success: true,
@@ -78,6 +99,8 @@ function startConnecting(connectionId) {
   connection.state = STATES.CONNECTING;
   connection.updatedAt = new Date().toISOString();
 
+  eventLog.recordEvent(connectionId, "connection_started");
+
   return { ...connection };
 }
 
@@ -95,6 +118,8 @@ function markConnected(connectionId) {
   connection.state = STATES.CONNECTED;
   connection.updatedAt = new Date().toISOString();
 
+  eventLog.recordEvent(connectionId, "connection_established");
+
   return { ...connection };
 }
 
@@ -107,6 +132,8 @@ function disconnect(connectionId) {
 
   connection.state = STATES.DISCONNECTED;
   connection.updatedAt = new Date().toISOString();
+
+  eventLog.recordEvent(connectionId, "connection_disconnected");
 
   return { ...connection };
 }
