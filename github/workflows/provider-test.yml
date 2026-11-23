@@ -18,6 +18,8 @@ on:
       - 'test-provider-contract.js'
       - 'provider-factory.js'
       - 'test-provider-factory.js'
+      - 'device-compatibility.js'
+      - 'test-device-compatibility.js'
       - '.github/workflows/provider-test.yml'
   workflow_dispatch:
 
@@ -54,4 +56,7 @@ jobs:
 
       - name: Test provider factory
         run: node test-provider-factory.js
+
+      - name: Test device compatibility
+        run: node test-device-compatibility.js
         
