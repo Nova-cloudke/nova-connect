@@ -4,6 +4,8 @@ name: Nova Provider Tests
 on:
   push:
     paths:
+      - 'connection-state-manager.js'
+      - 'test-connection-state-manager.js'
       - 'provider-confirmation-gate.js'
       - 'test-provider-confirmation-gate.js'
       - 'provider-adapter.js'
@@ -31,6 +33,8 @@ on:
 
 jobs:
   test:
+      - name: Test connection state manager
+        run: node test-connection-state-manager.js
       - name: Test provider confirmation gate
         run: node test-provider-confirmation-gate.js
     runs-on: ubuntu-latest
