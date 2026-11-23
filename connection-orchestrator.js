@@ -52,13 +52,6 @@ function requestConnection(device, options = {}) {
     connectionId,
     providerDecision.providerId
   );
-
-  eventLog.recordEvent(connectionId, "connection_created", {
-    providerId: providerDecision.providerId,
-    deviceType: assessment.deviceType,
-    mode: "simulation"
-  });
-
   return {
     success: true,
     mode: "simulation",
