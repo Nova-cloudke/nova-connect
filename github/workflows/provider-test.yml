@@ -4,6 +4,8 @@ name: Nova Provider Tests
 on:
   push:
     paths:
+      - 'connection-health-monitor.js'
+      - 'test-connection-health-monitor.js'
       - 'connection-event-log.js'
       - 'test-connection-event-log.js' 
       - 'connection-state-manager.js'
@@ -35,6 +37,8 @@ on:
 
 jobs:
   test:
+      - name: Test connection health monitor
+        run: node test-connection-health-monitor.js
       - name: Test connection event log
         run: node test-connection-event-log.js
       - name: Test connection state manager
