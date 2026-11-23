@@ -14,6 +14,8 @@ on:
       - 'test-provider-selector.js'
       - 'provider-readiness.js'
       - 'test-provider-readiness.js'
+      - 'provider-contract.js'
+      - 'test-provider-contract.js'
       - '.github/workflows/provider-test.yml'
   workflow_dispatch:
 
@@ -44,4 +46,7 @@ jobs:
 
       - name: Test provider readiness
         run: node test-provider-readiness.js
+
+      - name: Test provider contract
+        run: node test-provider-contract.js
         
