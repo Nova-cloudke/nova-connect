@@ -1,12 +1,18 @@
 
 const compatibility = require("./device-compatibility");
+const policy = require("./connection-policy");
 
 const connections = new Map();
 
-function requestConnection(device, providerId) {
+function requestConnection(device, providerId, options = {}) {
   const assessment = compatibility.assessDevice(
     device,
     providerId
+  );
+
+  const decision = policy.selectConnectionMethod(
+    assessment,
+    options
   );
 
   const connection = {
@@ -14,10 +20,11 @@ function requestConnection(device, providerId) {
     deviceType: assessment.deviceType,
     deviceModel: assessment.deviceModel,
     providerId,
-    connectionMethod: "direct_device",
+    connectionMethod: decision.method,
+    phoneHotspotRequired: decision.phoneHotspotRequired,
+    batteryPolicy: decision.batteryPolicy,
     status: "awaiting_provider_verification",
-    mode: "simulation",
-    batteryEfficient: true
+    mode: "simulation"
   };
 
   connections.set(connection.id, connection);
@@ -31,11 +38,7 @@ function requestConnection(device, providerId) {
 function getConnection(connectionId) {
   const connection = connections.get(connectionId);
 
-  if (!connection) {
-    return null;
-  }
-
-  return { ...connection };
+  return connection ? { ...connection } : null;
 }
 
 function getAllConnections() {
@@ -65,4 +68,4 @@ module.exports = {
   getAllConnections,
   disconnect
 };
-  
+    
