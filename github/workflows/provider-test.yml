@@ -22,6 +22,8 @@ on:
       - 'test-device-compatibility.js'
       - 'device-connection-manager.js'
       - 'test-device-connection-manager.js'
+      - 'connection-policy.js'
+      - 'test-connection-policy.js'
       - '.github/workflows/provider-test.yml'
   workflow_dispatch:
 
@@ -64,4 +66,7 @@ jobs:
 
       - name: Test device connection manager
         run: node test-device-connection-manager.js
+
+      - name: Test connection policy
+        run: node test-connection-policy.js
         
