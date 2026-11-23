@@ -4,6 +4,8 @@ name: Nova Provider Tests
 on:
   push:
     paths:
+      - 'provider-confirmation-gate.js'
+      - 'test-provider-confirmation-gate.js'
       - 'provider-adapter.js'
       - 'test-provider-adapter.js'
       - 'provider-registry.js'
@@ -29,6 +31,8 @@ on:
 
 jobs:
   test:
+      - name: Test provider confirmation gate
+        run: node test-provider-confirmation-gate.js
     runs-on: ubuntu-latest
 
     steps:
