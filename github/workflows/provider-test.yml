@@ -16,6 +16,8 @@ on:
       - 'test-provider-readiness.js'
       - 'provider-contract.js'
       - 'test-provider-contract.js'
+      - 'provider-factory.js'
+      - 'test-provider-factory.js'
       - '.github/workflows/provider-test.yml'
   workflow_dispatch:
 
@@ -49,4 +51,7 @@ jobs:
 
       - name: Test provider contract
         run: node test-provider-contract.js
+
+      - name: Test provider factory
+        run: node test-provider-factory.js
         
