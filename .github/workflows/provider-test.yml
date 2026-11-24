@@ -1,0 +1,103 @@
+
+name: Nova Provider Tests
+
+on:
+  push:
+    paths:
+      - 'connection-orchestrator.js'
+      - 'test-connection-orchestrator.js'
+      - 'connection-recovery-manager.js'
+      - 'test-connection-recovery-manager.js'
+      - 'connection-health-monitor.js'
+      - 'test-connection-health-monitor.js'
+      - 'connection-event-log.js'
+      - 'test-connection-event-log.js'
+      - 'connection-state-manager.js'
+      - 'test-connection-state-manager.js'
+      - 'provider-confirmation-gate.js'
+      - 'test-provider-confirmation-gate.js'
+      - 'provider-adapter.js'
+      - 'test-provider-adapter.js'
+      - 'provider-registry.js'
+      - 'test-provider-registry.js'
+      - 'provider-capabilities.js'
+      - 'test-provider-capabilities.js'
+      - 'provider-selector.js'
+      - 'test-provider-selector.js'
+      - 'provider-readiness.js'
+      - 'test-provider-readiness.js'
+      - 'provider-contract.js'
+      - 'test-provider-contract.js'
+      - 'provider-factory.js'
+      - 'test-provider-factory.js'
+      - 'device-compatibility.js'
+      - 'test-device-compatibility.js'
+      - 'device-connection-manager.js'
+      - 'test-device-connection-manager.js'
+      - 'connection-policy.js'
+      - 'test-connection-policy.js'
+      - '.github/workflows/provider-test.yml'
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Test provider adapter
+        run: node test-provider-adapter.js
+
+      - name: Test provider registry
+        run: node test-provider-registry.js
+
+      - name: Test provider capabilities
+        run: node test-provider-capabilities.js
+
+      - name: Test provider selector
+        run: node test-provider-selector.js
+
+      - name: Test provider readiness
+        run: node test-provider-readiness.js
+
+      - name: Test provider contract
+        run: node test-provider-contract.js
+
+      - name: Test provider factory
+        run: node test-provider-factory.js
+
+      - name: Test device compatibility
+        run: node test-device-compatibility.js
+
+      - name: Test device connection manager
+        run: node test-device-connection-manager.js
+
+      - name: Test connection policy
+        run: node test-connection-policy.js
+
+      - name: Test provider confirmation gate
+        run: node test-provider-confirmation-gate.js
+
+      - name: Test connection state manager
+        run: node test-connection-state-manager.js
+
+      - name: Test connection event log
+        run: node test-connection-event-log.js
+
+      - name: Test connection health monitor
+        run: node test-connection-health-monitor.js
+
+      - name: Test connection recovery manager
+        run: node test-connection-recovery-manager.js
+
+      - name: Test connection orchestrator
+        run: node test-connection-orchestrator.js
+        
