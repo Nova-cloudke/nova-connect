@@ -23,7 +23,7 @@ assert.throws(() =>
 
 // 4. Supported providers list
 const providers = factory.getSupportedProviders();
-assert.equal(providers.length, 2);
+assert.equal(providers.length, 4);
 
 // 5. Provider adapter is available
 assert.equal(typeof ast.provider.activate, "function");
