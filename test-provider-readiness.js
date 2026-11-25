@@ -1,12 +1,11 @@
-
 const assert = require("node:assert/strict");
 const readiness = require("./provider-readiness");
 
 console.log("Testing Provider Connection Readiness...");
 
-// 1. Assess all providers
+// 1. Assess all registered providers
 const all = readiness.assessAllProviders();
-assert.equal(all.length, 2);
+assert.equal(all.length, 4);
 
 // 2. AST SpaceMobile
 const ast = readiness.assessProvider("ast-spacemobile");
