@@ -1,12 +1,11 @@
-
 const assert = require("node:assert/strict");
 const selector = require("./provider-selector");
 
 console.log("Testing Provider Selection Engine...");
 
-// 1. Compare all providers
+// 1. Compare all registered providers
 const providers = selector.compareProviders();
-assert.equal(providers.length, 2);
+assert.equal(providers.length, 4);
 
 // 2. AST SpaceMobile
 const ast = selector.evaluateProvider("ast-spacemobile");
