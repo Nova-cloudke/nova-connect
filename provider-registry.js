@@ -1,16 +1,51 @@
-
 /**
  * NOVA CONNECT
- * Provider Capability Registry v1.0
+ * Multi-Network Provider Registry v2.0
  *
- * Provider information registry.
- * Does not connect to satellite networks.
+ * Registry only. No real network connections or activations.
  */
 
 const providers = [
   {
+    id: "safaricom",
+    name: "Safaricom",
+    providerType: "mobile_operator",
+    technology: "Mobile Network",
+    networkType: "Terrestrial Cellular",
+    integration: {
+      apiAvailable: "unverified",
+      activationMethod: "unconfirmed",
+      authentication: "unconfirmed"
+    },
+    coverage: {
+      kenya: "not_assessed"
+    },
+    partnership: "not_established",
+    regulatory: "verification_required"
+  },
+
+  {
+    id: "airtel",
+    name: "Airtel",
+    providerType: "mobile_operator",
+    technology: "Mobile Network",
+    networkType: "Terrestrial Cellular",
+    integration: {
+      apiAvailable: "unverified",
+      activationMethod: "unconfirmed",
+      authentication: "unconfirmed"
+    },
+    coverage: {
+      kenya: "not_assessed"
+    },
+    partnership: "not_established",
+    regulatory: "verification_required"
+  },
+
+  {
     id: "ast-spacemobile",
     name: "AST SpaceMobile",
+    providerType: "satellite_d2d",
     technology: "Direct-to-Device",
     networkType: "Satellite Cellular",
     integration: {
@@ -29,9 +64,11 @@ const providers = [
     partnership: "not_established",
     regulatory: "verification_required"
   },
+
   {
     id: "starlink-direct-to-cell",
     name: "Starlink Direct to Cell",
+    providerType: "satellite_d2d",
     technology: "Direct-to-Device",
     networkType: "Satellite Cellular",
     integration: {
@@ -44,7 +81,7 @@ const providers = [
       deviceRequirements: "provider_confirmation_required"
     },
     coverage: {
-      kenya: "verification_required",
+      kenya: "unconfirmed",
       global: "unconfirmed"
     },
     partnership: "not_established",
@@ -70,6 +107,12 @@ function getProvidersByTechnology(technology) {
   );
 }
 
+function getProvidersByType(providerType) {
+  return providers.filter(
+    provider => provider.providerType === providerType
+  );
+}
+
 function getProviderCount() {
   return providers.length;
 }
@@ -78,6 +121,6 @@ module.exports = {
   getAllProviders,
   getProvider,
   getProvidersByTechnology,
+  getProvidersByType,
   getProviderCount
 };
-      
