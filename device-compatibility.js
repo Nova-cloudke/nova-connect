@@ -1,37 +1,55 @@
 
 const registry = require("./provider-registry");
-const capabilities = require("./provider-capabilities");
+const adapter = require("./provider-adapter");
+const contract = require("./provider-contract");
+const readiness = require("./provider-readiness");
 
-function assessDevice(device, providerId) {
-  if (!device || !device.type || !device.model) {
-    throw new Error("Device type and model are required");
+function createProvider(providerId) {
+  const providerInfo = registry.getProvider(providerId);
+
+  if (!providerInfo) {
+    throw new Error("Unsupported provider: " + providerId);
   }
 
-  const provider = registry.getProvider(providerId);
-  const details = capabilities.getCapabilities(providerId);
+  const validation = contract.validateProvider(adapter);
 
-  if (!provider || !details) {
-    throw new Error("Unknown provider");
+  if (!validation.valid) {
+    throw new Error(
+      "Provider adapter does not satisfy contract: " +
+      validation.missingMethods.join(", ")
+    );
   }
 
-  const supportedTypes = ["smartphone", "laptop"];
+  const assessment = readiness.assessProvider(providerId);
 
-  if (!supportedTypes.includes(device.type)) {
-    throw new Error("Unsupported device type");
+  if (!assessment) {
+    throw new Error("Provider readiness assessment unavailable");
   }
 
   return {
-    deviceType: device.type,
-    deviceModel: device.model,
-    providerId,
-    providerName: provider.name,
-    directSatelliteCompatibility: "unknown",
-    providerDeviceSupport: "unverified",
-    verificationRequired: true,
-    connectionPriority: "direct_device_connectivity"
+    providerId: providerInfo.id,
+    providerName: providerInfo.name,
+
+    mode: "simulation",
+    connectionState: "simulation_only",
+    realIntegrationAvailable: false,
+
+    integrationReady: assessment.connectionReady,
+    readiness: assessment,
+
+    provider: adapter
   };
 }
 
+function getSupportedProviders() {
+  return registry.getAllProviders().map(provider => ({
+    id: provider.id,
+    name: provider.name
+  }));
+}
+
 module.exports = {
-  assessDevice
+  createProvider,
+  getSupportedProviders
 };
+      
