@@ -1,33 +1,27 @@
+
 const registry = require("./provider-registry");
 const capabilities = require("./provider-capabilities");
+const readiness = require("./provider-readiness");
 
 function evaluateProvider(providerId) {
   const provider = registry.getProvider(providerId);
   const details = capabilities.getCapabilities(providerId);
+  const assessment = readiness.assessProvider(providerId);
 
-  if (!provider || !details) return null;
-
-  const checks = details.capabilities;
-
-  const requirements = {
-    directToDevice: checks.directToDevice,
-    kenyaCoverage: checks.kenyaCoverage,
-    commercialPartnership: checks.commercialPartnership,
-    kenyaRegulatoryApproval: checks.kenyaRegulatoryApproval,
-    publicIntegrationAPI: checks.publicIntegrationAPI
-  };
-
-  const ready = Object.values(requirements).every(
-    status => status === "confirmed" || status === "documented"
-  );
+  if (!provider || !details || !assessment) return null;
 
   return {
     providerId,
     providerName: provider.name,
     technology: details.technology,
-    requirements,
-    integrationReady: ready,
-    decision: ready ? "eligible_for_review" : "research_required"
+    requirements: details.capabilities,
+    totalRequirements: assessment.totalRequirements,
+    confirmedRequirements: assessment.confirmedRequirements,
+    outstandingRequirements: assessment.outstandingRequirements,
+    integrationReady: assessment.connectionReady,
+    decision: assessment.connectionReady
+      ? "eligible_for_integration_review"
+      : "research_required"
   };
 }
 
@@ -44,15 +38,11 @@ function getRecommendedProvider() {
 }
 
 function selectProvider(assessment) {
-  if (!assessment || !assessment.providerId) {
-    return null;
-  }
+  if (!assessment || !assessment.providerId) return null;
 
   const provider = evaluateProvider(assessment.providerId);
 
-  if (!provider || !provider.integrationReady) {
-    return null;
-  }
+  if (!provider || !provider.integrationReady) return null;
 
   return provider;
 }
@@ -63,3 +53,4 @@ module.exports = {
   getRecommendedProvider,
   selectProvider
 };
+    
