@@ -1,55 +1,46 @@
-
 const registry = require("./provider-registry");
-const adapter = require("./provider-adapter");
-const contract = require("./provider-contract");
-const readiness = require("./provider-readiness");
 
-function createProvider(providerId) {
-  const providerInfo = registry.getProvider(providerId);
+const supportedDeviceTypes = [
+  "smartphone",
+  "laptop"
+];
 
-  if (!providerInfo) {
-    throw new Error("Unsupported provider: " + providerId);
+function assessDevice(device, providerId) {
+  if (!device || !device.type || !device.model) {
+    throw new Error("Complete device information is required");
   }
 
-  const validation = contract.validateProvider(adapter);
-
-  if (!validation.valid) {
-    throw new Error(
-      "Provider adapter does not satisfy contract: " +
-      validation.missingMethods.join(", ")
-    );
+  if (!supportedDeviceTypes.includes(device.type)) {
+    throw new Error("Unsupported device type: " + device.type);
   }
 
-  const assessment = readiness.assessProvider(providerId);
+  const provider = registry.getProvider(providerId);
 
-  if (!assessment) {
-    throw new Error("Provider readiness assessment unavailable");
+  if (!provider) {
+    throw new Error("Unknown provider: " + providerId);
   }
+
+  const isD2D = provider.providerType === "satellite_d2d";
 
   return {
-    providerId: providerInfo.id,
-    providerName: providerInfo.name,
+    deviceType: device.type,
+    deviceModel: device.model,
+    providerId: provider.id,
+    providerName: provider.name,
+
+    directSatelliteCompatibility: isD2D
+      ? "unknown"
+      : "not_applicable",
+
+    providerDeviceSupport: "unverified",
+
+    connectionPriority: "direct_device_connectivity",
 
     mode: "simulation",
-    connectionState: "simulation_only",
-    realIntegrationAvailable: false,
-
-    integrationReady: assessment.connectionReady,
-    readiness: assessment,
-
-    provider: adapter
+    verified: false
   };
 }
 
-function getSupportedProviders() {
-  return registry.getAllProviders().map(provider => ({
-    id: provider.id,
-    name: provider.name
-  }));
-}
-
 module.exports = {
-  createProvider,
-  getSupportedProviders
+  assessDevice
 };
-      
