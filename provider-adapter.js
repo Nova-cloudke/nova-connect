@@ -4,6 +4,13 @@ const registry = require("./provider-registry");
 const MODE = "simulation";
 const services = new Map();
 
+const SERVICE_STATUS = Object.freeze({
+  PENDING: "simulated_pending",
+  ACTIVE: "simulated_active",
+  DEACTIVATED: "simulated_deactivated",
+  FAILED: "simulated_failed"
+});
+
 function getProvider(providerId) {
   const provider = registry.getProvider(providerId);
 
@@ -34,38 +41,60 @@ function checkCoverage(location, providerId) {
   return {
     providerId: provider.id,
     providerName: provider.name,
-    location,
+    location: location || null,
     availability: "unknown",
     verified: false,
-    mode: MODE
+    mode: MODE,
+    message: "Live provider coverage has not been verified."
   };
 }
 
 function activate(customer, packageCode, providerId) {
   const provider = getProvider(providerId);
-
   const eligibility = checkEligibility(customer);
 
   if (!eligibility.eligible) {
     throw new Error(eligibility.reason);
   }
 
-  if (!packageCode) {
+  if (
+    typeof packageCode !== "string" ||
+    !packageCode.trim()
+  ) {
     throw new Error("Package code is required");
   }
 
-  const serviceId = `SIM-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+  const serviceId =
+    `SIM-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+  const now = new Date().toISOString();
 
   const service = {
     serviceId,
     providerId: provider.id,
     providerName: provider.name,
+
     customer,
-    packageCode,
-    status: "simulated_pending",
-    providerConnection: "not_connected",
+    packageCode: packageCode.trim(),
+
+    status: SERVICE_STATUS.PENDING,
+
     mode: MODE,
-    createdAt: new Date().toISOString()
+    providerConnection: "not_connected",
+
+    activationRequestedAt: now,
+    activatedAt: null,
+    expiresAt: null,
+    deactivatedAt: null,
+
+    providerReference: null,
+    usage: null,
+
+    createdAt: now,
+    updatedAt: now,
+
+    message:
+      "Simulation only. No internet connection has been activated."
   };
 
   services.set(serviceId, service);
@@ -87,7 +116,20 @@ function deactivate(serviceId) {
     };
   }
 
-  service.status = "simulated_deactivated";
+  if (service.status === SERVICE_STATUS.DEACTIVATED) {
+    return {
+      success: true,
+      service
+    };
+  }
+
+  service.status = SERVICE_STATUS.DEACTIVATED;
+  service.providerConnection = "not_connected";
+  service.deactivatedAt = new Date().toISOString();
+  service.updatedAt = service.deactivatedAt;
+
+  service.message =
+    "Simulated deactivation only. No live provider service was changed.";
 
   return {
     success: true,
@@ -97,6 +139,7 @@ function deactivate(serviceId) {
 
 module.exports = {
   MODE,
+  SERVICE_STATUS,
   getProvider,
   checkEligibility,
   checkCoverage,
@@ -104,4 +147,4 @@ module.exports = {
   getStatus,
   deactivate
 };
-      
+  
