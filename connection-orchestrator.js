@@ -1,3 +1,4 @@
+
 const compatibility = require("./device-compatibility");
 const policy = require("./connection-policy");
 const selector = require("./provider-selector");
@@ -6,6 +7,8 @@ const stateManager = require("./connection-state-manager");
 const healthMonitor = require("./connection-health-monitor");
 const recoveryManager = require("./connection-recovery-manager");
 const eventLog = require("./connection-event-log");
+
+const MODE = "simulation";
 
 function requestConnection(device, options = {}) {
   if (!device || !device.type) {
@@ -26,6 +29,7 @@ function requestConnection(device, options = {}) {
     return {
       success: false,
       status: "provider_unavailable",
+      internetAccess: false,
       reason: "No verified provider is currently available"
     };
   }
@@ -35,6 +39,19 @@ function requestConnection(device, options = {}) {
     providerDecision.providerId,
     options
   );
+
+  if (
+    !connectionResult ||
+    !connectionResult.connection ||
+    !connectionResult.connection.id
+  ) {
+    return {
+      success: false,
+      status: "connection_request_failed",
+      internetAccess: false,
+      reason: "Connection manager did not return a valid connection"
+    };
+  }
 
   const connectionId = connectionResult.connection.id;
 
@@ -52,26 +69,58 @@ function requestConnection(device, options = {}) {
     connectionId,
     providerDecision.providerId
   );
+
+  const state = stateManager.getConnection(connectionId);
+  const health = healthMonitor.getConnectionHealth(connectionId);
+  const recovery = recoveryManager.getRecovery(connectionId);
+
   return {
     success: true,
-    mode: "simulation",
+    status: "simulated_pending",
+    mode: MODE,
+
     connectionId,
     providerId: providerDecision.providerId,
+
+    providerConfirmed: false,
+    internetAccess: false,
+
     connection: connectionResult.connection,
-    state: stateManager.getConnection(connectionId),
-    health: healthMonitor.getConnectionHealth(connectionId),
-    recovery: recoveryManager.getRecovery(connectionId),
-    policy: policy.selectConnectionMethod(assessment, options)
+    state,
+    health,
+    recovery,
+
+    policy: policy.selectConnectionMethod(assessment, options),
+
+    message:
+      "Connection request recorded in simulation mode. No live internet connection has been established."
   };
 }
 
 function getConnection(connectionId) {
+  const connection = connectionManager.getConnection(connectionId);
+
+  if (!connection) {
+    return {
+      success: false,
+      status: "connection_not_found",
+      internetAccess: false
+    };
+  }
+
   return {
-    connection: connectionManager.getConnection(connectionId),
+    success: true,
+    mode: MODE,
+    connection,
     state: stateManager.getConnection(connectionId),
     health: healthMonitor.getConnectionHealth(connectionId),
     recovery: recoveryManager.getRecovery(connectionId),
-    events: eventLog.getConnectionEvents(connectionId)
+    events: eventLog.getConnectionEvents(connectionId),
+
+    providerConfirmed: false,
+    internetAccess: false,
+
+    message: "Connection information is from simulation mode."
   };
 }
 
@@ -83,7 +132,9 @@ function disconnect(connectionId) {
   }
 
   const disconnected = connectionManager.disconnect(connectionId);
+
   const state = stateManager.disconnect(connectionId);
+
   const health = healthMonitor.updateConnection(
     connectionId,
     "disconnected"
@@ -95,14 +146,21 @@ function disconnect(connectionId) {
 
   return {
     success: true,
+    mode: MODE,
+    status: "simulated_disconnected",
+    internetAccess: false,
     connection: disconnected.connection,
     state,
-    health
+    health,
+    message:
+      "Simulation connection disconnected. No live provider service was changed."
   };
 }
 
 module.exports = {
+  MODE,
   requestConnection,
   getConnection,
   disconnect
 };
+    
