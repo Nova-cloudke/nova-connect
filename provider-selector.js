@@ -49,9 +49,9 @@ function evaluateProvider(providerId) {
 }
 
 function compareProviders() {
-  return registry.getAllProviders()
-    .map(provider => evaluateProvider(provider.id))
-    .filter(Boolean);
+  return registry.getAllProviders().map(
+    provider => evaluateProvider(provider.id)
+  );
 }
 
 function getRecommendedProvider() {
