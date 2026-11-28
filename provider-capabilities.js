@@ -1,5 +1,43 @@
 
 const capabilities = {
+  "safaricom": {
+    providerId: "safaricom",
+    providerName: "Safaricom",
+    technology: "Mobile Network",
+
+    capabilities: {
+      kenyaCoverage: "unknown",
+      wholesaleInternet: "unknown",
+      compatiblePhoneList: "unknown",
+      publicIntegrationAPI: "unknown",
+      automaticActivation: "unknown",
+      subscriberProvisioning: "unknown",
+      usageTrackingAPI: "unknown",
+      commercialPartnership: "in_discussion",
+      kenyaRegulatoryApproval: "needs_verification",
+      wholesalePricing: "unknown"
+    }
+  },
+
+  "airtel": {
+    providerId: "airtel",
+    providerName: "Airtel",
+    technology: "Mobile Network",
+
+    capabilities: {
+      kenyaCoverage: "unknown",
+      wholesaleInternet: "unknown",
+      compatiblePhoneList: "unknown",
+      publicIntegrationAPI: "unknown",
+      automaticActivation: "unknown",
+      subscriberProvisioning: "unknown",
+      usageTrackingAPI: "unknown",
+      commercialPartnership: "follow_up_required",
+      kenyaRegulatoryApproval: "needs_verification",
+      wholesalePricing: "unknown"
+    }
+  },
+
   "ast-spacemobile": {
     providerId: "ast-spacemobile",
     providerName: "AST SpaceMobile",
@@ -16,7 +54,7 @@ const capabilities = {
       usageTrackingAPI: "unknown",
       commercialPartnership: "needs_verification",
       kenyaRegulatoryApproval: "unknown",
-      wholesalePricing: "not_published"
+      wholesalePricing: "unknown"
     }
   },
 
@@ -36,7 +74,7 @@ const capabilities = {
       usageTrackingAPI: "unknown",
       commercialPartnership: "needs_verification",
       kenyaRegulatoryApproval: "unknown",
-      wholesalePricing: "not_published"
+      wholesalePricing: "unknown"
     }
   }
 };
@@ -62,4 +100,4 @@ module.exports = {
   getAllCapabilities,
   getCapabilityStatus
 };
-      
+  
