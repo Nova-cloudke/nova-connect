@@ -2,13 +2,15 @@
 const registry = require("./provider-registry");
 
 const MODE = "simulation";
+
 const services = new Map();
 
 const SERVICE_STATUS = Object.freeze({
-  PENDING: "simulated_pending",
-  ACTIVE: "simulated_active",
-  DEACTIVATED: "simulated_deactivated",
-  FAILED: "simulated_failed"
+  PENDING: "pending",
+  PROVISIONED: "provisioned",
+  ACTIVE: "active",
+  DEACTIVATED: "deactivated",
+  FAILED: "failed"
 });
 
 function getProvider(providerId) {
@@ -21,6 +23,35 @@ function getProvider(providerId) {
   return provider;
 }
 
+function getIntegrationReadiness(provider) {
+  return {
+    partnership: provider.partnership,
+    apiAvailable: provider.integration.apiAvailable,
+    authentication: provider.integration.authentication,
+    activationMethod: provider.integration.activationMethod,
+    ready:
+      provider.partnership === "established" &&
+      provider.integration.apiAvailable === "verified" &&
+      provider.integration.authentication === "verified" &&
+      provider.integration.activationMethod === "verified"
+  };
+}
+
+function authenticate(providerId) {
+  const provider = getProvider(providerId);
+  const readiness = getIntegrationReadiness(provider);
+
+  return {
+    success: false,
+    authenticated: false,
+    providerId: provider.id,
+    mode: MODE,
+    reason: readiness.ready
+      ? "Live authentication adapter is not configured."
+      : "Provider partnership and technical integration are not verified."
+  };
+}
+
 function checkEligibility(customer) {
   if (!customer || !customer.phone) {
     return {
@@ -31,6 +62,7 @@ function checkEligibility(customer) {
 
   return {
     eligible: true,
+    mode: MODE,
     status: "simulation_only"
   };
 }
@@ -49,7 +81,7 @@ function checkCoverage(location, providerId) {
   };
 }
 
-function activate(customer, packageCode, providerId) {
+function provision(customer, packageCode, providerId) {
   const provider = getProvider(providerId);
   const eligibility = checkEligibility(customer);
 
@@ -65,7 +97,7 @@ function activate(customer, packageCode, providerId) {
   }
 
   const serviceId =
-    `SIM-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    `NOVA-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
   const now = new Date().toISOString();
 
@@ -73,7 +105,6 @@ function activate(customer, packageCode, providerId) {
     serviceId,
     providerId: provider.id,
     providerName: provider.name,
-
     customer,
     packageCode: packageCode.trim(),
 
@@ -82,7 +113,8 @@ function activate(customer, packageCode, providerId) {
     mode: MODE,
     providerConnection: "not_connected",
 
-    activationRequestedAt: now,
+    provisionRequestedAt: now,
+    provisionedAt: null,
     activatedAt: null,
     expiresAt: null,
     deactivatedAt: null,
@@ -94,12 +126,31 @@ function activate(customer, packageCode, providerId) {
     updatedAt: now,
 
     message:
-      "Simulation only. No internet connection has been activated."
+      "Simulation only. No provider service has been provisioned."
   };
 
   services.set(serviceId, service);
 
   return service;
+}
+
+function activate(serviceId) {
+  const service = services.get(serviceId);
+
+  if (!service) {
+    return {
+      success: false,
+      reason: "Service not found"
+    };
+  }
+
+  return {
+    success: false,
+    service,
+    mode: MODE,
+    reason:
+      "Live provider activation is unavailable. No internet access was activated."
+  };
 }
 
 function getStatus(serviceId) {
@@ -141,10 +192,13 @@ module.exports = {
   MODE,
   SERVICE_STATUS,
   getProvider,
+  getIntegrationReadiness,
+  authenticate,
   checkEligibility,
   checkCoverage,
+  provision,
   activate,
   getStatus,
   deactivate
 };
-  
+    
