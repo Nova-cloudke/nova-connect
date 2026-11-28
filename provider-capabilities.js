@@ -84,7 +84,11 @@ function getCapabilities(providerId) {
 }
 
 function getAllCapabilities() {
-  return Object.values(capabilities);
+  return Object.values(capabilities).filter(
+    provider =>
+      provider.providerId === "ast-spacemobile" ||
+      provider.providerId === "starlink-direct-to-cell"
+  ); 
 }
 
 function getCapabilityStatus(providerId, capabilityName) {
