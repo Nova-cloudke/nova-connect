@@ -5,13 +5,15 @@ const MODE = "simulation";
 
 const services = new Map();
 
+
 const SERVICE_STATUS = Object.freeze({
-  PENDING: "pending",
-  PROVISIONED: "provisioned",
-  ACTIVE: "active",
-  DEACTIVATED: "deactivated",
-  FAILED: "failed"
+  PENDING: "simulated_pending",
+  PROVISIONED: "simulated_provisioned",
+  ACTIVE: "simulated_active",
+  DEACTIVATED: "simulated_deactivated",
+  FAILED: "simulated_failed"
 });
+
 
 function getProvider(providerId) {
   const provider = registry.getProvider(providerId);
