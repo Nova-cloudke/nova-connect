@@ -134,22 +134,32 @@ function provision(customer, packageCode, providerId) {
   return service;
 }
 
-function activate(serviceId) {
-  const service = services.get(serviceId);
 
-  if (!service) {
-    return {
-      success: false,
-      reason: "Service not found"
-    };
+function activate(customer, packageCode, providerId) {
+  const provider = getProvider(providerId);
+  const eligibility = checkEligibility(customer);
+
+  if (!eligibility.eligible) {
+    throw new Error(eligibility.reason);
   }
 
+  if (
+    typeof packageCode !== "string" ||
+    !packageCode.trim()
+  ) {
+    throw new Error("Package code is required");
+  }
+
+  const service = provision(
+    customer,
+    packageCode,
+    providerId
+  );
+
   return {
-    success: false,
-    service,
-    mode: MODE,
-    reason:
-      "Live provider activation is unavailable. No internet access was activated."
+    ...service,
+    message:
+      "Simulation only. No internet connection has been activated."
   };
 }
 
