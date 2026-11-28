@@ -5,7 +5,6 @@ const MODE = "simulation";
 
 const services = new Map();
 
-
 const SERVICE_STATUS = Object.freeze({
   PENDING: "simulated_pending",
   PROVISIONED: "simulated_provisioned",
@@ -14,6 +13,10 @@ const SERVICE_STATUS = Object.freeze({
   FAILED: "simulated_failed"
 });
 
+const PROVIDER_TYPES = Object.freeze({
+  MOBILE: "mobile_operator",
+  SATELLITE: "satellite_d2d"
+});
 
 function getProvider(providerId) {
   const provider = registry.getProvider(providerId);
@@ -25,17 +28,40 @@ function getProvider(providerId) {
   return provider;
 }
 
+function getIntegrationPath(provider) {
+  switch (provider.providerType) {
+    case PROVIDER_TYPES.MOBILE:
+      return "mobile_operator_integration";
+
+    case PROVIDER_TYPES.SATELLITE:
+      return "satellite_d2d_integration";
+
+    default:
+      return "unsupported";
+  }
+}
+
 function getIntegrationReadiness(provider) {
+  const integration = provider.integration || {};
+
+  const ready =
+    provider.partnership === "established" &&
+    integration.apiAvailable === "verified" &&
+    integration.authentication === "verified" &&
+    integration.activationMethod === "verified";
+
   return {
+    providerId: provider.id,
+    providerType: provider.providerType,
+    integrationPath: getIntegrationPath(provider),
+
     partnership: provider.partnership,
-    apiAvailable: provider.integration.apiAvailable,
-    authentication: provider.integration.authentication,
-    activationMethod: provider.integration.activationMethod,
-    ready:
-      provider.partnership === "established" &&
-      provider.integration.apiAvailable === "verified" &&
-      provider.integration.authentication === "verified" &&
-      provider.integration.activationMethod === "verified"
+    apiAvailable: integration.apiAvailable || "unverified",
+    authentication: integration.authentication || "unconfirmed",
+    activationMethod: integration.activationMethod || "unconfirmed",
+
+    ready,
+    mode: MODE
   };
 }
 
@@ -46,8 +72,14 @@ function authenticate(providerId) {
   return {
     success: false,
     authenticated: false,
+
     providerId: provider.id,
+    providerName: provider.name,
+    providerType: provider.providerType,
+    integrationPath: readiness.integrationPath,
+
     mode: MODE,
+
     reason: readiness.ready
       ? "Live authentication adapter is not configured."
       : "Provider partnership and technical integration are not verified."
@@ -75,16 +107,24 @@ function checkCoverage(location, providerId) {
   return {
     providerId: provider.id,
     providerName: provider.name,
+    providerType: provider.providerType,
+
+    integrationPath: getIntegrationPath(provider),
+
     location: location || null,
     availability: "unknown",
     verified: false,
+
     mode: MODE,
-    message: "Live provider coverage has not been verified."
+
+    message:
+      "Live provider coverage has not been verified."
   };
 }
 
 function provision(customer, packageCode, providerId) {
   const provider = getProvider(providerId);
+
   const eligibility = checkEligibility(customer);
 
   if (!eligibility.eligible) {
@@ -105,8 +145,16 @@ function provision(customer, packageCode, providerId) {
 
   const service = {
     serviceId,
+
     providerId: provider.id,
     providerName: provider.name,
+    providerType: provider.providerType,
+
+    technology: provider.technology,
+    networkType: provider.networkType,
+
+    integrationPath: getIntegrationPath(provider),
+
     customer,
     packageCode: packageCode.trim(),
 
@@ -136,9 +184,11 @@ function provision(customer, packageCode, providerId) {
   return service;
 }
 
-
 function activate(customer, packageCode, providerId) {
   const provider = getProvider(providerId);
+
+  const readiness = getIntegrationReadiness(provider);
+
   const eligibility = checkEligibility(customer);
 
   if (!eligibility.eligible) {
@@ -160,8 +210,14 @@ function activate(customer, packageCode, providerId) {
 
   return {
     ...service,
-    message:
-      "Simulation only. No internet connection has been activated."
+
+    activationAllowed: false,
+
+    integrationReady: readiness.ready,
+
+    message: readiness.ready
+      ? "Simulation only. Live activation requires a configured and authorized provider adapter."
+      : "Simulation only. Provider integration is not verified. No internet connection has been activated."
   };
 }
 
@@ -187,7 +243,9 @@ function deactivate(serviceId) {
   }
 
   service.status = SERVICE_STATUS.DEACTIVATED;
+
   service.providerConnection = "not_connected";
+
   service.deactivatedAt = new Date().toISOString();
   service.updatedAt = service.deactivatedAt;
 
@@ -203,14 +261,19 @@ function deactivate(serviceId) {
 module.exports = {
   MODE,
   SERVICE_STATUS,
+  PROVIDER_TYPES,
+
   getProvider,
+  getIntegrationPath,
   getIntegrationReadiness,
+
   authenticate,
   checkEligibility,
   checkCoverage,
+
   provision,
   activate,
   getStatus,
   deactivate
 };
-    
+  
