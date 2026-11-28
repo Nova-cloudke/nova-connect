@@ -10,6 +10,17 @@ function createProvider(providerId) {
     throw new Error("Unsupported provider: " + providerId);
   }
 
+  const supportedTypes = [
+    "mobile_operator",
+    "satellite_d2d"
+  ];
+
+  if (!supportedTypes.includes(providerInfo.providerType)) {
+    throw new Error(
+      "Unsupported provider type: " + providerInfo.providerType
+    );
+  }
+
   const validation = contract.validateProvider(adapter);
 
   if (!validation.valid) {
@@ -22,6 +33,13 @@ function createProvider(providerId) {
   return {
     providerId: providerInfo.id,
     providerName: providerInfo.name,
+    providerType: providerInfo.providerType,
+    technology: providerInfo.technology,
+    networkType: providerInfo.networkType,
+    integration: providerInfo.integration,
+    coverage: providerInfo.coverage,
+    partnership: providerInfo.partnership,
+    regulatory: providerInfo.regulatory,
     mode: adapter.MODE,
     provider: adapter
   };
@@ -30,7 +48,10 @@ function createProvider(providerId) {
 function getSupportedProviders() {
   return registry.getAllProviders().map(provider => ({
     id: provider.id,
-    name: provider.name
+    name: provider.name,
+    providerType: provider.providerType,
+    technology: provider.technology,
+    partnership: provider.partnership
   }));
 }
 
@@ -38,4 +59,4 @@ module.exports = {
   createProvider,
   getSupportedProviders
 };
-                                        
+    
