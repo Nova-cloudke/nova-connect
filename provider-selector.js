@@ -41,13 +41,8 @@ function evaluateProvider(providerId) {
     integrationReady,
 
     decision: integrationReady
-      ? "eligible_for_integration_review"
-      : partnershipEstablished
-        ? "technical_verification_required"
-        : "partnership_required"
-  };
-}
-
+  ? "eligible_for_integration_review"
+  : "research_required"
 function compareProviders() {
   return registry.getAllProviders().map(
     provider => evaluateProvider(provider.id)
