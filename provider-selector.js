@@ -27,9 +27,7 @@ function evaluateProvider(providerId) {
     providerName: provider.name,
     providerType: provider.providerType,
     technology: details.technology,
-
     partnership: provider.partnership,
-
     requirements: details.capabilities,
 
     totalRequirements: assessment.totalRequirements,
@@ -41,8 +39,11 @@ function evaluateProvider(providerId) {
     integrationReady,
 
     decision: integrationReady
-  ? "eligible_for_integration_review"
-  : "research_required"
+      ? "eligible_for_integration_review"
+      : "research_required"
+  };
+}
+
 function compareProviders() {
   return registry.getAllProviders().map(
     provider => evaluateProvider(provider.id)
@@ -51,7 +52,7 @@ function compareProviders() {
 
 function getRecommendedProvider() {
   return compareProviders().find(
-    provider => provider.integrationReady
+    provider => provider && provider.integrationReady
   ) || null;
 }
 
@@ -72,6 +73,7 @@ function selectProvider(assessment) {
 function getB2BProviders() {
   return compareProviders().filter(
     provider =>
+      provider &&
       provider.providerType === "mobile_operator"
   );
 }
@@ -83,4 +85,4 @@ module.exports = {
   selectProvider,
   getB2BProviders
 };
-  
+      
